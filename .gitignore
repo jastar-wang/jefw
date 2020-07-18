@@ -30,7 +30,7 @@ gen/
 .settings/
 .classpath
 .project
-/target/
+*/target/
 
 # IntelliJ IDEA files 
 *.iml
