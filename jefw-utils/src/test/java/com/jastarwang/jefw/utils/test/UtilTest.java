@@ -16,6 +16,8 @@ import com.jastarwang.jefw.utils.SerializeUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 /**
  * 工具单元测试类
  *
@@ -43,5 +45,20 @@ public class UtilTest {
         Assert.assertEquals(backTom.getName(), tom.getName());
         Assert.assertNotEquals(backTom, tom);
     }
+
+    @Test
+    public void serializeList() {
+        ArrayList<User> list = new ArrayList<>();
+        list.add(new User(28, "铁柱"));
+        byte[] bytes = SerializeUtil.serialize(list);
+        Assert.assertNotNull(bytes);
+        // deserialize
+        ArrayList<User> backList = SerializeUtil.deserialize(bytes);
+        Assert.assertNotNull(backList);
+        Assert.assertEquals(backList.get(0).getAge(), list.get(0).getAge());
+        Assert.assertEquals(backList.get(0).getName(), list.get(0).getName());
+        Assert.assertNotEquals(backList.get(0), list.get(0));
+    }
+
 
 }
