@@ -12,6 +12,7 @@
 package com.jastarwang.jefw.utils.test;
 
 import com.jastarwang.jefw.utils.ColorUtil;
+import com.jastarwang.jefw.utils.SerializeUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -28,6 +29,19 @@ public class UtilTest {
     public void randomHex() {
         String color = ColorUtil.randomHex();
         Assert.assertNotNull(color);
+    }
+
+    @Test
+    public void serialize() {
+        User tom = new User(28, "狗蛋");
+        byte[] bytes = SerializeUtil.serialize(tom);
+        Assert.assertNotNull(bytes);
+        // deserialize
+        User backTom = SerializeUtil.deserialize(bytes);
+        Assert.assertNotNull(backTom);
+        Assert.assertEquals(backTom.getAge(), tom.getAge());
+        Assert.assertEquals(backTom.getName(), tom.getName());
+        Assert.assertNotEquals(backTom, tom);
     }
 
 }
