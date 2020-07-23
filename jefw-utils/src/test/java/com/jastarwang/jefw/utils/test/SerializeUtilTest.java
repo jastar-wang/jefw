@@ -11,8 +11,8 @@
  */
 package com.jastarwang.jefw.utils.test;
 
-import com.jastarwang.jefw.utils.ColorUtil;
 import com.jastarwang.jefw.utils.SerializeUtil;
+import com.jastarwang.jefw.utils.test.bean.User;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -25,13 +25,7 @@ import java.util.ArrayList;
  * @date 2020/7/18
  * @since 1.0
  */
-public class UtilTest {
-
-    @Test
-    public void randomHex() {
-        String color = ColorUtil.randomHex();
-        Assert.assertNotNull(color);
-    }
+public class SerializeUtilTest {
 
     @Test
     public void serialize() {
@@ -59,6 +53,5 @@ public class UtilTest {
         Assert.assertEquals(backList.get(0).getName(), list.get(0).getName());
         Assert.assertNotEquals(backList.get(0), list.get(0));
     }
-
 
 }

@@ -9,20 +9,22 @@
  * MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
  * See the Mulan PSL v2 for more details.
  */
-package com.jastarwang.jefw.utils.test;
+package com.jastarwang.jefw.utils.test.bean;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import org.springframework.context.annotation.Bean;
 
-import java.io.Serializable;
-
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements Serializable {
+public class Demo {
     private Integer age;
     private String name;
+
+    @Bean("demo2")
+    public Demo getDemo2() {
+        return new Demo(10, "臭弟弟");
+    }
 }
