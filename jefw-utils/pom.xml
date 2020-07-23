@@ -14,4 +14,33 @@
     <name>${project.artifactId}</name>
     <description>常用工具类模块</description>
 
+    <properties>
+        <servlet-api.version>4.0.1</servlet-api.version>
+        <spring-boot.version>2.3.1.RELEASE</spring-boot.version>
+    </properties>
+
+    <dependencies>
+        <!-- servlet -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servlet-api.version}</version>
+            <scope>provided</scope>
+            <optional>true</optional>
+        </dependency>
+        <!-- spring boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <version>${spring-boot.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <!-- spring boot web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${spring-boot.version}</version>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
 </project>
