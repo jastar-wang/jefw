@@ -60,6 +60,7 @@ public class SerializeUtil {
      * @param bytes 目标字节数组
      * @return 泛型对象，失败返回null
      */
+    @SuppressWarnings("unchecked")
     public static <T> T deserialize(byte[] bytes) {
         if (bytes == null || bytes.length <= 0) {
             return null;
