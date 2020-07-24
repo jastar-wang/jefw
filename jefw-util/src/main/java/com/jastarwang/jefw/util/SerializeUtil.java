@@ -11,13 +11,7 @@
  */
 package com.jastarwang.jefw.util;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 
 /**
  * 序列化工具类
@@ -35,7 +29,8 @@ public class SerializeUtil {
      * 将指定对象序列化为字节数组
      *
      * @param object 目标对象
-     * @return 字节数组，失败返回null
+     * @param <T> 目标对象的类型（该类型必须实现了Serializable接口）
+     * @return 字节数组，失败则返回null
      */
     public static <T extends Serializable> byte[] serialize(T object) {
         ObjectOutputStream oos = null;
@@ -58,7 +53,8 @@ public class SerializeUtil {
      * 字节数组反序列化为对象
      *
      * @param bytes 目标字节数组
-     * @return 泛型对象，失败返回null
+     * @param <T> 目标对象类型
+     * @return 目标对象，失败则返回null
      */
     @SuppressWarnings("unchecked")
     public static <T> T deserialize(byte[] bytes) {
