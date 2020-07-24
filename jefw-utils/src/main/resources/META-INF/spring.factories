@@ -1,3 +1,0 @@
-# Auto Configuration Utils
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.jastarwang.jefw.utils.extra.spring.SpringUtil
