@@ -65,7 +65,26 @@
                         </goals>
                     </execution>
                 </executions>
+                <!-- 附加配置：关闭JavaDoc的检查 -->
+                <configuration>
+                    <additionalOptions>
+                        <additionalOption>${javadoc.opts}</additionalOption>
+                    </additionalOptions>
+                </configuration>
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <!-- 在jdk1.8+环境下启用该参数 -->
+        <profile>
+            <id>disable-javadoc-doclint</id>
+            <activation>
+                <jdk>[1.8,)</jdk>
+            </activation>
+            <properties>
+                <javadoc.opts>-Xdoclint:none</javadoc.opts>
+            </properties>
+        </profile>
+    </profiles>
 </project>
