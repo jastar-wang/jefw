@@ -11,7 +11,7 @@
  */
 package com.jastarwang.jefw.util;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Random;
 
 /**
