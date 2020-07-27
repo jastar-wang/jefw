@@ -15,6 +15,8 @@ import com.jastarwang.jefw.util.ColorUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.awt.*;
+
 /**
  * ColorUtil单元测试
  *
@@ -28,6 +30,14 @@ public class ColorUtilTest {
     public void randomHex() {
         String color = ColorUtil.randomHex();
         Assert.assertNotNull(color);
+        System.out.println(color);
+    }
+
+    @Test
+    public void convertToHex() {
+        String hex = ColorUtil.convertToHex(Color.PINK);
+        Assert.assertNotNull(hex);
+        System.out.println(hex);
     }
 
 }

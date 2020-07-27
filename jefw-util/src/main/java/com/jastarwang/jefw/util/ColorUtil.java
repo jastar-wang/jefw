@@ -11,6 +11,7 @@
  */
 package com.jastarwang.jefw.util;
 
+import java.awt.*;
 import java.util.Random;
 
 /**
@@ -26,19 +27,46 @@ public class ColorUtil {
     }
 
     /**
-     * 随机生成颜色（十六进制）
+     * 随机生成十六进制颜色
      *
-     * @return 十六进制颜色代码，如：#8BDF31
+     * @return 十六进制颜色代码
      */
     public static String randomHex() {
         Random random = new Random();
-        String red = Integer.toHexString(random.nextInt(256)).toUpperCase();
-        String green = Integer.toHexString(random.nextInt(256)).toUpperCase();
-        String blue = Integer.toHexString(random.nextInt(256)).toUpperCase();
-        red = red.length() == 1 ? "0" + red : red;
-        green = green.length() == 1 ? "0" + green : green;
-        blue = blue.length() == 1 ? "0" + blue : blue;
-        return "#" + red + green + blue;
+        int r = random.nextInt(256);
+        int g = random.nextInt(256);
+        int b = random.nextInt(256);
+        return buildHex(r, g, b);
     }
 
+    /**
+     * 将{@link java.awt.Color}转换为十六进制代码
+     *
+     * @param color 颜色
+     * @return 十六进制颜色代码，或空
+     */
+    public static String convertToHex(Color color) {
+        if (color == null) {
+            return null;
+        }
+        return buildHex(color.getRed(), color.getGreen(), color.getBlue());
+    }
+
+    /**
+     * 指定R,G,B来构建十六进制颜色
+     *
+     * @param red 红色
+     * @param green 绿色
+     * @param blue 蓝色
+     * @return 十六进制颜色代码
+     */
+    private static String buildHex(int red, int green, int blue) {
+        String r = Integer.toHexString(red);
+        String g = Integer.toHexString(green);
+        String b = Integer.toHexString(blue);
+        r = r.length() == 1 ? "0" + r : r;
+        g = g.length() == 1 ? "0" + g : g;
+        b = b.length() == 1 ? "0" + b : b;
+        return "#" + (r + g + b).toUpperCase();
+    }
 }
