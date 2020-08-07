@@ -15,7 +15,7 @@ import com.jastarwang.jefw.util.ColorUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * ColorUtil单元测试
