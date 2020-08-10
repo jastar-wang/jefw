@@ -17,6 +17,7 @@
     <properties>
         <servlet-api.version>4.0.1</servlet-api.version>
         <spring-boot.version>2.3.1.RELEASE</spring-boot.version>
+        <jjwt.version>0.9.1</jjwt.version>
     </properties>
 
     <dependencies>
@@ -48,6 +49,13 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <version>${spring-boot.version}</version>
             <scope>test</scope>
+        </dependency>
+        <!-- jjwt -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jjwt.version}</version>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 </project>
