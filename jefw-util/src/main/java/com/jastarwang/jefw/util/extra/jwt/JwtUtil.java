@@ -56,7 +56,6 @@ public class JwtUtil {
     @PostConstruct
     private synchronized void init() {
         JwtUtil.jwtProperties = jwtPropertiesBean;
-        System.out.println("-------------执行了--------" + jwtProperties.getSecret() + "------" + jwtProperties.getExpiration());
     }
 
     /**
