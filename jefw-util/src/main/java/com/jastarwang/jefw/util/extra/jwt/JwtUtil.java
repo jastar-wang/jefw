@@ -86,12 +86,23 @@ public class JwtUtil {
 
     /**
      * [解析]获取 jwt 解析器
-     * <p>用于灵活自定义配置</p>
+     * <p>用于灵活的自定义配置</p>
      *
-     * @return 解析器（已对“加密密钥”进行了初始化）
+     * @return 解析器（已使用配置的“加密密钥”进行了初始化）
      */
     public static JwtParser parser() {
-        return Jwts.parser().setSigningKey(jwtProperties.getSecret());
+        return parser(jwtProperties.getSecret());
+    }
+
+    /**
+     * [解析]获取 jwt 解析器
+     * <p>用于灵活的自定义配置</p>
+     *
+     * @param secret 指定的加密密钥
+     * @return 解析器（已使用指定的“加密密钥”进行了初始化）
+     */
+    public static JwtParser parser(String secret) {
+        return Jwts.parser().setSigningKey(secret);
     }
 
     /**
@@ -107,7 +118,23 @@ public class JwtUtil {
      * @throws IllegalArgumentException 参数不正确
      */
     public static Claims parseClaims(String token) throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException {
-        return parser().parseClaimsJws(token).getBody();
+        return parseClaims(token, jwtProperties.getSecret());
+    }
+
+    /**
+     * [解析]根据 token 解析 claims
+     *
+     * @param token token
+     * @param secret 指定的加密密钥
+     * @return 核心Claims
+     * @throws ExpiredJwtException 已过期
+     * @throws UnsupportedJwtException 格式不支持
+     * @throws MalformedJwtException 结构不正确
+     * @throws SignatureException 签名不正确
+     * @throws IllegalArgumentException 参数不正确
+     */
+    public static Claims parseClaims(String token, String secret) throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException {
+        return parser(secret).parseClaimsJws(token).getBody();
     }
 
     /**
@@ -117,8 +144,19 @@ public class JwtUtil {
      * @return claims中的subject数据，异常返回null
      */
     public static String parseSubject(String token) {
+        return parseSubject(token, jwtProperties.getSecret());
+    }
+
+    /**
+     * [解析] 快速解析token里的subject
+     *
+     * @param token token
+     * @param secret 指定的加密密钥
+     * @return claims中的subject数据，异常返回null
+     */
+    public static String parseSubject(String token, String secret) {
         try {
-            return parseClaims(token).getSubject();
+            return parseClaims(token, secret).getSubject();
         } catch (Exception e) {
             return null;
         }
@@ -131,8 +169,19 @@ public class JwtUtil {
      * @return claims中的expiration数据，异常返回null
      */
     public static Date parseExpiration(String token) {
+        return parseExpiration(token, jwtProperties.getSecret());
+    }
+
+    /**
+     * [解析] 解析token里的expiration
+     *
+     * @param token token
+     * @param secret 指定的加密密钥
+     * @return claims中的expiration数据，异常返回null
+     */
+    public static Date parseExpiration(String token, String secret) {
         try {
-            return parseClaims(token).getExpiration();
+            return parseClaims(token, secret).getExpiration();
         } catch (Exception e) {
             return null;
         }
@@ -145,6 +194,17 @@ public class JwtUtil {
      * @return true表示已过期，false表示未过期，token解析不正确或其他异常将会返回null
      */
     public static Boolean isExpired(String token) {
+        return isExpired(token, jwtProperties.getSecret());
+    }
+
+    /**
+     * [解析]检测token是否已过期
+     *
+     * @param token token
+     * @param secret 指定的加密密钥
+     * @return true表示已过期，false表示未过期，token解析不正确或其他异常将会返回null
+     */
+    public static Boolean isExpired(String token, String secret) {
         try {
             Date expiration = parseClaims(token).getExpiration();
             return expiration.before(new Date());
