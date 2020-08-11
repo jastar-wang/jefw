@@ -11,6 +11,8 @@
  */
 package com.jastarwang.jefw.util.extra.jwt;
 
+import io.jsonwebtoken.SignatureAlgorithm;
+
 /**
  * Jwt属性配置
  *
@@ -22,6 +24,7 @@ public class JwtProperties {
 
     private String secret;
     private Long expiration;
+    private SignatureAlgorithm algorithm;
 
     /**
      * 获取密钥
@@ -57,5 +60,24 @@ public class JwtProperties {
      */
     public void setExpiration(Long expiration) {
         this.expiration = expiration;
+    }
+
+    /**
+     * 获取算法
+     *
+     * @return 算法名称（详见{@link io.jsonwebtoken.SignatureAlgorithm}）
+     */
+    public SignatureAlgorithm getAlgorithm() {
+        return algorithm;
+    }
+
+    /**
+     * 设置算法
+     *
+     * @param algorithm 算法名称（详见{@link io.jsonwebtoken.SignatureAlgorithm}）
+     */
+    public void setAlgorithm(String algorithm) {
+        SignatureAlgorithm alg = SignatureAlgorithm.forName(algorithm.toUpperCase());
+        this.algorithm = alg;
     }
 }

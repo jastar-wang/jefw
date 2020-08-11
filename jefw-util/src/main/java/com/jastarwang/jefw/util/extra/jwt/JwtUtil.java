@@ -17,7 +17,6 @@ import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.lang.Assert;
@@ -30,16 +29,17 @@ import java.util.Date;
  * Jwt工具类
  * <p>用来生成和解析token，底层使用 Les Hazlewood 的 jjwt 类库实现</p>
  * <pre>
- *     -header
- *     -payload（claims）
- *          -iss (issuer)：签发人
- *          -exp (expiration time)：过期时间
- *          -sub (subject)：主题
- *          -aud (audience)：受众
- *          -nbf (Not Before)：生效时间
- *          -iat (Issued At)：签发时间
- *          -jti (JWT ID)：编号
- *     -signature
+ *     数据结构参考如下：
+ *     - header
+ *     - payload（claims）
+ *          - iss (issuer)：签发人
+ *          - exp (expiration time)：过期时间
+ *          - sub (subject)：主题
+ *          - aud (audience)：受众
+ *          - nbf (Not Before)：生效时间
+ *          - iat (Issued At)：签发时间
+ *          - jti (JWT ID)：编号
+ *     - signature
  * </pre>
  *
  * @author Jastar Wang
@@ -70,7 +70,7 @@ public class JwtUtil {
         return Jwts.builder()
                 .setIssuedAt(createTime)
                 .setExpiration(expiredTime)
-                .signWith(SignatureAlgorithm.HS512, jwtProperties.getSecret());
+                .signWith(jwtProperties.getAlgorithm(), jwtProperties.getSecret());
     }
 
     /**
