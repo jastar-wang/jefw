@@ -236,7 +236,7 @@ public class JwtUtil {
      */
     public static Boolean isExpired(String token, String secret) {
         try {
-            Date expiration = parseClaims(token).getExpiration();
+            Date expiration = parseClaims(token, secret).getExpiration();
             return expiration.before(new Date());
         } catch (ExpiredJwtException e) {
             return true;
