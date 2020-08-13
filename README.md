@@ -39,16 +39,58 @@ jefw-xxx  |待发掘|其他流行组件，逐步完善……
 
 ## 参与贡献
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+### 分支说明
+分支|描述|是否接受`PR`
+---|---|---
+master|主分支，也是 `release` 分支|×
+develop|开发分支|√
+
+### 贡献步骤
+1. `fork` 本项目到你的远程仓库
+2. `clone` 你的远程仓库到本地
+3. 本地切换到 `develop` 分支
+4. 修改代码
+5. `commit` 并 `push` 到你的远程仓库
+6. 登录 `Gitee` 或 `Github`，新建 `Pull Request`，并填写必要说明
+7. 搬上板凳，吃上西瓜，坐等合并
+
+### 代码规范
+1. 开发工具使用 `IDEA`
+2. 在新建类的最顶部添加 `copyright`（注意：要在 `package` 前，没有空行）
+```
+Copyright (c) 2020 Jastar Wang
+jefw is licensed under Mulan PSL v2.
+You can use this software according to the terms and conditions of the Mulan PSL v2.
+You may obtain a copy of Mulan PSL v2 at:
+         http://license.coscl.org.cn/MulanPSL2
+THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND,
+EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,
+MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+See the Mulan PSL v2 for more details.
+```
+3. 在类上添加文档注释
+```
+/**
+  * TODO
+  * @author your niubility name
+  * @date ${DATE}
+  * @since 1.0
+  */
+```
+4. 设置一个 `tab` 为4个空格
+5. 设置单行注释不在行首，且与描述之间插入空格
+6. 设置对于多个参数的方法文档注释，参数的描述不进行右对齐
+7. 设置 `import` 导包 不使用 `*` 模式导入
+8. 其他规范参考《阿里巴巴Java开发规范》最新版
+
+> 小声bb：不要问我为什么这么多规矩，作为一个有强迫症级别代码洁癖的人，就是这么`gang` [狗头]
+
 
 ## 反馈建议
 如果您在项目使用中遇到了任何问题，或者有一些好的建议，可以及时向我们反馈，点击 [Gitee Issue](https://gitee.com/jastar-wang/jefw/issues)
 
 ## 许可证
-`jefw` 采用“木兰宽松许可证第2版”开源协议，详见 [Mulan PSL v2](https://license.coscl.org.cn/) 
+`jefw` 采用“木兰宽松许可证第2版”开源协议，详见 [Mulan PSL v2](https://license.coscl.org.cn/MulanPSL2/index.html) 
 
 ## 友情链接
 - [代码与酒](http://www.jastar-wang.com)
