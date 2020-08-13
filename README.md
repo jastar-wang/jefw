@@ -4,44 +4,54 @@
 ## 前言
 作为一个叱咤“搬砖”行业多年的码农本农，在工作中经常会遇到各种各样的工具类；久而久之，做的项目多了，cp 来 cp 去的感觉很繁琐，所以几年前，我就有了一个大胆的想法——整合工具类。功夫不负有心人，经过这么久的努力，我的梦想，最终还是被前辈实现了——`hutool`（笑哭）。不过话说回来，换做是我，可能没有前辈做的这么好，感谢前辈提供了这么一个又大又圆的轮子。
 
-在流行的 `MVC` 模式中，`M` 中的持久层可以用很多优秀的开源框架（比如`MyBatisPlus`）来实现，业务层同时配合着 `hutool` 来让我们更专注于业务，而 `V` 层也有对应的解决方案，比如“干脆的`Rest`前后端分离”、“`thymeleaf` 等等模板引擎”；对于 `C`层，其实也有一定的抽象空间……
+在流行的 `MVC` 模式中，`M` 中的持久层可以用很多优秀的开源框架（比如`MyBatisPlus`）来实现，业务层同时配合着 `hutool` 来让我们更专注于业务，而 `V` 层也有对应的解决方案，比如“干脆的 `rest` 前后端分离”、“经典的 `thymeleaf` 等模板引擎”；对于 `C` 层，其实也有一定的抽象空间……
 
 ## 介绍
 所以今天，`jefw` 诞生了。
 
-`jefw` 是 `Jastar Easy Framework` 的简写，生来为了三个目标：
+`jefw` 来源于 `Jastar Easy Framework` 的简写，生而为了三个使命：
 - 对一些常用的而 `hutool` 中没有的  `util`  工具类进行补充
-- 
+- 对 `controller` 层常用的一些数据模型进行封装，比如：`rest` 或 `ajax` 向前端返回的数据包装结果
+- 对目前一些流行的中间件进行封装，拿过来就能用，比如：`redis`
 
-#### 软件架构
-软件架构说明
+`jefw` 的初衷——让天下没有难写的代码。
 
+## 模块
+`jefw` 采用多模块的形式开发，以达到按需依赖的目的；同时除了第三方的必要依赖，不会引用其他任何的无用类库，以保证项目独立和小巧的体积。
 
-#### 安装教程
+`jefw` 的根目录为 `com.jastarwang.jefw`
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+模块|状态|描述
+---|---|---
+jefw-all  |待开发|便捷引入所有模块
+jefw-core |待开发|核心模块，包含常用的`ResponseResult`、`Page等`
+jefw-util |待完善|常用的工具类，一般我配合着 `hutool` 使用，药效更好
+jefw-redis|待开发|`Redis`相关，如 `RedisUtil`、`Redis`锁等等
+jefw-xxx  |待发掘|其他流行组件，逐步完善……
 
-#### 使用说明
+## 快速开始
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+### 安装
+> TODO
 
-#### 参与贡献
+### 使用
+> TODO
+
+## 参与贡献
 
 1.  Fork 本仓库
 2.  新建 Feat_xxx 分支
 3.  提交代码
 4.  新建 Pull Request
 
+## 反馈建议
+如果您在项目使用中遇到了任何问题，或者有一些好的建议，可以及时向我们反馈，点击 [Gitee Issue](https://gitee.com/jastar-wang/jefw/issues)
 
-#### 码云特技
+## 许可证
+`jefw` 采用“木兰宽松许可证第2版”开源协议，详见 [Mulan PSL v2](https://license.coscl.org.cn/) 
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5.  码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+## 友情链接
+- [代码与酒](http://www.jastar-wang.com)
+- [Jeek导航](http://jeeknav.jastar-wang.com)
+- [北创工作室](http://studio.jastar-wang.com)
+- [Resume](http://resume.jastar-wang.com)
