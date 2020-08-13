@@ -1,5 +1,14 @@
-# jefw
+<h1 align="center" style="font-family:fantasy;">Jefw</h1>
+<p align="center" style="color:darkgray;">让 天 下 没 有 难 写 的 代 码</p>
+<p align="center">
+	![](https://img.shields.io/badge/release-1.0 SNAPSHOT-orange.svg)
+	![](https://img.shields.io/badge/jdk-1.8+-green.svg)
+	![](https://img.shields.io/badge/license-MulanPSL2-blue)
+	![](https://img.shields.io/badge/build-passing-success.svg)
+	![](https://img.shields.io/badge/process-dev-inactive.svg)
+</p>
 
+-----------------------------------------------
 
 ## 前言
 作为一个叱咤“搬砖”行业多年的码农本农，在工作中经常会遇到各种各样的工具类；久而久之，做的项目多了，cp 来 cp 去的感觉很繁琐，所以几年前，我就有了一个大胆的想法——整合工具类。功夫不负有心人，经过这么久的努力，我的梦想，最终还是被前辈实现了——`hutool`（笑哭）。不过话说回来，换做是我，可能没有前辈做的这么好，感谢前辈提供了这么一个又大又圆的轮子。
@@ -81,13 +90,15 @@ See the Mulan PSL v2 for more details.
 5. 设置单行注释不在行首，且与描述之间插入空格
 6. 设置对于多个参数的方法文档注释，参数的描述不进行右对齐
 7. 设置 `import` 导包 不使用 `*` 模式导入
-8. 其他规范参考《阿里巴巴Java开发规范》最新版
+8. 其他规范参考《阿里巴巴Java开发手册》最新版
 
 > 小声bb：不要问我为什么这么多规矩，作为一个有强迫症级别代码洁癖的人，就是这么`gang` [狗头]
 
 
 ## 反馈建议
 如果您在项目使用中遇到了任何问题，或者有一些好的建议，可以及时向我们反馈，点击 [Gitee Issue](https://gitee.com/jastar-wang/jefw/issues)
+
+还望各位看官，动动您的小手，点下 `star`~
 
 ## 许可证
 `jefw` 采用“木兰宽松许可证第2版”开源协议，详见 [Mulan PSL v2](https://license.coscl.org.cn/MulanPSL2/index.html) 
