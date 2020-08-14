@@ -65,7 +65,7 @@ develop|开发分支|√
 
 ### 代码规范
 1. 开发工具使用 `IDEA`
-2. 在新建类的最顶部添加 `copyright`（注意：要在 `package` 前，没有空行）
+2. 设置在新建类的最顶部添加 `copyright`（注意：要在 `package` 前，没有空行）
 ```
 Copyright (c) 2020 Jastar Wang
 jefw is licensed under Mulan PSL v2.
@@ -77,7 +77,7 @@ EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,
 MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 See the Mulan PSL v2 for more details.
 ```
-3. 在类上添加文档注释
+3. 设置在类上添加文档注释
 ```
 /**
   * TODO
@@ -94,6 +94,45 @@ See the Mulan PSL v2 for more details.
 
 > 小声bb：不要问我为什么这么多规矩，作为一个有强迫症级别代码洁癖的人，就是这么`gang` [狗头]
 
+### Git规范（阿里）
+> 编码规范、流程规范在软件开发过程中是至关重要的，它可以使我们在开发过程中少走很多弯路。Git `commit` 规范也是如此，确实也是很有必要的，几乎不花费额外精力和时间，但在之后查找问题的效率却很高。作为一名程序员，我们更应注重代码和流程的规范性，永远不要在质量上将就。详见 https://mp.weixin.qq.com/s/vzgST0ko-HZVkFFiSZ2xGg
+
+#### commit message 格式
+```
+<type>(<scope>):<subject>
+```
+
+#### type（必须）
+用于说明git commit的类别，只允许使用下面的标识。
+- `feat`：新功能（feature）
+- `fix/to`：修复bug，可以是QA发现的BUG，也可以是研发自己发现的BUG
+- - `fix`：产生diff并自动修复此问题。适合于一次提交直接修复问题
+- - `to`：只产生diff不自动修复此问题。适合于多次提交。最终修复问题提交时使用fix
+- `docs`：文档（documentation）
+- `style`：格式（不影响代码运行的变动）
+- `refactor`：重构（即不是新增功能，也不是修改bug的代码变动）
+- `perf`：优化相关，比如提升性能、体验
+- `test`：增加测试
+- `chore`：构建过程或辅助工具的变动
+- `revert`：回滚到上一个版本
+- `merge`：代码合并
+- `sync`：同步主线或分支的Bug
+
+#### scope（可选）
+scope用于说明 commit 影响的范围，比如数据层、控制层、视图层等等，视项目不同而不同。
+
+例如在Angular，可以是location，browser，compile，compile，rootScope， ngHref，ngClick，ngView等。如果你的修改影响了不止一个scope，你可以使用 * 代替。
+
+#### subject（必须）
+subject是commit目的的简短描述，不超过50个字符。
+- 建议使用中文（感觉中国人用中文描述问题能更清楚一些）
+- 结尾不加句号或其他标点符号
+
+#### e.g.
+```
+fix(DAO):用户查询缺少username属性 
+feat(Controller):用户查询接口开发
+```
 
 ## 反馈建议
 如果您在项目使用中遇到了任何问题，或者有一些好的建议，可以及时向我们反馈，点击 [Gitee Issue](https://gitee.com/jastar-wang/jefw/issues)
