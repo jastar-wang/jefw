@@ -128,12 +128,12 @@ See the Mulan PSL v2 for more details.
 - `sync`：同步主线或分支的Bug
 
 #### scope（可选）
-scope用于说明 commit 影响的范围，比如数据层、控制层、视图层等等，视项目不同而不同。
+`scope` 用于说明 `commit` 影响的范围，比如数据层、控制层、视图层等等，视项目不同而不同。
 
-例如在Angular，可以是location，browser，compile，compile，rootScope， ngHref，ngClick，ngView等。如果你的修改影响了不止一个scope，你可以使用 * 代替。
+例如在`Angular`，可以是`location`，`browser`，`compile`，`compile`，`rootScope`，`ngHref`，`ngClick`，`ngView`等。如果你的修改影响了不止一个`scope`，你可以使用 `*` 代替。
 
 #### subject（必须）
-subject是commit目的的简短描述，不超过50个字符。
+`subject`是 `commit` 目的的简短描述，不超过50个字符。
 - 建议使用中文（感觉中国人用中文描述问题能更清楚一些）
 - 结尾不加句号或其他标点符号
 
