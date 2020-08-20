@@ -52,13 +52,9 @@ jefw-xxx  |待发掘|其他流行组件，逐步完善……
 ### 安装
 > TODO
 
-### 入门
+### 使用
 
-#### 核心（jefw-core）
-> TODO
-
-#### 工具（jefw-util）
-> TODO
+详细使用文档请移步本项目 [Wiki](https://gitee.com/jastar-wang/jefw/wikis)
 
 ## 参与贡献
 
