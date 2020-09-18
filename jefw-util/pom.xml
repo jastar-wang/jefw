@@ -19,6 +19,7 @@
         <spring-boot.version>2.3.1.RELEASE</spring-boot.version>
         <jackson.version>2.11.0</jackson.version>
         <jjwt.version>0.9.1</jjwt.version>
+        <hutool.version>5.4.2</hutool.version>
     </properties>
 
     <dependencies>
@@ -63,6 +64,20 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>${jjwt.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <!-- hutool-http -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-http</artifactId>
+            <version>${hutool.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <!-- hutool-json -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-json</artifactId>
+            <version>${hutool.version}</version>
             <optional>true</optional>
         </dependency>
     </dependencies>
