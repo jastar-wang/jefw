@@ -17,7 +17,6 @@
     <properties>
         <servlet-api.version>4.0.1</servlet-api.version>
         <spring-boot.version>2.3.1.RELEASE</spring-boot.version>
-        <jackson.version>2.11.0</jackson.version>
         <jjwt.version>0.9.1</jjwt.version>
         <hutool.version>5.4.2</hutool.version>
     </properties>
@@ -44,20 +43,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <version>${spring-boot.version}</version>
             <optional>true</optional>
-        </dependency>
-        <!-- spring boot test -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <version>${spring-boot.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- jackson-databind：提供单元测试环境下SpringBoot可以自动映射properties到bean的支持 -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
-            <scope>test</scope>
         </dependency>
         <!-- jjwt -->
         <dependency>
