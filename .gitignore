@@ -1,16 +1,16 @@
-# Compiled class files
+### Compiled class files ###
 *.class
 
-# Log files
+### Log files ###
 *.log
 
-# BlueJ files
+### BlueJ files ###
 *.ctxt
 
-# Mobile Tools for Java (J2ME)
+### Mobile Tools for Java (J2ME) ###
 .mtj.tmp/
 
-# Package files
+### Package files ###
 *.jar
 *.war
 *.nar
@@ -22,21 +22,30 @@
 # Virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-# Generated files
+### Generated files ###
 bin/
 gen/
  
-# Eclipse project files
+### Eclipse files ###
 .settings/
 .classpath
 .project
 */target/
 
-# IntelliJ IDEA files 
+### STS files ###
+.apt_generated
+.factorypath
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA files ###
 *.iml
 *.ipr 
 *.iws 
 *.idea 
 
-# OS files
+### OS files ###
 .DS_Store
+
+### VS Code files ###
+.vscode/
