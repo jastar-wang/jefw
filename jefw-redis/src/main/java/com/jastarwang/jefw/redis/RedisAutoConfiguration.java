@@ -50,4 +50,14 @@ public class RedisAutoConfiguration {
         return redisTemplate;
     }
 
+    /**
+     * 本方法的目的是为了注入 RedisUtil 里的 RedisTemplate 成员变量
+     *
+     * @return RedisUtil 对象，请使用类的静态调用而不是本对象
+     */
+    @Bean
+    public RedisUtil redisUtil() {
+        return new RedisUtil();
+    }
+    
 }
