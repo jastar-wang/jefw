@@ -137,4 +137,99 @@ public class RedisUtil {
         return v().size(key);
     }
 
+    /*====================================list======================================*/
+
+    /**
+     * 根据下标获取指定元素
+     *
+     * @param key key，非空
+     * @param index 下标
+     * @return 元素或null
+     */
+    public static Object lGet(String key, long index) {
+        return l().index(key, index);
+    }
+
+    /**
+     * 根据下标范围获取元素列表
+     *
+     * @param key key，非空
+     * @param start 开始下标
+     * @param end 结束下标，为-1表示获取全部
+     * @return 元素列表
+     */
+    public static List<Object> lGet(String key, long start, long end) {
+        return l().range(key, start, end);
+    }
+
+    public static void lSet(String key, long index, Object value) {
+        l().set(key, index, value);
+    }
+
+    /**
+     * 移除并返回列表第一个元素
+     *
+     * @param key key，非空
+     * @return 左边第一个元素
+     */
+    public static Object lLeftPop(String key) {
+        return l().leftPop(key);
+    }
+
+    /**
+     * 往列表的第一个位置插入一个元素
+     *
+     * @param key key，非空
+     * @param value value
+     * @return 插入完成之后列表的长度
+     */
+    public static Long lLeftPush(String key, Object value) {
+        return l().leftPush(key, value);
+    }
+
+    public static Long lLeftPushAll(String key, Collection<Object> values) {
+        return l().leftPushAll(key, values);
+    }
+
+    public static Long lLeftPushAll(String key, Object... values) {
+        return l().leftPushAll(key, values);
+    }
+
+    /**
+     * 移除并返回列表最后一个元素
+     *
+     * @param key key，非空
+     * @return 右边最后一个元素
+     */
+    public static Object lRightPop(String key) {
+        return l().rightPop(key);
+    }
+
+    /**
+     * 往列表的最后一个位置插入一个元素
+     *
+     * @param key key，非空
+     * @param value value
+     * @return 插入完成之后列表的长度
+     */
+    public static Long lRightPush(String key, Object value) {
+        return l().rightPush(key, value);
+    }
+
+    public static Long lRightPushAll(String key, Collection<Object> values) {
+        return l().rightPushAll(key, values);
+    }
+
+    public static Long lRightPushAll(String key, Object... values) {
+        return l().rightPushAll(key, values);
+    }
+
+    public static Long lSize(String key) {
+        return l().size(key);
+    }
+
+    public static void lTrim(String key, long start, long end) {
+        l().trim(key, start, end);
+    }
+
 }
