@@ -11,6 +11,7 @@
  */
 package com.jastarwang.jefw.redis;
 
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
@@ -20,6 +21,7 @@ import org.springframework.data.redis.core.ZSetOperations;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,6 +36,7 @@ import java.util.concurrent.TimeUnit;
  * <li>ListOperations: 用首字母 <b>l</b> 表示</li>
  * <li>SetOperations: 用首字母 <b>s</b> 表示</li>
  * <li>ZSetOperations: 用首字母 <b>z</b> 表示</li>
+ * <li>HashOperations: 用首字母 <b>h</b> 表示</li>
  * </ul>
  * 比如：“RedisUtil.set()...”
  *
@@ -53,6 +56,10 @@ public class RedisUtil {
         RedisUtil.template = redisTemplate;
     }
 
+    public static RedisTemplate<String, Object> original() {
+        return RedisUtil.template;
+    }
+
     public static ValueOperations<String, Object> v() {
         return template.opsForValue();
     }
@@ -67,6 +74,10 @@ public class RedisUtil {
 
     public static ZSetOperations<String, Object> z() {
         return template.opsForZSet();
+    }
+
+    public static HashOperations<String, Object, Object> h() {
+        return template.opsForHash();
     }
 
 
@@ -235,7 +246,7 @@ public class RedisUtil {
 
     /*====================================set======================================*/
 
-    public static Long sAdd(String key, Object values) {
+    public static Long sAdd(String key, Object... values) {
         return s().add(key, values);
     }
 
@@ -243,7 +254,7 @@ public class RedisUtil {
         return s().members(key);
     }
 
-    public static Long sRemove(String key, Object values) {
+    public static Long sDel(String key, Object... values) {
         return s().remove(key, values);
     }
 
@@ -261,7 +272,7 @@ public class RedisUtil {
         return z().add(key, value, score);
     }
 
-    public static Long zRemove(String key, Object... values) {
+    public static Long zDel(String key, Object... values) {
         return z().remove(key, values);
     }
 
@@ -285,8 +296,127 @@ public class RedisUtil {
         return z().zCard(key);
     }
 
-    public static Double zIncrBy(String key, Object value, double delta) {
+    public static Double zIncrement(String key, Object value, double delta) {
         return z().incrementScore(key, value, delta);
+    }
+
+    /*====================================hash======================================*/
+
+    public static void hPut(String key, Object hashKey, Object value) {
+        h().put(key, hashKey, value);
+    }
+
+    public static void hPutAll(String key, Map<?, ?> m) {
+        h().putAll(key, m);
+    }
+
+    public static void hPutIfAbsent(String key, Object hashKey, Object value) {
+        h().putIfAbsent(key, hashKey, value);
+    }
+
+    public static Object hGet(String key, Object hashKey) {
+        return h().get(key, hashKey);
+    }
+
+    public static List<Object> hMultiGet(String key, Collection<Object> hashKeys) {
+        return h().multiGet(key, hashKeys);
+    }
+
+    public static Long hDel(String key, Object... hashKeys) {
+        return h().delete(key, hashKeys);
+    }
+
+    public static Boolean hHasKey(String key, Object hashKey) {
+        return h().hasKey(key, hashKey);
+    }
+
+    public static Set<Object> hKeys(String key) {
+        return h().keys(key);
+    }
+
+    public static List<Object> hValues(String key) {
+        return h().values(key);
+    }
+
+    public static Map<Object, Object> hEntries(String key) {
+        return h().entries(key);
+    }
+
+    public static Long hLengthOfValue(String key, Object hashKey) {
+        return h().lengthOfValue(key, hashKey);
+    }
+
+    public static Long hSize(String key) {
+        return h().size(key);
+    }
+
+    public static Long hIncrement(String key, Object hashKey, long delta) {
+        return h().increment(key, hashKey, delta);
+    }
+
+    /*====================================common======================================*/
+
+    /**
+     * 删除单个key
+     *
+     * @param key key，非空，不支持通配符
+     * @return 是否删除成功
+     */
+    public static Boolean del(String key) {
+        return original().delete(key);
+    }
+
+    /**
+     * 删除多个key
+     *
+     * @param keys key集合，非空，不支持通配符
+     * @return 删除成功的key个数
+     */
+    public static Long del(Collection<String> keys) {
+        return original().delete(keys);
+    }
+
+    /**
+     * 使用通配符删除key
+     * <b>本方法比前者<code>del(String key)</code>多了查询的操作，删除单个请使用前者</b>
+     *
+     * @param pattern 支持通配符的key
+     * @return 删除成功的key个数
+     */
+    public static Long delPattern(String pattern) {
+        Set<String> keys = keys(pattern);
+        if (keys == null || keys.isEmpty()) {
+            return 0L;
+        }
+        return del(keys);
+    }
+
+    public static Set<String> keys(String pattern) {
+        return original().keys(pattern);
+    }
+
+    public static Boolean hasKey(String key) {
+        return original().hasKey(key);
+    }
+
+    public static Boolean expire(String key, long seconds) {
+        return expire(key, seconds, TimeUnit.SECONDS);
+    }
+
+    public static Boolean expire(String key, long timeout, TimeUnit unit) {
+        return original().expire(key, timeout, unit);
+    }
+
+    public static Boolean expireAt(String key, Date date) {
+        return original().expireAt(key, date);
+    }
+
+    public static Long getExpire(String key) {
+        return original().getExpire(key);
+    }
+
+    public static Long getExpire(String key, TimeUnit unit) {
+        return original().getExpire(key, unit);
     }
 
 }
