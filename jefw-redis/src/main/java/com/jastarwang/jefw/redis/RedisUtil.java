@@ -22,6 +22,7 @@ import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -230,6 +231,28 @@ public class RedisUtil {
 
     public static void lTrim(String key, long start, long end) {
         l().trim(key, start, end);
+    }
+
+    /*====================================set======================================*/
+
+    public static Long sSet(String key, Object values) {
+        return s().add(key, values);
+    }
+
+    public static Set<Object> sGet(String key) {
+        return s().members(key);
+    }
+
+    public static Long sRemove(String key, Object values) {
+        return s().remove(key, values);
+    }
+
+    public static Long sSize(String key) {
+        return s().size(key);
+    }
+
+    public static Boolean sIsMember(String key, Object o) {
+        return s().isMember(key, o);
     }
 
 }
