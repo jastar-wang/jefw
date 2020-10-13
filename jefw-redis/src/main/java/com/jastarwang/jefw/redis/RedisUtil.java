@@ -265,6 +265,10 @@ public class RedisUtil {
         return z().remove(key, values);
     }
 
+    public static Double zScore(String key, Object o) {
+        return z().score(key, o);
+    }
+
     public static Long zCount(String key, double min, double max) {
         return z().count(key, min, max);
     }
@@ -278,11 +282,11 @@ public class RedisUtil {
     }
 
     public static Long zSize(String key) {
-        return z().size(key);
+        return z().zCard(key);
     }
 
-    public static Long zCard(String key) {
-        return z().zCard(key);
+    public static Double zIncrBy(String key, Object value, double delta) {
+        return z().incrementScore(key, value, delta);
     }
 
 }
