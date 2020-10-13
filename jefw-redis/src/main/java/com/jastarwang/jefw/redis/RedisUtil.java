@@ -235,7 +235,7 @@ public class RedisUtil {
 
     /*====================================set======================================*/
 
-    public static Long sSet(String key, Object values) {
+    public static Long sAdd(String key, Object values) {
         return s().add(key, values);
     }
 
@@ -253,6 +253,36 @@ public class RedisUtil {
 
     public static Boolean sIsMember(String key, Object o) {
         return s().isMember(key, o);
+    }
+
+    /*====================================zset======================================*/
+
+    public static Boolean zAdd(String key, Object value, double score) {
+        return z().add(key, value, score);
+    }
+
+    public static Long zRemove(String key, Object... values) {
+        return z().remove(key, values);
+    }
+
+    public static Long zCount(String key, double min, double max) {
+        return z().count(key, min, max);
+    }
+
+    public static Set<Object> zRange(String key, long start, long end) {
+        return z().range(key, start, end);
+    }
+
+    public static Long zRank(String key, Object o) {
+        return z().rank(key, o);
+    }
+
+    public static Long zSize(String key) {
+        return z().size(key);
+    }
+
+    public static Long zCard(String key) {
+        return z().zCard(key);
     }
 
 }
