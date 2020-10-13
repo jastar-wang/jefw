@@ -20,6 +20,7 @@ import org.springframework.data.redis.core.ZSetOperations;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -83,48 +84,95 @@ public class RedisUtil {
 
     /*====================================value======================================*/
 
+    /**
+     * 存入值
+     *
+     * @param key key，非空
+     * @param value value，非空
+     */
     public static void set(String key, Object value) {
         v().set(key, value);
     }
 
+    /**
+     * 存入值
+     *
+     * @param key key，非空
+     * @param value value，非空
+     * @param seconds 过期时间（单位：秒）
+     */
     public static void set(String key, Object value, long seconds) {
         set(key, value, seconds, TimeUnit.SECONDS);
     }
 
+    /**
+     * 存入值
+     *
+     * @param key key，非空
+     * @param value value，非空
+     * @param timeout 过期时间，非空
+     * @param timeUnit 过期时间单位，非空
+     */
     public static void set(String key, Object value, long timeout, TimeUnit timeUnit) {
         v().set(key, value, timeout, timeUnit);
     }
 
+    /**
+     * 获取值
+     * <p>注意：在某些序列化方式下，对于结果进行Long类型的强转，会出现异常，编码前请务必了解相关的坑</p>
+     *
+     * @param key key，非空
+     * @return 值
+     */
     public static Object get(String key) {
         return v().get(key);
     }
 
-    @SuppressWarnings("unchecked")
+    /**
+     * 获取值并根据指定类型转换
+     *
+     * @param key key，非空
+     * @param clazz 模板类型，非空
+     * @param <T> 类型
+     * @return 值
+     */
     public static <T> T get(String key, Class<T> clazz) {
         Object result = get(key);
-        if (result == null) {
-            return null;
-        }
-        if (clazz.equals(Long.class)) {
-            return (T) Long.valueOf(result.toString());
-        }
-        return (T) result;
+        return convertToClazz(result, clazz);
     }
 
+    /**
+     * 设置新的值并返回旧的值
+     *
+     * @param key key，非空
+     * @param value value
+     * @return 旧值
+     */
     public static Object getAndSet(String key, Object value) {
         return v().getAndSet(key, value);
     }
 
+    /**
+     * 批量获取值
+     *
+     * @param keys key集合，非空
+     * @return 值集合
+     */
     public static List<Object> multiGet(Collection<String> keys) {
         return v().multiGet(keys);
     }
 
+    /**
+     * 批量存入值
+     *
+     * @param map 键值map
+     */
     public static void multiSet(Map<? extends String, ?> map) {
         v().multiSet(map);
     }
 
     /**
-     * 自增或自减
+     * 自增或自减（值为空时默认从0开始）
      *
      * @param key key，非空
      * @param delta 步长，可空；若为空，则自增1；若为正，则自增delta；若为负，则自减delta
@@ -133,7 +181,7 @@ public class RedisUtil {
         if (delta == null) {
             v().increment(key);
         } else if (delta < 0) {
-            v().decrement(key, delta);
+            v().decrement(key, -delta);
         } else if (delta > 0) {
             v().increment(key, delta);
         }
@@ -154,8 +202,8 @@ public class RedisUtil {
     /**
      * 根据下标获取指定元素
      *
-     * @param key key，非空
-     * @param index 下标
+     * @param key key，非空（可不存在）
+     * @param index 下标（可超过实际长度，不会发生越界问题）
      * @return 元素或null
      */
     public static Object lGet(String key, long index) {
@@ -163,17 +211,57 @@ public class RedisUtil {
     }
 
     /**
+     * 根据下标获取指定元素（泛型）
+     *
+     * @param key key，非空（可不存在）
+     * @param index 下标（可超过实际长度，不会发生越界问题）
+     * @param clazz 类型
+     * @return 元素或null
+     */
+    public static <T> T lGet(String key, long index, Class<T> clazz) {
+        Object object = l().index(key, index);
+        return convertToClazz(object, clazz);
+    }
+
+    /**
      * 根据下标范围获取元素列表
      *
      * @param key key，非空
-     * @param start 开始下标
-     * @param end 结束下标，为-1表示获取全部
+     * @param start 开始下标（含）
+     * @param end 结束下标（含），为-1表示获取全部
      * @return 元素列表
      */
     public static List<Object> lGet(String key, long start, long end) {
         return l().range(key, start, end);
     }
 
+    /**
+     * 根据下标范围获取元素列表
+     * <b>注意：务必保证预期的结果是指定的Class类型</b>
+     *
+     * @param key key，非空
+     * @param start 开始下标（含）
+     * @param end 结束下标（含），为-1表示获取全部
+     * @param clazz 类型
+     * @return 元素列表
+     */
+    public static <T> List<T> lGet(String key, long start, long end, Class<T> clazz) {
+        List<Object> list = l().range(key, start, end);
+        if (list == null || list.isEmpty()) {
+            return null;
+        }
+        List<T> resultList = new ArrayList<>(list.size());
+        list.forEach(item -> resultList.add(convertToClazz(item, clazz)));
+        return resultList;
+    }
+
+    /**
+     * 指定下标设置值
+     *
+     * @param key key，非空
+     * @param index 下标，注意不能越界，否则抛出异常
+     * @param value 值
+     */
     public static void lSet(String key, long index, Object value) {
         l().set(key, index, value);
     }
@@ -417,6 +505,14 @@ public class RedisUtil {
 
     public static Long getExpire(String key, TimeUnit unit) {
         return original().getExpire(key, unit);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> T convertToClazz(Object o, Class<T> clazz) {
+        if (o == null) {
+            return null;
+        }
+        return (T) (clazz.equals(Long.class) ? Long.valueOf(o.toString()) : o);
     }
 
 }
