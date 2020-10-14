@@ -211,7 +211,8 @@ public class RedisUtil {
     }
 
     /**
-     * 根据下标获取指定元素（泛型）
+     * 根据下标获取指定元素
+     * <b>注意：务必保证预期的结果是指定的Class类型</b>
      *
      * @param key key，非空（可不存在）
      * @param index 下标（可超过实际长度，不会发生越界问题）
@@ -228,7 +229,7 @@ public class RedisUtil {
      *
      * @param key key，非空
      * @param start 开始下标（含）
-     * @param end 结束下标（含），为-1表示获取全部
+     * @param end 结束下标（含），-1表示最后一个，-2表示倒数第二个，以此类推
      * @return 元素列表
      */
     public static List<Object> lGet(String key, long start, long end) {
@@ -241,7 +242,7 @@ public class RedisUtil {
      *
      * @param key key，非空
      * @param start 开始下标（含）
-     * @param end 结束下标（含），为-1表示获取全部
+     * @param end 结束下标（含），-1表示最后一个，-2表示倒数第二个，以此类推
      * @param clazz 类型
      * @return 元素列表
      */
@@ -277,6 +278,18 @@ public class RedisUtil {
     }
 
     /**
+     * 移除并返回列表第一个元素
+     * <b>注意：务必保证预期的结果是指定的Class类型</b>
+     *
+     * @param key key，非空
+     * @param clazz 类型
+     * @return 左边第一个元素
+     */
+    public static <T> T lLeftPop(String key, Class<T> clazz) {
+        return convertToClazz(l().leftPop(key), clazz);
+    }
+
+    /**
      * 往列表的第一个位置插入一个元素
      *
      * @param key key，非空
@@ -287,10 +300,24 @@ public class RedisUtil {
         return l().leftPush(key, value);
     }
 
+    /**
+     * 把指定集合中的元素依次添加到列表的首位
+     *
+     * @param key key，非空
+     * @param values 指定集合
+     * @return 插入完成之后列表的长度
+     */
     public static Long lLeftPushAll(String key, Collection<Object> values) {
         return l().leftPushAll(key, values);
     }
 
+    /**
+     * 把指定集合中的元素依次添加到列表的首位
+     *
+     * @param key key，非空
+     * @param values 指定集合
+     * @return 插入完成之后列表的长度
+     */
     public static Long lLeftPushAll(String key, Object... values) {
         return l().leftPushAll(key, values);
     }
@@ -306,6 +333,17 @@ public class RedisUtil {
     }
 
     /**
+     * 移除并返回列表最后一个元素
+     * <b>注意：务必保证预期的结果是指定的Class类型</b>
+     *
+     * @param key key，非空
+     * @return 右边最后一个元素
+     */
+    public static <T> T lRightPop(String key, Class<T> clazz) {
+        return convertToClazz(l().rightPop(key), clazz);
+    }
+
+    /**
      * 往列表的最后一个位置插入一个元素
      *
      * @param key key，非空
@@ -316,18 +354,45 @@ public class RedisUtil {
         return l().rightPush(key, value);
     }
 
+    /**
+     * 把指定集合中的元素依次添加到列表的末位
+     *
+     * @param key key，非空
+     * @param values 指定集合
+     * @return 插入完成之后列表的长度
+     */
     public static Long lRightPushAll(String key, Collection<Object> values) {
         return l().rightPushAll(key, values);
     }
 
+    /**
+     * 把指定集合中的元素依次添加到列表的末位
+     *
+     * @param key key，非空
+     * @param values 指定集合
+     * @return 插入完成之后列表的长度
+     */
     public static Long lRightPushAll(String key, Object... values) {
         return l().rightPushAll(key, values);
     }
 
+    /**
+     * 返回列表中的元素个数
+     *
+     * @param key key，非空
+     * @return 元素个数（非占用空间大小）
+     */
     public static Long lSize(String key) {
         return l().size(key);
     }
 
+    /**
+     * 对列表进行剪裁（只保留指定区间内的元素）
+     *
+     * @param key key，非空
+     * @param start 开始下标（含）
+     * @param end 结束下标（含），-1表示最后一个，-2表示倒数第二个，以此类推
+     */
     public static void lTrim(String key, long start, long end) {
         l().trim(key, start, end);
     }

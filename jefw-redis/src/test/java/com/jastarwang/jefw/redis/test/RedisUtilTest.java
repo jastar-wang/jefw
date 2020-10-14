@@ -50,9 +50,10 @@ public class RedisUtilTest {
 
     @Test
     public void valueTest1() {
+        reset("a", "b");
+
         RedisUtil.set("a", 111);
         RedisUtil.set("b", new Student("张三", 28L), 60);
-
         try {
             // 错误的方式（某些场景下）
             Long a1 = (Long) RedisUtil.get("a");
@@ -76,6 +77,8 @@ public class RedisUtilTest {
 
     @Test
     public void valueTest2() {
+        reset("a", "m1", "m2", "m3", "m4", "m5");
+
         RedisUtil.set("a", "张三");
         String oldValue = (String) RedisUtil.getAndSet("a", "李四");
         Assert.assertEquals("张三", oldValue);
@@ -98,7 +101,8 @@ public class RedisUtilTest {
 
     @Test
     public void listTest1() {
-        RedisUtil.del("l1");
+        reset("l1", "nothiskey");
+
         RedisUtil.lRightPush("l1", zhangsan);
         RedisUtil.lRightPushAll("l1", lisi, wangwu);
         Student l1Index0 = RedisUtil.lGet("l1", 0, Student.class);
@@ -114,5 +118,38 @@ public class RedisUtilTest {
         System.out.println(RedisUtil.lGet("l1", 10, Student.class));
 
         Assert.assertThrows(Exception.class, () -> RedisUtil.lSet("l1", 6, zhaoliu));
+    }
+
+    @Test
+    public void listTest2() {
+        reset("l2", "l2-none");
+
+        RedisUtil.lRightPushAll("l2", zhangsan, lisi, wangwu);
+        // 测试key不存在的情况下返回null
+        System.out.println(RedisUtil.lLeftPop("l2-none"));
+        // 正常场景
+        System.out.println(RedisUtil.lLeftPop("l2"));
+        System.out.println(RedisUtil.lLeftPop("l2", Student.class));
+    }
+
+    @Test
+    public void listTest3() {
+        reset("l3");
+
+        Long temp1 = RedisUtil.lLeftPush("l3", zhangsan);
+        Long temp2 = RedisUtil.lLeftPushAll("l3", Arrays.asList(lisi, wangwu));
+        Long temp3 = RedisUtil.lLeftPushAll("l3", zhaoliu, zhaoliu);
+        Assert.assertEquals(1, temp1.longValue());
+        Assert.assertEquals(3, temp2.longValue());
+        Assert.assertEquals(5, temp3.longValue());
+
+        Long size = RedisUtil.lSize("l3");
+        Assert.assertEquals(5, size.longValue());
+
+        RedisUtil.lTrim("l3", 1, 3);
+    }
+
+    private void reset(String... keys) {
+        RedisUtil.del(Arrays.asList(keys));
     }
 }
