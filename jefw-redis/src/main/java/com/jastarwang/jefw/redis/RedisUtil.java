@@ -154,6 +154,18 @@ public class RedisUtil {
     }
 
     /**
+     * 设置新的值并返回旧的值
+     *
+     * @param key key，非空
+     * @param value value
+     * @param clazz 类型
+     * @return 旧值
+     */
+    public static <T> T getAndSet(String key, Object value, Class<T> clazz) {
+        return convertToClazz(v().getAndSet(key, value), clazz);
+    }
+
+    /**
      * 批量获取值
      *
      * @param keys key集合，非空
@@ -161,6 +173,17 @@ public class RedisUtil {
      */
     public static List<Object> multiGet(Collection<String> keys) {
         return v().multiGet(keys);
+    }
+
+    /**
+     * 批量获取值
+     *
+     * @param keys key集合，非空
+     * @param clazz 类型
+     * @return 值集合
+     */
+    public static <T> List<T> multiGet(Collection<String> keys, Class<T> clazz) {
+        return convertToClazz(v().multiGet(keys), clazz);
     }
 
     /**
