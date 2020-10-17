@@ -13,6 +13,7 @@
     <url>https://gitee.com/jastar-wang/jefw</url>
 
     <modules>
+        <module>jefw-all</module>
         <module>jefw-util</module>
         <module>jefw-redis</module>
     </modules>
