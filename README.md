@@ -35,24 +35,32 @@ com.jastarwang.jefw（根目录）
 ├─ core（核心）
 ├─ util（工具类）
 ├─────└─ extra（扩展模块，依赖三方库）
+├───────────├─ ip
 ├───────────├─ jwt
 ├───────────└─ spring
-├─ xxx（组件）
+├─ redis（Redis模块）
+├─ xxx（其他组件）
 ├─ ···
 ```
 
 模块|状态|描述
 ---|---|---
-jefw-all  |待开发|便捷引入所有模块
+jefw-all  |√|便捷引入所有模块
 jefw-core |待开发|核心模块，包含常用的 `ResponseResult`、`Page等`
-jefw-util |待完善|常用的工具类，一般我配合着 `hutool` 使用，药效更好
-jefw-redis|待开发|`Redis`相关，如 `RedisUtil`、`Redis`锁等等
-jefw-xxx  |待发掘|其他流行组件，逐步完善……
+jefw-util |√|常用的工具类，一般我配合着 `hutool` 使用，药效更好
+jefw-redis|待完善|`Redis`相关，如 `RedisUtil`、`Redis`锁等等
+jefw-xxx  |待调研|其他流行组件，逐步完善……
 
 ## 快速开始
 
 ### 安装
-> TODO
+```xml
+<dependency>
+    <groupId>com.jastarwang</groupId>
+    <artifactId>jefw-all</artifactId>
+    <version>${jefw.latestVersion}</version>
+</dependency>
+```
 
 ### 使用
 
@@ -147,9 +155,9 @@ feat(Controller):用户查询接口开发
 ```
 
 ## 反馈建议
-如果您在项目使用中遇到了任何问题，或者有一些好的建议，可以及时向我们反馈，点击 [Gitee Issue](https://gitee.com/jastar-wang/jefw/issues)
+如果您在项目使用中遇到了任何问题，或者有一些更好的建议和想法，可以及时向我们反馈，点击 [Gitee Issue](https://gitee.com/jastar-wang/jefw/issues)
 
-还望各位看官，动动您的小手，点下 `star`~
+还望各位老板，动动您的小手，点下 `star`~
 
 ## 许可证
 `jefw` 采用“木兰宽松许可证第2版”开源协议，详见 [Mulan PSL v2](https://license.coscl.org.cn/MulanPSL2/index.html) 
