@@ -33,11 +33,21 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.1</version>
+                <version>3.2.4</version>
                 <configuration>
-                    <!-- 不生成 dependency-reduced-pom.xml 文件 -->
-                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                    <!-- 默认true；是否生成 dependency-reduced-pom.xml 文件； -->
+                    <!-- 若生成，则依赖本工程时表现为依赖all包 -->
+                    <!-- 反之，依赖本工程时表现为依赖all，core、util等其他子包 -->
+                    <createDependencyReducedPom>true</createDependencyReducedPom>
                 </configuration>
+                <dependencies>
+                    <!-- 加入本依赖的目的是为了让下面的 PropertiesMergingResourceTransformer 可用 -->
+                    <dependency>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                        <version>${spring-boot.version}</version>
+                    </dependency>
+                </dependencies>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -51,6 +61,40 @@
                                     <include>${project.groupId}:*:*</include>
                                 </includes>
                             </artifactSet>
+                            <!-- 官方文档：http://maven.apache.org/plugins/maven-shade-plugin/examples/resource-transformers.html#ManifestResourceTransformer -->
+                            <transformers>
+                                <!-- 合并META-INF文件夹下的同名文件中的内容 -->
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/spring.handlers</resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/spring.schemas</resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/spring.tooling</resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.springframework.boot.maven.PropertiesMergingResourceTransformer">
+                                    <resource>META-INF/spring.factories</resource>
+                                </transformer>
+                                <!-- 合并SPI服务（即META-INF/services/文件夹下）的所有文件 -->
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                                <!-- 合并配置文件的内容 -->
+                                <!--<transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.properties.PropertiesTransformer">
+                                    &lt;!&ndash; required &ndash;&gt;
+                                    <resource>application.properties</resource>
+                                    <ordinalKey>ordinal</ordinalKey>
+                                    &lt;!&ndash; optional &ndash;&gt;
+                                    <alreadyMergedKey>already_merged</alreadyMergedKey>
+                                    <defaultOrdinal>0</defaultOrdinal>
+                                    <reverseOrder>false</reverseOrder>
+                                </transformer>-->
+                            </transformers>
                         </configuration>
                     </execution>
                 </executions>
