@@ -49,7 +49,7 @@ public class RedissonDistributedLock implements DistributedLock {
             if (isLocked) {
                 return succeed.get();
             }
-            return failed.apply(new UnableToAcquireLockException());
+            return failed.apply(new UnableToAcquireLockException("Unable to acquire lock, because redisson returned false!"));
         } catch (InterruptedException e) {
             return failed.apply(e);
         } finally {
