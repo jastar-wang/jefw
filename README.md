@@ -21,9 +21,9 @@
 所以今天，`jefw` 诞生了。
 
 `jefw` 来源于 `Jastar Easy Framework` 的简写，生而为了三个使命：
-- 对一些常用的而 `hutool` 中没有的  `util`  工具类进行补充
-- 对 `controller` 层常用的一些数据模型进行封装，比如：`rest` 或 `ajax` 向前端返回的数据包装结果
-- 对目前一些流行的中间件进行封装，拿过来就能用，比如：`redis`
+- 对一些常用的而 `hutool` 中没有的  `util`  工具类进行补充（注意只做补充，不造轮子）
+- 对 `controller` 层常用的数据模型进行封装，比如：`rest` 或 `ajax` 向前端返回的数据包装结果
+- 对目前一些流行的中间件进行封装，拿过来就能用，比如：`redis`、`redisson`
 
 `jefw` 的初衷——让天下没有难写的代码。
 
@@ -34,7 +34,7 @@
 com.jastarwang.jefw（根目录）
 ├─ core（核心）
 ├─ util（工具类）
-├─────└─ extra（扩展模块，依赖三方库）
+├─────└─ extra（扩展工具类，依赖三方库）
 ├───────────├─ ip
 ├───────────├─ jwt
 ├───────────└─ spring
@@ -45,15 +45,16 @@ com.jastarwang.jefw（根目录）
 
 模块|状态|描述
 ---|---|---
-jefw-all  |√|便捷引入所有模块
-jefw-core |待开发|核心模块，包含常用的 `ResponseResult`、`Page等`
-jefw-util |√|常用的工具类，一般我配合着 `hutool` 使用，药效更好
-jefw-redis|待完善|`Redis`相关，如 `RedisUtil`、`Redis`锁等等
+jefw-all  |√|一键引入所有模块
+jefw-core |0%|核心模块；包含常用的 `ResponseResult`、`Page等`
+jefw-util |√|常用工具；因为只做补充，所以推荐搭配 `hutool` 使用，药效更好
+jefw-redis|√|`Redis`模块；提供对存取数据、分布式锁的便捷支持
 jefw-xxx  |待调研|其他流行组件，逐步完善……
 
 ## 快速开始
 
 ### 安装
+前面提到，`jefw` 采用多模块开发，各模块间互不依赖，所以根据自己的需求引入对应模块即可，当然，我们也提供了便捷引入所有模块的方法：
 ```xml
 <dependency>
     <groupId>com.jastarwang</groupId>
