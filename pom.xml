@@ -16,6 +16,7 @@
         <module>jefw-all</module>
         <module>jefw-util</module>
         <module>jefw-redis</module>
+        <module>jefw-core</module>
     </modules>
 
     <properties>
