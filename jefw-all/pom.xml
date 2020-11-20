@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
+
+    <parent>
+        <artifactId>jefw</artifactId>
+        <groupId>com.jastarwang</groupId>
+        <version>1.0.0-alpha</version>
+    </parent>
+    <artifactId>jefw-all</artifactId>
+    <name>${project.artifactId}</name>
+    <description>JastarWang Easy Framework</description>
+    <url>https://gitee.com/jastar-wang/jefw</url>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.jastarwang</groupId>
+            <artifactId>jefw-core</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jastarwang</groupId>
+            <artifactId>jefw-redis</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jastarwang</groupId>
+            <artifactId>jefw-util</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <configuration>
+                    <!-- 默认true；是否生成 dependency-reduced-pom.xml 文件； -->
+                    <!-- 若生成，则依赖本工程时表现为依赖all包 -->
+                    <!-- 反之，依赖本工程时表现为依赖all，core、util等其他子包 -->
+                    <createDependencyReducedPom>true</createDependencyReducedPom>
+                </configuration>
+                <dependencies>
+                    <!-- 加入本依赖的目的是为了让下面的 PropertiesMergingResourceTransformer 可用 -->
+                    <dependency>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                        <version>${spring-boot.version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createSourcesJar>true</createSourcesJar>
+                            <artifactSet>
+                                <includes>
+                                    <include>${project.groupId}:*:*</include>
+                                </includes>
+                            </artifactSet>
+                            <!-- 官方文档：http://maven.apache.org/plugins/maven-shade-plugin/examples/resource-transformers.html#ManifestResourceTransformer -->
+                            <transformers>
+                                <!-- 合并META-INF文件夹下的同名文件中的内容 -->
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/spring.handlers</resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/spring.schemas</resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/spring.tooling</resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.springframework.boot.maven.PropertiesMergingResourceTransformer">
+                                    <resource>META-INF/spring.factories</resource>
+                                </transformer>
+                                <!-- 合并SPI服务（即META-INF/services/文件夹下）的所有文件 -->
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                                <!-- 合并配置文件的内容 -->
+                                <!--<transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.properties.PropertiesTransformer">
+                                    &lt;!&ndash; required &ndash;&gt;
+                                    <resource>application.properties</resource>
+                                    <ordinalKey>ordinal</ordinalKey>
+                                    &lt;!&ndash; optional &ndash;&gt;
+                                    <alreadyMergedKey>already_merged</alreadyMergedKey>
+                                    <defaultOrdinal>0</defaultOrdinal>
+                                    <reverseOrder>false</reverseOrder>
+                                </transformer>-->
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
