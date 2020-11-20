@@ -1,17 +1,17 @@
 <h1 align="center" style="font-family:fantasy;">Jefw</h1>
 <p align="center" style="color:darkgray;">让 天 下 没 有 难 写 的 代 码</p>
 <p align="center">
-  <a target="_blank"><img src="https://img.shields.io/badge/release-1.0%20SNAPSHOT-orange.svg" alt="release" /></a>
+  <a target="_blank"><img src="https://img.shields.io/badge/release-1.0.0%20alpha-orange.svg" alt="release" /></a>
   <a target="_blank"><img src="https://img.shields.io/badge/jdk-1.8+-green.svg" alt="jdk" /></a>
   <a target="_blank"><img src="https://img.shields.io/badge/license-MulanPSL2-blue" alt="license" /></a>
   <a target="_blank"><img src="https://img.shields.io/badge/build-passing-success.svg" alt="build" /></a>
-  <a target="_blank"><img src="https://img.shields.io/badge/process-dev-inactive.svg" alt="process" /></a>
+  <a target="_blank"><img src="https://img.shields.io/badge/process-alpha-inactive.svg" alt="process" /></a>
 </p>
 
 -----------------------------------------------
 
 ## 前言
-作为一个深耕一线多年的码农本农，在工作中经常会遇到各种各样的工具类；久而久之，做的项目多了，cp 来 cp 去的感觉很繁琐，所以几年前，我就有了一个大胆的想法——整合工具类。功夫不负有心人，经过这么久的努力，我的梦想，最终还是被前辈实现了——`hutool`（笑哭）。不过话说回来，换做是我，可能没有前辈做的这么好，感谢前辈提供了这么一个又大又圆的轮子。
+作为一名 <del>深耕</del> 一线多年的码农本农，在工作中经常会遇到各种各样的工具类；久而久之，做的项目多了，cp 来 cp 去的感觉很繁琐，所以几年前，我就有了一个大胆的想法——整合工具类。功夫不负有心人，经过不懈的努力，我的梦想，最终还是被前辈实现了——`hutool`（笑哭）。不过话说回来，换做是我，可能没有前辈做的这么好，感谢前辈提供了这么一个又大又圆的轮子。
 
 在流行的 `MVC` 模式中，`M` 中的持久层可以用很多优秀的开源框架（比如 `MyBatisPlus` ）来实现，业务层同时配合着 `hutool` 来让我们更专注于业务，而 `V` 层也有对应的解决方案，比如“干脆的 `rest` 前后端分离”、“经典的 `thymeleaf` 等模板引擎”；对于 `C` 层，其实也有一定的抽象和优化空间……
 
@@ -46,7 +46,7 @@ com.jastarwang.jefw（根目录）
 模块|状态|描述
 ---|---|---
 jefw-all  |√|一键引入所有模块
-jefw-core |0%|核心模块；包含常用的 `ResponseResult`、`Page等`
+jefw-core |√|核心模块；包含常用的数据包装模型等
 jefw-util |√|常用工具；因为只做补充，所以推荐搭配 `hutool` 使用，药效更好
 jefw-redis|√|`Redis`模块；提供对存取数据、分布式锁的便捷支持
 jefw-xxx  |待调研|其他流行组件，逐步完善……

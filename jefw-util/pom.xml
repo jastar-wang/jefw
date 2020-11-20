@@ -8,7 +8,7 @@
     <parent>
         <artifactId>jefw</artifactId>
         <groupId>com.jastarwang</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0-alpha</version>
     </parent>
     <artifactId>jefw-util</artifactId>
     <name>${project.artifactId}</name>
