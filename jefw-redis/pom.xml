@@ -8,16 +8,12 @@
     <parent>
         <artifactId>jefw</artifactId>
         <groupId>com.jastarwang</groupId>
-        <version>1.0.0-alpha</version>
+        <version>1.1.0-beta</version>
     </parent>
     <artifactId>jefw-redis</artifactId>
     <name>${project.artifactId}</name>
     <description>Redis模块，提供工具类以及分布式锁的封装</description>
 
-    <properties>
-        <jedis.version>3.3.0</jedis.version>
-        <redisson.version>3.13.6</redisson.version>
-    </properties>
 
     <dependencies>
         <!-- jedis client -->
