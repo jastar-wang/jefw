@@ -14,12 +14,6 @@
     <name>${project.artifactId}</name>
     <description>常用工具类模块</description>
 
-    <properties>
-        <servlet-api.version>4.0.1</servlet-api.version>
-        <jjwt.version>0.9.1</jjwt.version>
-        <hutool.version>5.4.2</hutool.version>
-    </properties>
-
     <dependencies>
         <!-- servlet -->
         <dependency>
