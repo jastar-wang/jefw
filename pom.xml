@@ -28,7 +28,7 @@
         <!-- version -->
         <junit.version>4.13</junit.version>
         <lombok.version>1.18.12</lombok.version>
-        <jackson.version>2.11.0</jackson.version>
+        <jackson.version>2.12.4</jackson.version>
         <spring-boot.version>2.5.3</spring-boot.version>
 
         <!-- version of util -->
