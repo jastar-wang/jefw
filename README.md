@@ -1,7 +1,7 @@
 <h1 align="center" style="font-family:fantasy;">Jefw</h1>
 <p align="center" style="color:darkgray;">让 天 下 没 有 难 写 的 代 码</p>
 <p align="center">
-  <a target="_blank"><img src="https://img.shields.io/badge/release-1.1.0--beta-orange.svg" alt="release" /></a>
+  <a target="_blank"><img src="https://img.shields.io/badge/release-1.1.1--beta-orange.svg" alt="release" /></a>
   <a target="_blank"><img src="https://img.shields.io/badge/jdk-1.8+-green.svg" alt="jdk" /></a>
   <a target="_blank"><img src="https://img.shields.io/badge/license-MulanPSL2-blue" alt="license" /></a>
   <a target="_blank"><img src="https://img.shields.io/badge/build-passing-success.svg" alt="build" /></a>

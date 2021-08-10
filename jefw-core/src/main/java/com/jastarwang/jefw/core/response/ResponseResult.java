@@ -13,10 +13,7 @@ package com.jastarwang.jefw.core.response;
 
 import java.io.Serializable;
 
-import static com.jastarwang.jefw.core.response.ResponseCode.DEFAULT_FAIL_CODE;
-import static com.jastarwang.jefw.core.response.ResponseCode.DEFAULT_FAIL_MSG;
-import static com.jastarwang.jefw.core.response.ResponseCode.DEFAULT_SUCCESS_CODE;
-import static com.jastarwang.jefw.core.response.ResponseCode.DEFAULT_SUCCESS_MSG;
+import static com.jastarwang.jefw.core.response.AbstractResponseCode.*;
 
 /**
  * 异步请求响应包装类
@@ -55,39 +52,67 @@ public class ResponseResult<T> implements Serializable {
      */
     private T data;
 
-    public static ResponseResult<String> success() {
-        return new ResponseResult<>(true, DEFAULT_SUCCESS_CODE, DEFAULT_SUCCESS_MSG, null);
-    }
-
-    public static ResponseResult<String> success(ResponseCode code) {
-        return success(code, null);
+    public static <T> ResponseResult<T> success() {
+        return success(DEFAULT_SUCCESS_CODE, DEFAULT_SUCCESS_MSG);
     }
 
     public static <T> ResponseResult<T> success(T data) {
-        return new ResponseResult<>(true, DEFAULT_SUCCESS_CODE, DEFAULT_SUCCESS_MSG, data);
+        return success(DEFAULT_SUCCESS_CODE, DEFAULT_SUCCESS_MSG, data);
     }
 
-    public static <T> ResponseResult<T> success(ResponseCode code, T data) {
-        return new ResponseResult<>(true, code.getCode(), code.getMsg(), data);
+    public static <T> ResponseResult<T> success(AbstractResponseCode code) {
+        return success(code, null);
     }
 
-    public static ResponseResult<String> fail() {
-        return new ResponseResult<>(false, DEFAULT_FAIL_CODE, DEFAULT_FAIL_MSG, null);
+    public static <T> ResponseResult<T> success(AbstractResponseCode code, T data) {
+        return success(code.getCode(), code.getMsg(), data);
     }
 
-    public static ResponseResult<String> fail(ResponseCode code) {
-        return fail(code, null);
+    /**
+     * @since 1.1
+     */
+    public static <T> ResponseResult<T> success(String code, String msg) {
+        return success(code, msg, null);
+    }
+
+    /**
+     * @since 1.1
+     */
+    public static <T> ResponseResult<T> success(String code, String msg, T data) {
+        return new ResponseResult<>(true, code, msg, data);
+    }
+
+    public static <T> ResponseResult<T> fail() {
+        return fail(DEFAULT_FAIL_CODE, DEFAULT_FAIL_MSG);
     }
 
     public static <T> ResponseResult<T> fail(T data) {
-        return new ResponseResult<>(false, DEFAULT_FAIL_CODE, DEFAULT_FAIL_MSG, data);
+        return fail(DEFAULT_FAIL_CODE, DEFAULT_FAIL_MSG, data);
     }
 
-    public static <T> ResponseResult<T> fail(ResponseCode code, T data) {
-        return new ResponseResult<>(false, code.getCode(), code.getMsg(), data);
+    public static <T> ResponseResult<T> fail(AbstractResponseCode code) {
+        return fail(code, null);
     }
 
-    //===============================constructor=================================//
+    public static <T> ResponseResult<T> fail(AbstractResponseCode code, T data) {
+        return fail(code.getCode(), code.getMsg(), data);
+    }
+
+    /**
+     * @since 1.1
+     */
+    public static <T> ResponseResult<T> fail(String code, String msg) {
+        return fail(code, msg, null);
+    }
+
+    /**
+     * @since 1.1
+     */
+    public static <T> ResponseResult<T> fail(String code, String msg, T data) {
+        return new ResponseResult<>(false, code, msg, data);
+    }
+
+    //=============================== constructor =================================//
 
     private ResponseResult() {
     }
@@ -99,7 +124,7 @@ public class ResponseResult<T> implements Serializable {
         this.data = data;
     }
 
-    //=================================getter===================================//
+    //================================= getter ===================================//
 
     public boolean isSuccess() {
         return success;

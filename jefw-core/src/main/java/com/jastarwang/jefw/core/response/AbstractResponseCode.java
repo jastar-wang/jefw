@@ -19,19 +19,19 @@ package com.jastarwang.jefw.core.response;
  * @date 2020/11/19
  * @since 1.0
  */
-public interface ResponseCode {
+public interface AbstractResponseCode {
     /**
      * 默认操作成功状态码
      */
-    String DEFAULT_SUCCESS_CODE = "1";
+    String DEFAULT_SUCCESS_CODE = "0";
     /**
      * 默认操作成功提示信息
      */
-    String DEFAULT_SUCCESS_MSG = "succeed";
+    String DEFAULT_SUCCESS_MSG = "ok";
     /**
      * 默认操作失败状态码
      */
-    String DEFAULT_FAIL_CODE = "0";
+    String DEFAULT_FAIL_CODE = "-1";
     /**
      * 默认操作失败提示信息
      */
