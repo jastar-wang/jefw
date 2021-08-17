@@ -123,7 +123,7 @@ public class RedisUtil {
      * <p>注意：在某些序列化方式下，对于结果进行Long类型的强转，会出现异常，编码前请务必了解相关的坑</p>
      *
      * @param key key，非空
-     * @return 值
+     * @return value
      */
     public static Object get(String key) {
         return v().get(key);
@@ -135,7 +135,7 @@ public class RedisUtil {
      * @param key key，非空
      * @param clazz 模板类型，非空
      * @param <T> 类型
-     * @return 值
+     * @return value
      */
     public static <T> T get(String key, Class<T> clazz) {
         Object result = get(key);
@@ -169,7 +169,7 @@ public class RedisUtil {
      * 批量获取值
      *
      * @param keys key集合，非空
-     * @return 值集合
+     * @return value集合
      */
     public static List<Object> multiGet(Collection<String> keys) {
         return v().multiGet(keys);
@@ -180,14 +180,14 @@ public class RedisUtil {
      *
      * @param keys key集合，非空
      * @param clazz 类型
-     * @return 值集合
+     * @return value集合
      */
     public static <T> List<T> multiGet(Collection<String> keys, Class<T> clazz) {
         return convertToClazz(v().multiGet(keys), clazz);
     }
 
     /**
-     * 批量存入值
+     * 批量设置值
      *
      * @param map 键值map
      */
@@ -196,19 +196,28 @@ public class RedisUtil {
     }
 
     /**
-     * 自增或自减（值为空时默认从0开始）
+     * 自增
+     * <p>（默认步长：1）</p>
      *
      * @param key key，非空
-     * @param delta 步长，可空；若为空，则自增1；若为正，则自增delta；若为负，则自减delta
+     * @return 自增后的值
      */
-    public static void increment(String key, Long delta) {
+    public static Long increment(String key) {
+        return v().increment(key);
+    }
+
+    /**
+     * 自增
+     *
+     * @param key   key，非空
+     * @param delta 步长，可空；默认：1
+     * @return 自增后的值
+     */
+    public static Long increment(String key, Long delta) {
         if (delta == null) {
-            v().increment(key);
-        } else if (delta < 0) {
-            v().decrement(key, -delta);
-        } else if (delta > 0) {
-            v().increment(key, delta);
+            return v().increment(key);
         }
+        return v().increment(key, delta);
     }
 
     /**
@@ -720,12 +729,23 @@ public class RedisUtil {
     }
 
     /**
-     * 将指定field对应的value进行加减计算（为空默认以0计算）
+     * 将指定field对应的value进行自增
      *
-     * @param key key，非空
+     * @param key     key，非空
      * @param hashKey hashKey，非空
-     * @param delta 数量，负数表示减
-     * @return 新的value值
+     * @return 自增后的值
+     */
+    public static Long hIncrement(String key, Object hashKey) {
+        return hIncrement(key, hashKey, 1);
+    }
+
+    /**
+     * 将指定field对应的value进行自增
+     *
+     * @param key     key，非空
+     * @param hashKey hashKey，非空
+     * @param delta   步长
+     * @return 自增后的值
      */
     public static Long hIncrement(String key, Object hashKey, long delta) {
         return h().increment(key, hashKey, delta);
