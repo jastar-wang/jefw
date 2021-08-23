@@ -95,7 +95,7 @@ public class RedisUtilTest {
         Assert.assertNotNull(objects);
         System.out.println(objects);
 
-        increment("m3", null);
+        increment("m3");
         increment("m4", 2L);
         increment("m5", -1L);
 
@@ -108,17 +108,17 @@ public class RedisUtilTest {
 
         lRightPush("l1", zhangsan);
         lRightPushAll("l1", lisi, wangwu);
-        Student l1Index0 = lGet("l1", 0, Student.class);
+        Student l1Index0 = lIndex("l1", 0, Student.class);
         Assert.assertEquals("张三", l1Index0.getName());
 
-        List<Object> list1 = lGet("l1", 1, -1);
-        List<Student> list2 = lGet("l1", 1, -1, Student.class);
+        List<Object> list1 = lRange("l1", 1, -1);
+        List<Student> list2 = lRange("l1", 1, -1, Student.class);
         System.out.println(list1);
         System.out.println(list2);
 
         System.out.println("验证key或index不存在的情况下：");
-        System.out.println(lGet("nothiskey", 0));
-        System.out.println(lGet("l1", 10, Student.class));
+        System.out.println(lIndex("nothiskey", 0));
+        System.out.println(lIndex("l1", 10, Student.class));
 
         Assert.assertThrows(Exception.class, () -> lSet("l1", 6, zhaoliu));
     }
@@ -165,15 +165,15 @@ public class RedisUtilTest {
         Long size3 = sAdd("s1", wangwu);
         Assert.assertEquals(0, size3.longValue());
 
-        Set<Object> members1 = sGet("s1");
+        Set<Object> members1 = sMembers("s1");
         System.out.println(members1);
         System.out.println(members1.getClass().getName());
 
-        Set<Student> members2 = sGet("s1", Student.class);
+        Set<Student> members2 = sMembers("s1", Student.class);
         System.out.println(members2);
         System.out.println(members2.getClass().getName());
 
-        Long size4 = sDel("s1", lisi, zhaoliu);
+        Long size4 = sRemove("s1", lisi, zhaoliu);
         Assert.assertEquals(1, size4.longValue());
 
         Long size5 = sSize("s1");
@@ -195,7 +195,7 @@ public class RedisUtilTest {
         Double score = zScore("z1", zhaoliu);
         System.out.println(score);
 
-        Long delCount = zDel("z1", lisi);
+        Long delCount = zRemove("z1", lisi);
         System.out.println(delCount);
 
         zAdd("z1", lisi, 12);

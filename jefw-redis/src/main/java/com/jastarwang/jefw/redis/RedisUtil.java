@@ -58,7 +58,7 @@ public class RedisUtil {
         RedisUtil.template = redisTemplate;
     }
 
-    public static RedisTemplate<String, Object> original() {
+    public static RedisTemplate<String, Object> template() {
         return RedisUtil.template;
     }
 
@@ -83,7 +83,7 @@ public class RedisUtil {
     }
 
 
-    /*====================================value======================================*/
+    /*==================================== value ======================================*/
 
     /**
      * 存入值
@@ -117,6 +117,31 @@ public class RedisUtil {
     public static void set(String key, Object value, long timeout, TimeUnit timeUnit) {
         v().set(key, value, timeout, timeUnit);
     }
+
+    // void set(K key, V value, Duration timeout);
+
+    // Boolean setIfAbsent(K key, V value);
+
+    // Boolean setIfAbsent(K key, V value, long timeout, TimeUnit unit);
+
+    // Boolean setIfAbsent(K key, V value, Duration timeout);
+
+    // Boolean setIfPresent(K key, V value);
+
+    // Boolean setIfPresent(K key, V value, long timeout, TimeUnit unit);
+
+    // Boolean setIfPresent(K key, V value, Duration timeout);
+
+    /**
+     * 批量存入
+     *
+     * @param map 键值map，非空
+     */
+    public static void multiSet(Map<String, ?> map) {
+        v().multiSet(map);
+    }
+
+    // Boolean multiSetIfAbsent(Map<? extends K, ? extends V> map);
 
     /**
      * 获取值
@@ -177,6 +202,7 @@ public class RedisUtil {
 
     /**
      * 批量获取值
+     * <p>（要求值集合的类型一致）</p>
      *
      * @param keys key集合，非空
      * @param clazz 类型
@@ -184,15 +210,6 @@ public class RedisUtil {
      */
     public static <T> List<T> multiGet(Collection<String> keys, Class<T> clazz) {
         return convertToClazz(v().multiGet(keys), clazz);
-    }
-
-    /**
-     * 批量设置值
-     *
-     * @param map 键值map
-     */
-    public static void multiSet(Map<? extends String, ?> map) {
-        v().multiSet(map);
     }
 
     /**
@@ -209,16 +226,25 @@ public class RedisUtil {
     /**
      * 自增
      *
-     * @param key   key，非空
-     * @param delta 步长，可空；默认：1
+     * @param key key，非空
+     * @param delta 步长
      * @return 自增后的值
      */
-    public static Long increment(String key, Long delta) {
-        if (delta == null) {
-            return v().increment(key);
-        }
+    public static Long increment(String key, long delta) {
         return v().increment(key, delta);
     }
+
+    // Double increment(K key, double delta);
+
+    // Long decrement(K key);
+
+    // Long decrement(K key, long delta);
+
+    // Integer append(K key, String value);
+
+    // String get(K key, long start, long end);
+
+    // void set(K key, V value, long offset);
 
     /**
      * 获取key对应的value的长度
@@ -230,32 +256,14 @@ public class RedisUtil {
         return v().size(key);
     }
 
-    /*====================================list======================================*/
+    // Boolean setBit(K key, long offset, boolean value);
 
-    /**
-     * 根据下标获取指定元素
-     *
-     * @param key key，非空（可不存在）
-     * @param index 下标（可超过实际长度，不会发生越界问题）
-     * @return 元素或null
-     */
-    public static Object lGet(String key, long index) {
-        return l().index(key, index);
-    }
+    // Boolean getBit(K key, long offset);
 
-    /**
-     * 根据下标获取指定元素
-     * <b>注意：务必保证预期的结果是指定的Class类型</b>
-     *
-     * @param key key，非空（可不存在）
-     * @param index 下标（可超过实际长度，不会发生越界问题）
-     * @param clazz 类型
-     * @return 元素或null
-     */
-    public static <T> T lGet(String key, long index, Class<T> clazz) {
-        Object object = l().index(key, index);
-        return convertToClazz(object, clazz);
-    }
+    // List<Long> bitField(K key, BitFieldSubCommands subCommands);
+
+
+    /*==================================== list ======================================*/
 
     /**
      * 根据下标范围获取元素列表
@@ -265,7 +273,7 @@ public class RedisUtil {
      * @param end 结束下标（含），-1表示最后一个，-2表示倒数第二个，以此类推
      * @return 元素列表
      */
-    public static List<Object> lGet(String key, long start, long end) {
+    public static List<Object> lRange(String key, long start, long end) {
         return l().range(key, start, end);
     }
 
@@ -279,10 +287,105 @@ public class RedisUtil {
      * @param clazz 类型
      * @return 元素列表
      */
-    public static <T> List<T> lGet(String key, long start, long end, Class<T> clazz) {
+    public static <T> List<T> lRange(String key, long start, long end, Class<T> clazz) {
         List<Object> list = l().range(key, start, end);
         return convertToClazz(list, clazz);
     }
+
+    /**
+     * 对列表进行剪裁（只保留指定区间内的元素）
+     *
+     * @param key key，非空
+     * @param start 开始下标（含）
+     * @param end 结束下标（含），-1表示最后一个，-2表示倒数第二个，以此类推
+     */
+    public static void lTrim(String key, long start, long end) {
+        l().trim(key, start, end);
+    }
+
+    /**
+     * 返回列表中的元素个数
+     *
+     * @param key key，非空
+     * @return 元素个数（非占用空间大小）
+     */
+    public static Long lSize(String key) {
+        return l().size(key);
+    }
+
+    /**
+     * 往列表的第一个位置插入一个元素
+     *
+     * @param key key，非空
+     * @param value value
+     * @return 插入完成之后列表的长度
+     */
+    public static Long lLeftPush(String key, Object value) {
+        return l().leftPush(key, value);
+    }
+
+    /**
+     * 把指定集合中的元素依次添加到列表的首位
+     *
+     * @param key key，非空
+     * @param values 指定集合
+     * @return 插入完成之后列表的长度
+     */
+    public static Long lLeftPushAll(String key, Object... values) {
+        return l().leftPushAll(key, values);
+    }
+
+    /**
+     * 把指定集合中的元素依次添加到列表的首位
+     *
+     * @param key key，非空
+     * @param values 指定集合
+     * @return 插入完成之后列表的长度
+     */
+    public static Long lLeftPushAll(String key, Collection<Object> values) {
+        return l().leftPushAll(key, values);
+    }
+
+    // Long leftPushIfPresent(K key, V value);
+
+    // Long leftPush(K key, V pivot, V value);
+
+    /**
+     * 往列表的最后一个位置插入一个元素
+     *
+     * @param key key，非空
+     * @param value value
+     * @return 插入完成之后列表的长度
+     */
+    public static Long lRightPush(String key, Object value) {
+        return l().rightPush(key, value);
+    }
+
+    /**
+     * 把指定集合中的元素依次添加到列表的末位
+     *
+     * @param key key，非空
+     * @param values 指定集合
+     * @return 插入完成之后列表的长度
+     */
+    public static Long lRightPushAll(String key, Object... values) {
+        return l().rightPushAll(key, values);
+    }
+
+    /**
+     * 把指定集合中的元素依次添加到列表的末位
+     *
+     * @param key key，非空
+     * @param values 指定集合
+     * @return 插入完成之后列表的长度
+     */
+    public static Long lRightPushAll(String key, Collection<Object> values) {
+        return l().rightPushAll(key, values);
+    }
+
+    // Long rightPushIfPresent(K key, V value);
+
+    // Long rightPush(K key, V pivot, V value);
 
     /**
      * 指定下标设置值
@@ -294,6 +397,37 @@ public class RedisUtil {
     public static void lSet(String key, long index, Object value) {
         l().set(key, index, value);
     }
+
+    // Long remove(K key, long count, Object value);
+
+    /**
+     * 根据下标获取指定元素
+     *
+     * @param key key，非空（可不存在）
+     * @param index 下标（可超过实际长度，不会发生越界问题）
+     * @return 元素或null
+     */
+    public static Object lIndex(String key, long index) {
+        return l().index(key, index);
+    }
+
+    /**
+     * 根据下标获取指定元素
+     * <b>注意：务必保证预期的结果是指定的Class类型</b>
+     *
+     * @param key key，非空（可不存在）
+     * @param index 下标（可超过实际长度，不会发生越界问题）
+     * @param clazz 类型
+     * @return 元素或null
+     */
+    public static <T> T lIndex(String key, long index, Class<T> clazz) {
+        Object object = l().index(key, index);
+        return convertToClazz(object, clazz);
+    }
+
+    // Long indexOf(K key, V value);
+
+    // Long lastIndexOf(K key, V value);
 
     /**
      * 移除并返回列表第一个元素
@@ -317,38 +451,9 @@ public class RedisUtil {
         return convertToClazz(l().leftPop(key), clazz);
     }
 
-    /**
-     * 往列表的第一个位置插入一个元素
-     *
-     * @param key key，非空
-     * @param value value
-     * @return 插入完成之后列表的长度
-     */
-    public static Long lLeftPush(String key, Object value) {
-        return l().leftPush(key, value);
-    }
+    // V leftPop(K key, long timeout, TimeUnit unit);
 
-    /**
-     * 把指定集合中的元素依次添加到列表的首位
-     *
-     * @param key key，非空
-     * @param values 指定集合
-     * @return 插入完成之后列表的长度
-     */
-    public static Long lLeftPushAll(String key, Collection<Object> values) {
-        return l().leftPushAll(key, values);
-    }
-
-    /**
-     * 把指定集合中的元素依次添加到列表的首位
-     *
-     * @param key key，非空
-     * @param values 指定集合
-     * @return 插入完成之后列表的长度
-     */
-    public static Long lLeftPushAll(String key, Object... values) {
-        return l().leftPushAll(key, values);
-    }
+    // V leftPop(K key, Duration timeout);
 
     /**
      * 移除并返回列表最后一个元素
@@ -371,61 +476,18 @@ public class RedisUtil {
         return convertToClazz(l().rightPop(key), clazz);
     }
 
-    /**
-     * 往列表的最后一个位置插入一个元素
-     *
-     * @param key key，非空
-     * @param value value
-     * @return 插入完成之后列表的长度
-     */
-    public static Long lRightPush(String key, Object value) {
-        return l().rightPush(key, value);
-    }
+    // V rightPop(K key, long timeout, TimeUnit unit);
 
-    /**
-     * 把指定集合中的元素依次添加到列表的末位
-     *
-     * @param key key，非空
-     * @param values 指定集合
-     * @return 插入完成之后列表的长度
-     */
-    public static Long lRightPushAll(String key, Collection<Object> values) {
-        return l().rightPushAll(key, values);
-    }
+    // V rightPop(K key, Duration timeout);
 
-    /**
-     * 把指定集合中的元素依次添加到列表的末位
-     *
-     * @param key key，非空
-     * @param values 指定集合
-     * @return 插入完成之后列表的长度
-     */
-    public static Long lRightPushAll(String key, Object... values) {
-        return l().rightPushAll(key, values);
-    }
+    // V rightPopAndLeftPush(K sourceKey, K destinationKey);
 
-    /**
-     * 返回列表中的元素个数
-     *
-     * @param key key，非空
-     * @return 元素个数（非占用空间大小）
-     */
-    public static Long lSize(String key) {
-        return l().size(key);
-    }
+    // V rightPopAndLeftPush(K sourceKey, K destinationKey, long timeout, TimeUnit unit);
 
-    /**
-     * 对列表进行剪裁（只保留指定区间内的元素）
-     *
-     * @param key key，非空
-     * @param start 开始下标（含）
-     * @param end 结束下标（含），-1表示最后一个，-2表示倒数第二个，以此类推
-     */
-    public static void lTrim(String key, long start, long end) {
-        l().trim(key, start, end);
-    }
+    // V rightPopAndLeftPush(K sourceKey, K destinationKey, Duration timeout)
 
-    /*====================================set======================================*/
+
+    /*==================================== set ======================================*/
 
     /**
      * 将一个或多个元素添加到集合中，已存在的元素将忽略
@@ -439,37 +501,21 @@ public class RedisUtil {
     }
 
     /**
-     * 获取集合中的所有元素，不存在的key视为空集合
-     *
-     * @param key key，非空
-     * @return 集合
-     */
-    public static Set<Object> sGet(String key) {
-        return s().members(key);
-    }
-
-    /**
-     * 获取集合中的所有元素，不存在的key视为空集合
-     *
-     * @param key key，非空
-     * @param clazz 类型
-     * @return 集合
-     */
-    public static <T> Set<T> sGet(String key, Class<T> clazz) {
-        Set<Object> members = s().members(key);
-        return convertToClazz(members, clazz);
-    }
-
-    /**
      * 删除集合中的一个或多个元素，不存在的元素将忽略
      *
      * @param key key，非空
      * @param values 一个或多个元素
      * @return 删除成功的元素数量，不包括被忽略的元素
      */
-    public static Long sDel(String key, Object... values) {
+    public static Long sRemove(String key, Object... values) {
         return s().remove(key, values);
     }
+
+    // V pop(K key);
+
+    // List<V> pop(K key, long count);
+
+    // Boolean move(K key, V value, K destKey);
 
     /**
      * 获取集合中的元素数量
@@ -492,7 +538,44 @@ public class RedisUtil {
         return s().isMember(key, o);
     }
 
-    /*====================================zset======================================*/
+    // Set<V> intersect..(..);
+
+    // Set<V> union..(..);
+
+    // Set<V> difference..(..);
+
+    /**
+     * 获取集合中的所有元素，不存在的key视为空集合
+     *
+     * @param key key，非空
+     * @return 集合
+     */
+    public static Set<Object> sMembers(String key) {
+        return s().members(key);
+    }
+
+    /**
+     * 获取集合中的所有元素，不存在的key视为空集合
+     *
+     * @param key key，非空
+     * @param clazz 类型
+     * @return 集合
+     */
+    public static <T> Set<T> sMembers(String key, Class<T> clazz) {
+        Set<Object> members = s().members(key);
+        return convertToClazz(members, clazz);
+    }
+
+    // V randomMember(K key);
+
+    // Set<V> distinctRandomMembers(K key, long count);
+
+    // List<V> randomMembers(K key, long count);
+
+    // Cursor<V> scan(K key, ScanOptions options);
+
+
+    /*==================================== zset ======================================*/
 
     /**
      * 将元素添加到有序集合中，已存在的元素将覆盖分值并计算新位置
@@ -506,6 +589,12 @@ public class RedisUtil {
         return z().add(key, value, score);
     }
 
+    // Boolean addIfAbsent(K key, V value, double score);
+
+    // Long add(K key, Set<TypedTuple<V>> tuples);
+
+    // Long addIfAbsent(K key, Set<TypedTuple<V>> tuples);
+
     /**
      * 删除有序集合中的一个或多个元素，不存在的元素将忽略
      *
@@ -513,31 +602,42 @@ public class RedisUtil {
      * @param values 一个或多个元素
      * @return 删除成功的元素数量，不包括被忽略的元素
      */
-    public static Long zDel(String key, Object... values) {
+    public static Long zRemove(String key, Object... values) {
         return z().remove(key, values);
     }
 
     /**
-     * 获取集合中指定元素对应的分值
+     * 将有序集合中的指定元素对应的分值进行加减计算
      *
      * @param key key，非空
-     * @param o 指定元素
-     * @return 分值，key不存在或元素不存在则返回null
+     * @param value 指定元素
+     * @param delta 分值，负数表示减
+     * @return 该元素新的分值
      */
-    public static Double zScore(String key, Object o) {
-        return z().score(key, o);
+    public static Double zIncrement(String key, Object value, double delta) {
+        return z().incrementScore(key, value, delta);
     }
 
     /**
-     * 获取集合中分值在[min,max]范围内的元素数量
+     * 获取指定元素在有序集合中的排名（分值由小到大排序，从0开始）
      *
      * @param key key，非空
-     * @param min 最小值（含）
-     * @param max 最大值（含）
-     * @return 元素数量
+     * @param o 指定元素
+     * @return 元素下标，key不存在或元素不存在则返回null
      */
-    public static Long zCount(String key, double min, double max) {
-        return z().count(key, min, max);
+    public static Long zRank(String key, Object o) {
+        return z().rank(key, o);
+    }
+
+    /**
+     * 获取指定元素在有序集合中的排名（分值由大到小排序）
+     *
+     * @param key key，非空
+     * @param o 指定元素
+     * @return 元素下标，key不存在或元素不存在则返回null
+     */
+    public static Long zReverseRank(String key, Object o) {
+        return z().reverseRank(key, o);
     }
 
     /**
@@ -566,16 +666,41 @@ public class RedisUtil {
         return convertToClazz(set, clazz);
     }
 
+    // Set<TypedTuple<V>> rangeWithScores(K key, long start, long end);
+
+    // Set<V> rangeByScore(K key, double min, double max);
+
+    // Set<TypedTuple<V>> rangeByScoreWithScores(K key, double min, double max);
+
+    // Set<V> rangeByScore(K key, double min, double max, long offset, long count);
+
+    // Set<TypedTuple<V>> rangeByScoreWithScores(K key, double min, double max, long offset, long count);
+
+    // Set<V> reverseRange(K key, long start, long end);
+
+    // Set<TypedTuple<V>> reverseRangeWithScores(K key, long start, long end);
+
+    // Set<V> reverseRangeByScore(K key, double min, double max);
+
+    // Set<TypedTuple<V>> reverseRangeByScoreWithScores(K key, double min, double max);
+
+    // Set<V> reverseRangeByScore(K key, double min, double max, long offset, long count);
+
+    // Set<TypedTuple<V>> reverseRangeByScoreWithScores(K key, double min, double max, long offset, long count);
+
     /**
-     * 获取指定元素在有序集合中的排名（分值由小到大排序，从0开始）
+     * 获取集合中分值在[min,max]范围内的元素数量
      *
      * @param key key，非空
-     * @param o 指定元素
-     * @return 元素下标，key不存在或元素不存在则返回null
+     * @param min 最小值（含）
+     * @param max 最大值（含）
+     * @return 元素数量
      */
-    public static Long zRank(String key, Object o) {
-        return z().rank(key, o);
+    public static Long zCount(String key, double min, double max) {
+        return z().count(key, min, max);
     }
+
+    // Long lexCount(K key, RedisZSetCommands.Range range);
 
     /**
      * 获取有序集合中的元素数量
@@ -587,73 +712,23 @@ public class RedisUtil {
         return z().zCard(key);
     }
 
-    /**
-     * 将有序集合中的指定元素对应的分值进行加减计算
-     *
-     * @param key key，非空
-     * @param value 指定元素
-     * @param delta 分值，负数表示减
-     * @return 该元素新的分值
-     */
-    public static Double zIncrement(String key, Object value, double delta) {
-        return z().incrementScore(key, value, delta);
-    }
-
-    /*====================================hash======================================*/
+    // Long zCard(K key);
 
     /**
-     * 设置值
+     * 获取集合中指定元素对应的分值
      *
      * @param key key，非空
-     * @param hashKey hashKey，非空
-     * @param value 值
+     * @param o 指定元素
+     * @return 分值，key不存在或元素不存在则返回null
      */
-    public static void hPut(String key, Object hashKey, Object value) {
-        h().put(key, hashKey, value);
+    public static Double zScore(String key, Object o) {
+        return z().score(key, o);
     }
 
-    /**
-     * 批量设置值
-     *
-     * @param key key，非空
-     * @param m hashKey和值
-     */
-    public static void hPutAll(String key, Map<?, ?> m) {
-        h().putAll(key, m);
-    }
+    // ...
 
-    /**
-     * 仅当指定的hashKey不存在的时候设置值
-     *
-     * @param key key，非空
-     * @param hashKey hashKey，非空
-     * @param value 值
-     */
-    public static void hPutIfAbsent(String key, Object hashKey, Object value) {
-        h().putIfAbsent(key, hashKey, value);
-    }
 
-    /**
-     * 获取指定key的指定field
-     *
-     * @param key key，非空
-     * @param hashKey hashKey，非空
-     * @return 值
-     */
-    public static Object hGet(String key, Object hashKey) {
-        return h().get(key, hashKey);
-    }
-
-    /**
-     * 批量获取
-     *
-     * @param key key，非空
-     * @param hashKeys hashKey集合，非空
-     * @return 值的集合，顺序与key的顺序一致
-     */
-    public static List<Object> hMultiGet(String key, Collection<Object> hashKeys) {
-        return h().multiGet(key, hashKeys);
-    }
+    /*==================================== hash ======================================*/
 
     /**
      * 删除一个或多个filed，不存在的将忽略
@@ -678,6 +753,75 @@ public class RedisUtil {
     }
 
     /**
+     * 获取指定key的指定field
+     *
+     * @param key key，非空
+     * @param hashKey hashKey，非空
+     * @return 值
+     */
+    public static Object hGet(String key, Object hashKey) {
+        return h().get(key, hashKey);
+    }
+
+    /**
+     * 获取指定key的指定field
+     *
+     * @param key key，非空
+     * @param hashKey hashKey，非空
+     * @param clazz 类型
+     * @return 值
+     */
+    public static <T> T hGet(String key, Object hashKey, Class<T> clazz) {
+        return convertToClazz(h().get(key, hashKey), clazz);
+    }
+
+    /**
+     * 批量获取
+     *
+     * @param key key，非空
+     * @param hashKeys hashKey集合，非空
+     * @return 值的集合，顺序与key的顺序一致
+     */
+    public static List<Object> hMultiGet(String key, Collection<Object> hashKeys) {
+        return h().multiGet(key, hashKeys);
+    }
+
+    /**
+     * 将指定field对应的value进行自增
+     *
+     * @param key key，非空
+     * @param hashKey hashKey，非空
+     * @return 自增后的值
+     */
+    public static Long hIncrement(String key, Object hashKey) {
+        return hIncrement(key, hashKey, 1);
+    }
+
+    /**
+     * 将指定field对应的value进行自增
+     *
+     * @param key key，非空
+     * @param hashKey hashKey，非空
+     * @param delta 步长
+     * @return 自增后的值
+     */
+    public static Long hIncrement(String key, Object hashKey, long delta) {
+        return h().increment(key, hashKey, delta);
+    }
+
+    /**
+     * 将指定field对应的value进行自增
+     *
+     * @param key key，非空
+     * @param hashKey hashKey，非空
+     * @param delta 步长
+     * @return 自增后的值
+     */
+    public static Double hIncrement(String key, Object hashKey, double delta) {
+        return h().increment(key, hashKey, delta);
+    }
+
+    /**
      * 获取所有的filed集合
      *
      * @param key key，非空
@@ -685,26 +829,6 @@ public class RedisUtil {
      */
     public static Set<Object> hKeys(String key) {
         return h().keys(key);
-    }
-
-    /**
-     * 获取所有的value集合
-     *
-     * @param key key，非空
-     * @return value集合
-     */
-    public static List<Object> hValues(String key) {
-        return h().values(key);
-    }
-
-    /**
-     * 获取所有的field和value的Map
-     *
-     * @param key key，非空
-     * @return map
-     */
-    public static Map<Object, Object> hEntries(String key) {
-        return h().entries(key);
     }
 
     /**
@@ -729,29 +853,59 @@ public class RedisUtil {
     }
 
     /**
-     * 将指定field对应的value进行自增
+     * 批量设置值
      *
-     * @param key     key，非空
-     * @param hashKey hashKey，非空
-     * @return 自增后的值
+     * @param key key，非空
+     * @param m hashKey和值
      */
-    public static Long hIncrement(String key, Object hashKey) {
-        return hIncrement(key, hashKey, 1);
+    public static void hPutAll(String key, Map<?, ?> m) {
+        h().putAll(key, m);
     }
 
     /**
-     * 将指定field对应的value进行自增
+     * 设置值
      *
-     * @param key     key，非空
+     * @param key key，非空
      * @param hashKey hashKey，非空
-     * @param delta   步长
-     * @return 自增后的值
+     * @param value 值
      */
-    public static Long hIncrement(String key, Object hashKey, long delta) {
-        return h().increment(key, hashKey, delta);
+    public static void hPut(String key, Object hashKey, Object value) {
+        h().put(key, hashKey, value);
     }
 
-    /*====================================common======================================*/
+    /**
+     * 仅当指定的hashKey不存在的时候设置值
+     *
+     * @param key key，非空
+     * @param hashKey hashKey，非空
+     * @param value 值
+     */
+    public static void hPutIfAbsent(String key, Object hashKey, Object value) {
+        h().putIfAbsent(key, hashKey, value);
+    }
+
+    /**
+     * 获取所有的value集合
+     *
+     * @param key key，非空
+     * @return value集合
+     */
+    public static List<Object> hValues(String key) {
+        return h().values(key);
+    }
+
+    /**
+     * 获取所有的field和value的Map
+     *
+     * @param key key，非空
+     * @return map
+     */
+    public static Map<Object, Object> hEntries(String key) {
+        return h().entries(key);
+    }
+
+
+    /*==================================== common ======================================*/
 
     /**
      * 删除单个key
@@ -760,7 +914,7 @@ public class RedisUtil {
      * @return 是否删除成功
      */
     public static Boolean del(String key) {
-        return original().delete(key);
+        return template().delete(key);
     }
 
     /**
@@ -770,7 +924,7 @@ public class RedisUtil {
      * @return 删除成功的key个数
      */
     public static Long del(Collection<String> keys) {
-        return original().delete(keys);
+        return template().delete(keys);
     }
 
     /**
@@ -795,7 +949,7 @@ public class RedisUtil {
      * @return key的集合
      */
     public static Set<String> keys(String pattern) {
-        return original().keys(pattern);
+        return template().keys(pattern);
     }
 
     /**
@@ -805,7 +959,7 @@ public class RedisUtil {
      * @return 是否存在
      */
     public static Boolean hasKey(String key) {
-        return original().hasKey(key);
+        return template().hasKey(key);
     }
 
     /**
@@ -828,7 +982,7 @@ public class RedisUtil {
      * @return 是否设置成功
      */
     public static Boolean expire(String key, long timeout, TimeUnit unit) {
-        return original().expire(key, timeout, unit);
+        return template().expire(key, timeout, unit);
     }
 
     /**
@@ -839,7 +993,7 @@ public class RedisUtil {
      * @return 是否设置成功
      */
     public static Boolean expireAt(String key, Date date) {
-        return original().expireAt(key, date);
+        return template().expireAt(key, date);
     }
 
     /**
@@ -849,7 +1003,7 @@ public class RedisUtil {
      * @return 剩余的过期时间（单位：秒）
      */
     public static Long getExpire(String key) {
-        return original().getExpire(key);
+        return template().getExpire(key);
     }
 
     /**
@@ -860,7 +1014,7 @@ public class RedisUtil {
      * @return 剩余的过期时间
      */
     public static Long getExpire(String key, TimeUnit unit) {
-        return original().getExpire(key, unit);
+        return template().getExpire(key, unit);
     }
 
     @SuppressWarnings("unchecked")
