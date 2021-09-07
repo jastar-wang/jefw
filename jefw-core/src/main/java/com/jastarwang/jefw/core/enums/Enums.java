@@ -58,6 +58,29 @@ public class Enums {
     }
 
     /**
+     * 根据指定value获取指定枚举类的对象
+     *
+     * @param clazz 指定枚举类Class
+     * @param value value
+     * @param <V>   value的类型
+     * @param <T>   指定枚举类
+     * @return 枚举对象
+     * @since 1.1.3
+     */
+    public static <V, T extends Enumable> T ofValue(Class<T> clazz, V value) {
+        T[] consts;
+        if (value == null || (consts = clazz.getEnumConstants()) == null || consts.length <= 0) {
+            return null;
+        }
+        for (T t : consts) {
+            if (value.equals(t.getValue())) {
+                return t;
+            }
+        }
+        return null;
+    }
+
+    /**
      * 根据指定key获取指定枚举类的value
      * <br>
      * <b>
@@ -91,6 +114,44 @@ public class Enums {
     public static <K, V, T extends Enumable> V valueOfOrElse(Class<T> clazz, K key, V defaultValue) {
         T t = of(clazz, key);
         return t == null ? defaultValue : t.getValue();
+    }
+
+    /**
+     * 根据指定value获取指定枚举类的key
+     * <br>
+     * <b>
+     * 该方法 ≈ <code>Enumable.ofValue(class,value).getKey()</code>
+     * 可以解决value为空或没有匹配枚举对象时造成的NPE，减少业务调用处的非空判断
+     * </b>
+     *
+     * @param clazz 指定枚举类Class
+     * @param value value
+     * @param <K>   一般为 int 或 String
+     * @param <V>   一般为String
+     * @param <T>   指定枚举类
+     * @return 枚举对象的key
+     * @since 1.1.3
+     */
+    public static <K, V, T extends Enumable> K keyOf(Class<T> clazz, V value) {
+        T t = ofValue(clazz, value);
+        return t == null ? null : t.getKey();
+    }
+
+    /**
+     * 根据指定value获取指定枚举类的key，若为空则返回默认值
+     *
+     * @param clazz      指定枚举类Class
+     * @param value      value
+     * @param defaultKey key为空时的默认值
+     * @param <K>        一般为 int 或 String
+     * @param <V>        一般为String
+     * @param <T>        指定枚举类
+     * @return 枚举对象的key
+     * @since 1.1.3
+     */
+    public static <K, V, T extends Enumable> K keyOfOrElse(Class<T> clazz, V value, K defaultKey) {
+        T t = ofValue(clazz, value);
+        return t == null ? defaultKey : t.getKey();
     }
 
 }
