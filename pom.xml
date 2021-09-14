@@ -14,9 +14,10 @@
 
     <modules>
         <module>jefw-all</module>
+        <module>jefw-core</module>
         <module>jefw-util</module>
         <module>jefw-redis</module>
-        <module>jefw-core</module>
+        <module>jefw-oss</module>
     </modules>
 
     <properties>
@@ -39,6 +40,9 @@
         <!-- version of redis -->
         <jedis.version>3.3.0</jedis.version>
         <redisson.version>3.16.1</redisson.version>
+
+        <!-- version of oss -->
+        <aliyun.sdk.oss.version>3.13.1</aliyun.sdk.oss.version>
 
     </properties>
 
