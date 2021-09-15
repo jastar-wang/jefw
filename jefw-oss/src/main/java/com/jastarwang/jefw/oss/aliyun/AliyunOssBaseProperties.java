@@ -12,13 +12,13 @@
 package com.jastarwang.jefw.oss.aliyun;
 
 /**
- * 阿里云OSS配置属性
+ * 阿里云OSS基础配置属性
  *
  * @author Jastar Wang
  * @date 2021/9/14
  * @since 1.2.0
  */
-public class AliyunOssProperties {
+public class AliyunOssBaseProperties {
 
     private String endpoint;
 
@@ -52,7 +52,7 @@ public class AliyunOssProperties {
 
     @Override
     public String toString() {
-        return "AliyunOssProperties{" +
+        return "AliyunOssBaseProperties{" +
                 "endpoint='" + endpoint + '\'' +
                 ", accessKeyId='" + accessKeyId + '\'' +
                 ", accessKeySecret='" + accessKeySecret + '\'' +

@@ -36,13 +36,13 @@ public class AliyunOssAutoConfiguration {
 
     @Bean
     @ConfigurationProperties(prefix = "oss.aliyun")
-    public AliyunOssProperties aliyunOssProperties() {
-        return new AliyunOssProperties();
+    public AliyunOssBaseProperties aliyunOssBaseProperties() {
+        return new AliyunOssBaseProperties();
     }
 
     @Bean
     @ConditionalOnMissingBean(OSS.class)
-    public OSS aliyunOssClient(AliyunOssProperties properties) {
+    public OSS aliyunOssClient(AliyunOssBaseProperties properties) {
         return new OSSClientBuilder().build(
                 properties.getEndpoint(),
                 properties.getAccessKeyId(),

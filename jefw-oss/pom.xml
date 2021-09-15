@@ -25,6 +25,14 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- hutool-core -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
+            <version>${hutool.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- aliyun-sdk-oss -->
         <dependency>
             <groupId>com.aliyun.oss</groupId>
