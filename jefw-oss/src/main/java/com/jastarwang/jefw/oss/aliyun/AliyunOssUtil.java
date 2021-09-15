@@ -14,6 +14,7 @@ package com.jastarwang.jefw.oss.aliyun;
 import cn.hutool.core.io.IoUtil;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.model.*;
+import com.jastarwang.jefw.oss.enums.OssAuthEnum;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -21,6 +22,8 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.util.List;
+
+import static com.jastarwang.jefw.oss.enums.OssAuthEnum.*;
 
 /**
  * 阿里云OSS工具类
@@ -95,8 +98,8 @@ public class AliyunOssUtil {
      * @param key        object完整名称
      * @param acl        权限
      */
-    public static void setObjAcl(String bucketName, String key, CannedAccessControlList acl) {
-        client.setObjectAcl(bucketName, key, acl);
+    public static void setObjAcl(String bucketName, String key, OssAuthEnum acl) {
+        client.setObjectAcl(bucketName, key, aclAdapter(acl));
     }
 
     /**
@@ -164,9 +167,9 @@ public class AliyunOssUtil {
      * @param bytes      数据字节数组
      * @param acl        权限
      */
-    public static void putObj(String bucketName, String key, byte[] bytes, CannedAccessControlList acl) {
+    public static void putObj(String bucketName, String key, byte[] bytes, OssAuthEnum acl) {
         ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setObjectAcl(acl);
+        metadata.setObjectAcl(aclAdapter(acl));
         client.putObject(bucketName, key, new ByteArrayInputStream(bytes), metadata);
     }
 
@@ -178,9 +181,9 @@ public class AliyunOssUtil {
      * @param file       文件
      * @param acl        权限
      */
-    public static void putObj(String bucketName, String key, File file, CannedAccessControlList acl) {
+    public static void putObj(String bucketName, String key, File file, OssAuthEnum acl) {
         ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setObjectAcl(acl);
+        metadata.setObjectAcl(aclAdapter(acl));
         client.putObject(bucketName, key, file, metadata);
     }
 
@@ -199,6 +202,20 @@ public class AliyunOssUtil {
             return IoUtil.readBytes(objectContent);
         } finally {
             IoUtil.close(objectContent);
+        }
+    }
+
+    private static CannedAccessControlList aclAdapter(OssAuthEnum authEnum) {
+        if (DEFAULT == authEnum) {
+            return CannedAccessControlList.Default;
+        } else if (PRIVATE == authEnum) {
+            return CannedAccessControlList.Private;
+        } else if (PUBLIC_READ == authEnum) {
+            return CannedAccessControlList.PublicRead;
+        } else if (PUBLIC_READ_WRITE == authEnum) {
+            return CannedAccessControlList.PublicReadWrite;
+        } else {
+            throw new IllegalArgumentException("OssAuthEnum param may be incorrect!");
         }
     }
 

@@ -14,12 +14,12 @@ package com.jastarwang.jefw.oss.aliyun.test;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Console;
-import com.aliyun.oss.model.CannedAccessControlList;
 import com.aliyun.oss.model.DeleteObjectsResult;
 import com.aliyun.oss.model.ListObjectsV2Result;
 import com.aliyun.oss.model.OSSObjectSummary;
 import com.jastarwang.jefw.oss.aliyun.AliyunOssBaseProperties;
 import com.jastarwang.jefw.oss.aliyun.AliyunOssUtil;
+import com.jastarwang.jefw.oss.enums.OssAuthEnum;
 import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -85,7 +85,7 @@ public class AliyunOssUtilTest {
     @Ignore
     @Test
     public void setObjAcl() {
-        AliyunOssUtil.setObjAcl(EXIST_BUCKET, OBJ, CannedAccessControlList.PublicRead);
+        AliyunOssUtil.setObjAcl(EXIST_BUCKET, OBJ, OssAuthEnum.PUBLIC_READ);
     }
 
     // 7
@@ -143,9 +143,9 @@ public class AliyunOssUtilTest {
     @Ignore
     @Test
     public void putObjByAcl() {
-        AliyunOssUtil.putObj(EXIST_BUCKET, OBJ, new File("C:\\Users\\EDZ\\Desktop\\demo.jpg"), CannedAccessControlList.PublicRead);
+        AliyunOssUtil.putObj(EXIST_BUCKET, OBJ, new File("C:\\Users\\EDZ\\Desktop\\demo.jpg"), OssAuthEnum.PUBLIC_READ);
 
-        AliyunOssUtil.putObj(EXIST_BUCKET, OBJ2, "这是自定义权限的内容".getBytes(StandardCharsets.UTF_8), CannedAccessControlList.PublicRead);
+        AliyunOssUtil.putObj(EXIST_BUCKET, OBJ2, "这是自定义权限的内容".getBytes(StandardCharsets.UTF_8), OssAuthEnum.PUBLIC_READ);
     }
 
 }
