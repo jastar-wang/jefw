@@ -9,7 +9,7 @@
  * MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
  * See the Mulan PSL v2 for more details.
  */
-package com.jastarwang.jefw.util.extra.jwt;
+package com.jastarwang.jefw.jwt;
 
 import io.jsonwebtoken.Jwts;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;

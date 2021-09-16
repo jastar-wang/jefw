@@ -9,7 +9,7 @@
  * MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
  * See the Mulan PSL v2 for more details.
  */
-package com.jastarwang.jefw.util.extra.jwt;
+package com.jastarwang.jefw.jwt;
 
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -77,7 +77,16 @@ public class JwtProperties {
      * @param algorithm 算法名称（详见{@link io.jsonwebtoken.SignatureAlgorithm}）
      */
     public void setAlgorithm(String algorithm) {
-        SignatureAlgorithm alg = SignatureAlgorithm.forName(algorithm.toUpperCase());
-        this.algorithm = alg;
+        this.algorithm = SignatureAlgorithm.forName(algorithm.toUpperCase());
     }
+
+    @Override
+    public String toString() {
+        return "JwtProperties{" +
+                "secret='" + secret + '\'' +
+                ", expiration=" + expiration +
+                ", algorithm=" + algorithm +
+                '}';
+    }
+
 }

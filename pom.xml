@@ -18,6 +18,7 @@
         <module>jefw-util</module>
         <module>jefw-redis</module>
         <module>jefw-oss</module>
+        <module>jefw-jwt</module>
     </modules>
 
     <properties>
@@ -27,15 +28,14 @@
         <compile.version>8</compile.version>
 
         <!-- version -->
-        <junit.version>4.13</junit.version>
         <lombok.version>1.18.12</lombok.version>
-        <jackson.version>2.12.4</jackson.version>
+        <junit.version>4.13</junit.version>
         <spring-boot.version>2.5.3</spring-boot.version>
+        <jackson.version>2.12.4</jackson.version>
 
         <!-- version of util -->
-        <servlet-api.version>4.0.1</servlet-api.version>
-        <jjwt.version>0.9.1</jjwt.version>
         <hutool.version>5.7.5</hutool.version>
+        <servlet-api.version>4.0.1</servlet-api.version>
 
         <!-- version of redis -->
         <jedis.version>3.3.0</jedis.version>
@@ -44,21 +44,24 @@
         <!-- version of oss -->
         <aliyun.sdk.oss.version>3.13.1</aliyun.sdk.oss.version>
 
+        <!-- version of jwt -->
+        <jjwt.version>0.9.1</jjwt.version>
+
     </properties>
 
     <dependencies>
-        <!-- 单元测试 -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
         <!-- lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- junit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <!-- spring boot test -->

@@ -9,14 +9,16 @@
  * MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
  * See the Mulan PSL v2 for more details.
  */
-package com.jastarwang.jefw.util.test.jwt;
+package com.jastarwang.jefw.jwt.test;
 
-import com.jastarwang.jefw.util.extra.jwt.JwtUtil;
+import com.jastarwang.jefw.jwt.JwtUtil;
 import io.jsonwebtoken.JwtBuilder;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
@@ -26,10 +28,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @date 2020/8/12
  * @since 1.0
  */
-@EnableAutoConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
-// @EnableAutoConfiguration可以代替@SpringBootTest以提供bean映射的支持
-// @SpringBootTest(classes = {PropertyAutoConfiguration.class, JwtAutoConfiguration.class})
+@SpringBootTest
+@SpringBootConfiguration
+@EnableAutoConfiguration
 public class JwtUtilTest {
 
     @Test
