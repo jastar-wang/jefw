@@ -8,7 +8,7 @@
     <parent>
         <artifactId>jefw</artifactId>
         <groupId>com.jastarwang</groupId>
-        <version>1.1.3-beta</version>
+        <version>1.2.0</version>
     </parent>
     <artifactId>jefw-all</artifactId>
     <name>${project.artifactId}</name>
@@ -23,12 +23,22 @@
         </dependency>
         <dependency>
             <groupId>com.jastarwang</groupId>
+            <artifactId>jefw-util</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jastarwang</groupId>
             <artifactId>jefw-redis</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.jastarwang</groupId>
-            <artifactId>jefw-util</artifactId>
+            <artifactId>jefw-oss</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jastarwang</groupId>
+            <artifactId>jefw-jwt</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
@@ -89,16 +99,16 @@
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                                 <!-- 合并配置文件的内容 -->
-                                <!--<transformer
+                                <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.properties.PropertiesTransformer">
-                                    &lt;!&ndash; required &ndash;&gt;
+                                    <!-- required -->
                                     <resource>application.properties</resource>
                                     <ordinalKey>ordinal</ordinalKey>
-                                    &lt;!&ndash; optional &ndash;&gt;
+                                    <!-- optional -->
                                     <alreadyMergedKey>already_merged</alreadyMergedKey>
                                     <defaultOrdinal>0</defaultOrdinal>
                                     <reverseOrder>false</reverseOrder>
-                                </transformer>-->
+                                </transformer>
                             </transformers>
                         </configuration>
                     </execution>

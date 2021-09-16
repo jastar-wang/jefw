@@ -8,28 +8,30 @@
     <parent>
         <artifactId>jefw</artifactId>
         <groupId>com.jastarwang</groupId>
-        <version>1.1.3-beta</version>
+        <version>1.2.0</version>
     </parent>
     <artifactId>jefw-redis</artifactId>
     <name>${project.artifactId}</name>
     <description>Redis模块，提供工具类以及分布式锁的封装</description>
 
-
     <dependencies>
-        <!-- jedis client -->
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <version>${jedis.version}</version>
-            <optional>true</optional>
-        </dependency>
+
         <!-- spring data redis starter -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
             <version>${spring-boot.version}</version>
-            <optional>true</optional>
+            <scope>provided</scope>
         </dependency>
+
+        <!-- jedis client -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>${jedis.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- redisson -->
         <dependency>
             <groupId>org.redisson</groupId>
@@ -37,5 +39,7 @@
             <version>${redisson.version}</version>
             <optional>true</optional>
         </dependency>
+
     </dependencies>
+
 </project>

@@ -1,7 +1,7 @@
 <h1 align="center" style="font-family:fantasy;">Jefw</h1>
 <p align="center" style="color:darkgray;">让 天 下 没 有 难 写 的 代 码</p>
 <p align="center">
-  <a target="_blank"><img src="https://img.shields.io/badge/release-1.1.3--beta-orange.svg" alt="release" /></a>
+  <a target="_blank"><img src="https://img.shields.io/badge/release-1.2.0-orange.svg" alt="release" /></a>
   <a target="_blank"><img src="https://img.shields.io/badge/jdk-1.8+-green.svg" alt="jdk" /></a>
   <a target="_blank"><img src="https://img.shields.io/badge/license-MulanPSL2-blue" alt="license" /></a>
   <a target="_blank"><img src="https://img.shields.io/badge/build-passing-success.svg" alt="build" /></a>
@@ -20,12 +20,12 @@
 
 所以今天，`jefw` 诞生了。
 
-`jefw` 来源于 `Jastar Easy Framework` 的简写，生而为了三个使命：
-- 对一些常用的而 `hutool` 中没有的  `util`  工具类进行补充（注意只做补充，不造轮子）
+`jefw` 来源于 `Jastar Easy Framework` 的简写，生而为了这些使命：
+- 对一些常用的而 `hutool` 中没有的  `util`  工具类进行补充（只做补充，不造轮子）
 - 对 `controller` 层常用的数据模型进行封装，比如：`rest` 或 `ajax` 向前端返回的数据包装结果
 - 对目前一些流行的中间件进行封装，拿过来就能用，比如：`redis`、`redisson`
 
-`jefw` 的初衷——让天下没有难写的代码。
+`jefw` 的目标——让天下没有难写的代码（哪里怪怪的）。
 
 ## 介绍
 `jefw` 采用多模块的形式开发，以达到按需依赖的目的；同时除了第三方的必要依赖，不会引用其他任何的无用类库，以保证项目独立和小巧的体积。
@@ -36,25 +36,26 @@ com.jastarwang.jefw（根目录）
 ├─ util（工具类）
 ├─────└─ extra（扩展工具类，依赖三方库）
 ├───────────├─ ip
-├───────────├─ jwt
 ├───────────└─ spring
-├─ redis（Redis模块）
-├─ xxx（其他组件）
+├─ redis（缓存相关）
+├─ oss（对象存储）
+├─ jwt（Token操作）
 ├─ ···
 ```
 
 模块|状态|描述
 ---|---|---
 jefw-all  |√|一键引入所有模块
-jefw-core |√|核心模块；包含常用的数据包装模型等
-jefw-util |√|常用工具；因为只做补充，所以推荐搭配 `hutool` 使用，药效更好
-jefw-redis|√|`Redis`模块；提供对存取数据、分布式锁的便捷支持
-jefw-xxx  |待调研|其他流行组件，逐步完善……
+jefw-core |√|【核心模块】如：常用的前端响应数据包装模型、枚举能力接口
+jefw-util |√|【常用工具】因为只做补充，所以强烈推荐搭配 `hutool` 使用，药效更好
+jefw-redis|√|【缓存模块】提供对存取`redis`数据、分布式锁`redisson`的便捷支持
+jefw-oss  |√|【对象存储】目前支持阿里云OSS <br>（ps：目前设计成了静态工具类的形式，理想情况是设计出一套适用于各个平台的API接口，奈何精力有限，且除了阿里云未实践过其他平台，只能寄希望于广大码友）
+jefw-jwt  |√|【认证鉴权】基于`jjwt`封装实现，支持对`token`的常用操作
 
 ## 快速开始
 
 ### 安装
-前面提到，`jefw` 采用多模块开发，各模块间互不依赖，所以根据自己的需求引入对应模块即可，当然，我们也提供了便捷引入所有模块的方法：
+前面提到，`jefw` 采用模块设计，各模块间互不依赖，所以根据自己的需求引入对应模块即可，当然，我们也提供了便捷引入所有模块的方法：
 ```xml
 <dependency>
     <groupId>com.jastarwang</groupId>

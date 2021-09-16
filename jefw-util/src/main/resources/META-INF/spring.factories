@@ -1,4 +1,0 @@
-# Auto Configuration Utils
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.jastarwang.jefw.util.extra.PropertyAutoConfiguration,\
-com.jastarwang.jefw.util.extra.jwt.JwtAutoConfiguration
