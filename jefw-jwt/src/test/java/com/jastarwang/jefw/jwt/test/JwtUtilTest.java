@@ -13,13 +13,13 @@ package com.jastarwang.jefw.jwt.test;
 
 import com.jastarwang.jefw.jwt.JwtUtil;
 import io.jsonwebtoken.JwtBuilder;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
  * JwtUtil单元测试
@@ -28,7 +28,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @date 2020/8/12
  * @since 1.0
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @SpringBootConfiguration
 @EnableAutoConfiguration
@@ -37,29 +37,29 @@ public class JwtUtilTest {
     @Test
     public void builder() {
         JwtBuilder builder = JwtUtil.builder();
-        Assert.assertNotNull(builder);
+        Assertions.assertNotNull(builder);
     }
 
     @Test
     public void buildToken() {
         String token = JwtUtil.buildToken("张全蛋");
-        Assert.assertNotNull(token);
+        Assertions.assertNotNull(token);
     }
 
     @Test
     public void parserSubject() {
         String token = JwtUtil.buildToken("张全蛋");
         String subject = JwtUtil.parseSubject(token);
-        Assert.assertEquals("张全蛋", subject);
+        Assertions.assertEquals("张全蛋", subject);
     }
 
     @Test
     public void isExpired() {
         String token = JwtUtil.buildToken("张全蛋");
         Boolean expired = JwtUtil.isExpired(token);
-        Assert.assertEquals(false, expired);
+        Assertions.assertEquals(false, expired);
         Boolean nullExpired = JwtUtil.isExpired(token, "abcdefghijklmn");
-        Assert.assertNull(nullExpired);
+        Assertions.assertNull(nullExpired);
     }
 
 }

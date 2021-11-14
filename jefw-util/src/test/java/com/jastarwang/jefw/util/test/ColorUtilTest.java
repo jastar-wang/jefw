@@ -12,8 +12,8 @@
 package com.jastarwang.jefw.util.test;
 
 import com.jastarwang.jefw.util.ColorUtil;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.awt.Color;
 
@@ -29,14 +29,14 @@ public class ColorUtilTest {
     @Test
     public void randomHex() {
         String color = ColorUtil.randomHex();
-        Assert.assertNotNull(color);
+        Assertions.assertNotNull(color);
         System.out.println(color);
     }
 
     @Test
     public void convertToHex() {
         String hex = ColorUtil.convertToHex(Color.PINK);
-        Assert.assertNotNull(hex);
+        Assertions.assertNotNull(hex);
         System.out.println(hex);
     }
 

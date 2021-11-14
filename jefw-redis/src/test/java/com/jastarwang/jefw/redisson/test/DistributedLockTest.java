@@ -12,13 +12,13 @@
 package com.jastarwang.jefw.redisson.test;
 
 import com.jastarwang.jefw.redisson.DistributedLock;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.annotation.Resource;
 
@@ -29,8 +29,8 @@ import javax.annotation.Resource;
  * @date 2020/10/22
  * @since 1.0
  */
+@ExtendWith(SpringExtension.class)
 @EnableAutoConfiguration
-@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @SpringBootConfiguration
 public class DistributedLockTest {
@@ -40,7 +40,7 @@ public class DistributedLockTest {
 
     @Test
     public void contextLoad() {
-        Assert.assertNotNull(distributedLock);
+        Assertions.assertNotNull(distributedLock);
     }
 
     // ====以下为高并发场景下测试分布式锁是否正常的代码，在使用本类库的客户端调用即可==== //
