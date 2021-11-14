@@ -37,7 +37,7 @@ public class ResponseResult<T> implements Serializable {
     /**
      * 状态码
      * <p>
-     * <b>该状态码非HTTP状态码，除非自定义，操作成功默认返回1，操作失败默认返回0</b>
+     * <b>该状态码非HTTP状态码，默认成功返回{@link AbstractResponseCode#DEFAULT_SUCCESS_CODE}，失败默认返回{@link AbstractResponseCode#DEFAULT_FAIL_CODE}</b>
      * </p>
      */
     private String code;
