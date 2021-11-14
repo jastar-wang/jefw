@@ -38,8 +38,8 @@
         <servlet-api.version>4.0.1</servlet-api.version>
 
         <!-- version of redis -->
-        <jedis.version>3.3.0</jedis.version>
-        <redisson.version>3.16.1</redisson.version>
+        <jedis.version>3.6.3</jedis.version>
+        <redisson.version>3.16.4</redisson.version>
 
         <!-- version of oss -->
         <aliyun.sdk.oss.version>3.13.2</aliyun.sdk.oss.version>
