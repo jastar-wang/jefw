@@ -7,7 +7,7 @@
 
     <groupId>com.jastarwang</groupId>
     <artifactId>jefw</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <name>jefw</name>
     <description>JastarWang Easy Framework</description>
     <url>https://gitee.com/jastar-wang/jefw</url>
@@ -22,34 +22,28 @@
     </modules>
 
     <properties>
-
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
         <compile.version>8</compile.version>
-
-        <!-- version -->
-        <lombok.version>1.18.12</lombok.version>
-        <junit.version>4.13</junit.version>
-        <spring-boot.version>2.5.3</spring-boot.version>
-        <jackson.version>2.12.4</jackson.version>
-
-        <!-- version of util -->
-        <hutool.version>5.7.5</hutool.version>
-        <servlet-api.version>4.0.1</servlet-api.version>
-
-        <!-- version of redis -->
-        <jedis.version>3.3.0</jedis.version>
-        <redisson.version>3.16.1</redisson.version>
-
-        <!-- version of oss -->
-        <aliyun.sdk.oss.version>3.13.1</aliyun.sdk.oss.version>
-
-        <!-- version of jwt -->
+        <!-- common -->
+        <lombok.version>1.18.22</lombok.version>
+        <spring-boot.version>2.5.6</spring-boot.version>
+        <jackson.version>2.13.0</jackson.version>
+        <junit-platform-launcher.version>1.8.1</junit-platform-launcher.version>
+        <!-- jwt module -->
         <jjwt.version>0.9.1</jjwt.version>
-
+        <!-- oss module -->
+        <aliyun.sdk.oss.version>3.13.2</aliyun.sdk.oss.version>
+        <!-- redis module -->
+        <jedis.version>3.6.3</jedis.version>
+        <redisson.version>3.16.4</redisson.version>
+        <!-- util module -->
+        <hutool.version>5.7.16</hutool.version>
+        <servlet-api.version>4.0.1</servlet-api.version>
     </properties>
 
     <dependencies>
+
         <!-- lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -57,20 +51,21 @@
             <version>${lombok.version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- junit -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
+
         <!-- spring boot test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <version>${spring-boot.version}</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+
         <!-- jackson-databind：提供单元测试环境下SpringBoot可以自动映射properties到bean的支持 -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -78,6 +73,15 @@
             <version>${jackson.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- junit-platform-launcher：解决IDEA总是把该包下载到maven默认位置的问题 -->
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <version>${junit-platform-launcher.version}</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

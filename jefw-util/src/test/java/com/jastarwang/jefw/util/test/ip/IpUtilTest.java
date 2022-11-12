@@ -13,8 +13,9 @@ package com.jastarwang.jefw.util.test.ip;
 
 import com.jastarwang.jefw.util.extra.ip.IpInfo;
 import com.jastarwang.jefw.util.extra.ip.IpUtil;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 /**
  * IpUtil单元测试
@@ -25,11 +26,12 @@ import org.junit.Test;
  */
 public class IpUtilTest {
 
+    @DisplayName("解析IP地址")
     @Test
     public void getIpInfo() {
         String ip = "abcdefg";
         IpInfo info = IpUtil.getIpInfo(ip);
-        Assert.assertNull(info);
+        Assertions.assertNull(info);
 
         ip = "111.198.33.54";
         IpInfo secondInfo = IpUtil.getIpInfo(ip);

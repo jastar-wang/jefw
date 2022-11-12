@@ -1,43 +1,50 @@
 <h1 align="center" style="font-family:fantasy;">Jefw</h1>
 <p align="center" style="color:darkgray;">让 天 下 没 有 难 写 的 代 码</p>
 <p align="center">
-  <a target="_blank"><img src="https://img.shields.io/badge/release-1.2.0-orange.svg" alt="release" /></a>
+  <a target="_blank"><img src="https://img.shields.io/badge/release-1.2.1-orange.svg" alt="release" /></a>
+  <a target="_blank"><img src="https://jitpack.io/v/com.gitee.jastar-wang/jefw.svg" alt="jitpack" /></a>
   <a target="_blank"><img src="https://img.shields.io/badge/jdk-1.8+-green.svg" alt="jdk" /></a>
   <a target="_blank"><img src="https://img.shields.io/badge/license-MulanPSL2-blue" alt="license" /></a>
-  <a target="_blank"><img src="https://img.shields.io/badge/build-passing-success.svg" alt="build" /></a>
-  <a target="_blank"><img src="https://img.shields.io/badge/process-beta-inactive.svg" alt="process" /></a>
+  <a target="_blank"><img src="https://img.shields.io/badge/process-release-success.svg" alt="process" /></a>
+  <a target="_blank"><img src="https://img.shields.io/badge/build-passing-inactive.svg" alt="build" /></a>
 </p>
 
 -----------------------------------------------
 
 ## 前言
-作为一名 <del>深耕</del> 一线多年的码农本农，在工作中经常会遇到各种各样的工具类；久而久之，做的项目多了，cp 来 cp 去的感觉很繁琐，所以几年前，我就有了一个大胆的想法——整合工具类。功夫不负有心人，经过不懈的努力，我的梦想，最终还是被前辈实现了——`hutool`（笑哭）。不过话说回来，换做是我，可能没有前辈做的这么好，感谢前辈提供了这么一个又大又圆的轮子。
+作为一名混迹多年的<del style="color:gray;font-size:12px;">专业</del>码农，在各种项目中经常会遇到各种工具类，虽有`CV`大法但也甚是繁琐；
+so，几年前，吾有一个大胆的想法：整合工具类。
 
-在流行的 `MVC` 模式中，`M` 中的持久层可以用很多优秀的开源框架（比如 `MyBatisPlus` ）来实现，业务层同时配合着 `hutool` 来让我们更专注于业务，而 `V` 层也有对应的解决方案，比如“干脆的 `rest` 前后端分离”、“经典的 `thymeleaf` 等模板引擎”；对于 `C` 层，其实也有一定的抽象和优化空间……
+功夫不负有心人，经过不懈的努力，这个目标终于被前辈完成了[狗头]——`hutool`，感谢前辈提供了一个又大又圆的轮子！
 
 ## 使命
-笔者经历过很多的项目，每个项目中都有参差不齐的工具类，甚至一个项目有多个名字不同但功能一致的工具类。另外对于 `Controller` 层返回数据（`Ajax`请求），每个项目都会粘贴复制一套数据响应的基本结构，规范点的公司可能会统一封装在内部二方库中。还有对于一些中间件的封装，每个地方都会有不同的实现……这些问题，都大大降低了我们的代码规范性和可维护性。
+（旁白声）你是否也有以下的烦恼？
+- 项目中有参差不齐的工具类，甚至一个项目有多个名字不同但功能相同的工具类。
+- 现在是前后端分离的时代，`json`是和前端交互的利器，我们经常需要定义一套固定的结构来包装响应数据，以便前端能统一处理请求（有规范者则会封装在内部二方库）。
+- `Redis`可以说是当今项目中的必备组件了，虽然`春天`提供了`RedisTemplate`，但是方法写起来很长很费劲，不够丝滑。
+- 对象云存储也是常见的基础服务，但是面对各大厂商的不同`SDK`，这无疑加大了我们的学习成本，要是有一套轻量的标准就好了。
+- ……
 
 所以今天，`jefw` 诞生了。
 
 `jefw` 来源于 `Jastar Easy Framework` 的简写，生而为了这些使命：
-- 对一些常用的而 `hutool` 中没有的  `util`  工具类进行补充（只做补充，不造轮子）
-- 对 `controller` 层常用的数据模型进行封装，比如：`rest` 或 `ajax` 向前端返回的数据包装结果
-- 对目前一些流行的中间件进行封装，拿过来就能用，比如：`redis`、`redisson`
+- 对一些常用的且 `hutool` 中没有的工具类进行补充（Tips：只做补充，不造轮子）
+- 参考《阿里巴巴Java开发手册》的规范，定义了一套通用的响应数据包装模型`ResponseResult`等
+- 对目前一些流行的中间件进行封装（或`starter`化），拎包入住，拿来就用。比如：`redis`、`redisson`等
 
 `jefw` 的目标——让天下没有难写的代码（哪里怪怪的）。
 
 ## 介绍
-`jefw` 采用多模块的形式开发，以达到按需依赖的目的；同时除了第三方的必要依赖，不会引用其他任何的无用类库，以保证项目独立和小巧的体积。
+`jefw` 采用多模块设计，各模块间互不依赖。同时除了第三方的必要依赖，不会引用其他任何的无用库，以保证项目的独立和小巧的体积。
 
 ```
-com.jastarwang.jefw（根目录）
+com.jastarwang.jefw（根包）
 ├─ core（核心）
 ├─ util（工具类）
 ├─────└─ extra（扩展工具类，依赖三方库）
 ├───────────├─ ip
 ├───────────└─ spring
-├─ redis（缓存相关）
+├─ redis（缓存操作）
 ├─ oss（对象存储）
 ├─ jwt（Token操作）
 ├─ ···
@@ -46,19 +53,40 @@ com.jastarwang.jefw（根目录）
 模块|状态|描述
 ---|---|---
 jefw-all  |√|一键引入所有模块
-jefw-core |√|【核心模块】如：常用的前端响应数据包装模型、枚举能力接口
-jefw-util |√|【常用工具】因为只做补充，所以强烈推荐搭配 `hutool` 使用，药效更好
+jefw-core |√|【核心模块】如：常用的前端响应数据包装模型、枚举能力扩展接口
+jefw-util |√|【常用工具】只做补充，所以强烈推荐搭配 `hutool` 使用，药效更好
 jefw-redis|√|【缓存模块】提供对存取`redis`数据、分布式锁`redisson`的便捷支持
-jefw-oss  |√|【对象存储】目前支持阿里云OSS <br>（ps：目前设计成了静态工具类的形式，理想情况是设计出一套适用于各个平台的API接口，奈何精力有限，且除了阿里云未实践过其他平台，只能寄希望于广大码友）
+jefw-oss  |√|【对象存储】整合主流厂商对象存储并对外提供统一便捷的API调用 <br>（Tips：目前仅支持阿里云`OSS`，暂时设计成了静态工具类，尚未实践过其他平台，寄希望于广大码友）
 jefw-jwt  |√|【认证鉴权】基于`jjwt`封装实现，支持对`token`的常用操作
 
 ## 快速开始
 
 ### 安装
-前面提到，`jefw` 采用模块设计，各模块间互不依赖，所以根据自己的需求引入对应模块即可，当然，我们也提供了便捷引入所有模块的方法：
+
+（1）首先在项目的`pom.xml`中引入仓库源：
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+```
+（2）如果你本地`maven`的`settings.xml`配置了阿里云的仓库源（没有请跳过）如下：
+```xml
+<mirror>
+  <id>aliyunmaven</id>
+  <mirrorOf>*</mirrorOf>
+  <name>阿里云公共仓库</name>
+  <url>https://maven.aliyun.com/repository/public</url>
+</mirror>
+```
+需要把`<mirrorOf>*</mirrorOf>`修改为`<mirrorOf>*,!jitpack.io</mirrorOf>`，否则所有依赖会始终从阿里云仓库加载，导致加载失败。
+
+（3）引入本项目，可按需依赖。当然，也支持一键引入所有模块：
 ```xml
 <dependency>
-    <groupId>com.jastarwang</groupId>
+    <groupId>com.gitee.jastar-wang.jefw</groupId>
     <artifactId>jefw-all</artifactId>
     <version>${jefw.latestVersion}</version>
 </dependency>
@@ -157,15 +185,11 @@ feat(Controller):用户查询接口开发
 ```
 
 ## 反馈建议
-如果您在项目使用中遇到了任何问题，或者有一些更好的建议和想法，可以及时向我们反馈，点击 [Gitee Issue](https://gitee.com/jastar-wang/jefw/issues)
-
-还望各位老板，动动您的小手，点下 `star`~
+如果你在项目使用中遇到了任何问题，或者有一些更好的建议和想法，可以及时向我反馈，机票：[Gitee Issue](https://gitee.com/jastar-wang/jefw/issues)
 
 ## 许可证
-`jefw` 采用“木兰宽松许可证第2版”开源协议，详见 [Mulan PSL v2](https://license.coscl.org.cn/MulanPSL2/index.html) 
+`jefw` 采用“木兰宽松许可证第2版”开源协议，机票：[Mulan PSL v2](http://license.coscl.org.cn/MulanPSL2)
 
-## 友情链接
-- [代码与酒](http://www.jastar-wang.com)
-- [Jeek导航](http://jeeknav.jastar-wang.com)
-- [北创工作室](http://studio.jastar-wang.com)
-- [Resume](http://resume.jastar-wang.com)
+---
+
+来都来了，不点下`star`？

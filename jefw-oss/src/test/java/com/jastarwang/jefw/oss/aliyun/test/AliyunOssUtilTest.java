@@ -20,14 +20,14 @@ import com.aliyun.oss.model.OSSObjectSummary;
 import com.jastarwang.jefw.oss.aliyun.AliyunOssBaseProperties;
 import com.jastarwang.jefw.oss.aliyun.AliyunOssUtil;
 import com.jastarwang.jefw.oss.enums.OssAuthEnum;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -57,15 +57,15 @@ public class AliyunOssUtilTest {
     private AliyunOssBaseProperties properties;
 
     // 1
-    @Ignore
+    @Disabled("success")
     @Test
     public void contextLoads() {
         System.out.println(properties);
-        Assert.notNull(properties, "属性配置对象未正常注入");
+        Assertions.assertNotNull(properties, "属性配置对象未正常注入");
     }
 
     // 2
-    @Ignore
+    @Disabled("success")
     @Test
     public void ifBucketExist() {
         System.out.println(AliyunOssUtil.ifBucketExist(UN_EXIST_BUCKET));
@@ -73,7 +73,7 @@ public class AliyunOssUtilTest {
 
     // 3
     // 5
-    @Ignore
+    @Disabled("success")
     @Test
     public void ifObjExist() {
         System.out.println(AliyunOssUtil.ifObjExist(UN_EXIST_BUCKET, OBJ));
@@ -82,14 +82,14 @@ public class AliyunOssUtilTest {
     }
 
     // 8
-    @Ignore
+    @Disabled("success")
     @Test
     public void setObjAcl() {
         AliyunOssUtil.setObjAcl(EXIST_BUCKET, OBJ, OssAuthEnum.PUBLIC_READ);
     }
 
     // 7
-    @Ignore
+    @Disabled("success")
     @Test
     public void listObj() {
         ListObjectsV2Result result = AliyunOssUtil.listObj(EXIST_BUCKET, "test/fun");
@@ -100,7 +100,7 @@ public class AliyunOssUtilTest {
     }
 
     // 9
-    @Ignore
+    @Disabled("success")
     @Test
     public void deleteObj() {
         AliyunOssUtil.deleteObj(EXIST_BUCKET, "this_is_un_exist_obj.png");
@@ -108,7 +108,7 @@ public class AliyunOssUtilTest {
     }
 
     // 10
-    @Ignore
+    @Disabled("success")
     @Test
     public void deleteObjs() {
         DeleteObjectsResult result = AliyunOssUtil.deleteObj(EXIST_BUCKET, Arrays.asList(OBJ, OBJ2));
@@ -119,7 +119,7 @@ public class AliyunOssUtilTest {
     }
 
     // 4
-    @Ignore
+    @Disabled("success")
     @Test
     public void putObj() {
         File file = new File("C:\\Users\\EDZ\\Desktop\\demo.jpg");
@@ -129,7 +129,7 @@ public class AliyunOssUtilTest {
     }
 
     // 6
-    @Ignore
+    @Disabled("success")
     @Test
     public void getObj() {
         byte[] txt = AliyunOssUtil.getObj(EXIST_BUCKET, OBJ2);
@@ -140,7 +140,7 @@ public class AliyunOssUtilTest {
     }
 
     // 11
-    @Ignore
+    @Disabled("success")
     @Test
     public void putObjByAcl() {
         AliyunOssUtil.putObj(EXIST_BUCKET, OBJ, new File("C:\\Users\\EDZ\\Desktop\\demo.jpg"), OssAuthEnum.PUBLIC_READ);

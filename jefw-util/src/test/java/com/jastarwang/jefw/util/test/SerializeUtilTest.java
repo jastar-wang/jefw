@@ -13,8 +13,8 @@ package com.jastarwang.jefw.util.test;
 
 import com.jastarwang.jefw.util.SerializeUtil;
 import com.jastarwang.jefw.util.test.bean.User;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
@@ -31,13 +31,13 @@ public class SerializeUtilTest {
     public void serialize() {
         User tom = new User(28, "狗蛋");
         byte[] bytes = SerializeUtil.serialize(tom);
-        Assert.assertNotNull(bytes);
+        Assertions.assertNotNull(bytes);
         // deserialize
         User backTom = SerializeUtil.deserialize(bytes);
-        Assert.assertNotNull(backTom);
-        Assert.assertEquals(backTom.getAge(), tom.getAge());
-        Assert.assertEquals(backTom.getName(), tom.getName());
-        Assert.assertNotEquals(backTom, tom);
+        Assertions.assertNotNull(backTom);
+        Assertions.assertEquals(backTom.getAge(), tom.getAge());
+        Assertions.assertEquals(backTom.getName(), tom.getName());
+        Assertions.assertNotEquals(backTom, tom);
     }
 
     @Test
@@ -45,13 +45,13 @@ public class SerializeUtilTest {
         ArrayList<User> list = new ArrayList<>();
         list.add(new User(28, "铁柱"));
         byte[] bytes = SerializeUtil.serialize(list);
-        Assert.assertNotNull(bytes);
+        Assertions.assertNotNull(bytes);
         // deserialize
         ArrayList<User> backList = SerializeUtil.deserialize(bytes);
-        Assert.assertNotNull(backList);
-        Assert.assertEquals(backList.get(0).getAge(), list.get(0).getAge());
-        Assert.assertEquals(backList.get(0).getName(), list.get(0).getName());
-        Assert.assertNotEquals(backList.get(0), list.get(0));
+        Assertions.assertNotNull(backList);
+        Assertions.assertEquals(backList.get(0).getAge(), list.get(0).getAge());
+        Assertions.assertEquals(backList.get(0).getName(), list.get(0).getName());
+        Assertions.assertNotEquals(backList.get(0), list.get(0));
     }
 
 }

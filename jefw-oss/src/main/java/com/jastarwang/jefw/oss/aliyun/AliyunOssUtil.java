@@ -13,10 +13,16 @@ package com.jastarwang.jefw.oss.aliyun;
 
 import cn.hutool.core.io.IoUtil;
 import com.aliyun.oss.OSS;
-import com.aliyun.oss.model.*;
+import com.aliyun.oss.model.CannedAccessControlList;
+import com.aliyun.oss.model.DeleteObjectsRequest;
+import com.aliyun.oss.model.DeleteObjectsResult;
+import com.aliyun.oss.model.ListObjectsV2Result;
+import com.aliyun.oss.model.OSSObject;
+import com.aliyun.oss.model.ObjectMetadata;
 import com.jastarwang.jefw.oss.enums.OssAuthEnum;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -47,6 +53,7 @@ public class AliyunOssUtil {
         AliyunOssUtil.client = aliyunOssClient;
     }
 
+    @PreDestroy
     public void destroy() {
         if (client != null) {
             client.shutdown();

@@ -8,7 +8,7 @@
     <parent>
         <artifactId>jefw</artifactId>
         <groupId>com.jastarwang</groupId>
-        <version>1.2.0</version>
+        <version>1.2.1</version>
     </parent>
     <artifactId>jefw-all</artifactId>
     <name>${project.artifactId}</name>
@@ -23,12 +23,7 @@
         </dependency>
         <dependency>
             <groupId>com.jastarwang</groupId>
-            <artifactId>jefw-util</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.jastarwang</groupId>
-            <artifactId>jefw-redis</artifactId>
+            <artifactId>jefw-jwt</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
@@ -38,7 +33,12 @@
         </dependency>
         <dependency>
             <groupId>com.jastarwang</groupId>
-            <artifactId>jefw-jwt</artifactId>
+            <artifactId>jefw-redis</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jastarwang</groupId>
+            <artifactId>jefw-util</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
     </dependencies>

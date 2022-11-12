@@ -11,20 +11,15 @@
  */
 package com.jastarwang.jefw.redis.test;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static com.jastarwang.jefw.redis.RedisUtil.*;
 
@@ -35,8 +30,8 @@ import static com.jastarwang.jefw.redis.RedisUtil.*;
  * @date 2020/09/22
  * @since 1.0
  */
+@ExtendWith(SpringExtension.class)
 @EnableAutoConfiguration
-@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @SpringBootConfiguration // 必须加此注解单元测试才不报错
 public class RedisUtilTest {
@@ -70,11 +65,11 @@ public class RedisUtilTest {
         Long a3 = get("a", Long.class);
         Student b = get("b", Student.class);
 
-        Assert.assertNotNull(a);
-        Assert.assertNotNull(b);
-        Assert.assertNotNull(a3);
-        Assert.assertEquals(111L, a.longValue());
-        Assert.assertEquals(111L, a3.longValue());
+        Assertions.assertNotNull(a);
+        Assertions.assertNotNull(b);
+        Assertions.assertNotNull(a3);
+        Assertions.assertEquals(111L, a.longValue());
+        Assertions.assertEquals(111L, a3.longValue());
         System.out.println(b);
     }
 
@@ -84,7 +79,7 @@ public class RedisUtilTest {
 
         set("a", "张三");
         String oldValue = (String) getAndSet("a", "李四");
-        Assert.assertEquals("张三", oldValue);
+        Assertions.assertEquals("张三", oldValue);
 
         Map<String, Student> map = new HashMap<>();
         map.put("m1", new Student("tony", 18L));
@@ -92,7 +87,7 @@ public class RedisUtilTest {
         multiSet(map);
 
         List<Object> objects = multiGet(Arrays.asList("m1", "m2"));
-        Assert.assertNotNull(objects);
+        Assertions.assertNotNull(objects);
         System.out.println(objects);
 
         increment("m3");
@@ -109,7 +104,7 @@ public class RedisUtilTest {
         lRightPush("l1", zhangsan);
         lRightPushAll("l1", lisi, wangwu);
         Student l1Index0 = lIndex("l1", 0, Student.class);
-        Assert.assertEquals("张三", l1Index0.getName());
+        Assertions.assertEquals("张三", l1Index0.getName());
 
         List<Object> list1 = lRange("l1", 1, -1);
         List<Student> list2 = lRange("l1", 1, -1, Student.class);
@@ -120,7 +115,7 @@ public class RedisUtilTest {
         System.out.println(lIndex("nothiskey", 0));
         System.out.println(lIndex("l1", 10, Student.class));
 
-        Assert.assertThrows(Exception.class, () -> lSet("l1", 6, zhaoliu));
+        Assertions.assertThrows(Exception.class, () -> lSet("l1", 6, zhaoliu));
     }
 
     @Test
@@ -142,12 +137,12 @@ public class RedisUtilTest {
         Long temp1 = lLeftPush("l3", zhangsan);
         Long temp2 = lLeftPushAll("l3", Arrays.asList(lisi, wangwu));
         Long temp3 = lLeftPushAll("l3", zhaoliu, zhaoliu);
-        Assert.assertEquals(1, temp1.longValue());
-        Assert.assertEquals(3, temp2.longValue());
-        Assert.assertEquals(5, temp3.longValue());
+        Assertions.assertEquals(1, temp1.longValue());
+        Assertions.assertEquals(3, temp2.longValue());
+        Assertions.assertEquals(5, temp3.longValue());
 
         Long size = lSize("l3");
-        Assert.assertEquals(5, size.longValue());
+        Assertions.assertEquals(5, size.longValue());
 
         lTrim("l3", 1, 3);
     }
@@ -157,13 +152,13 @@ public class RedisUtilTest {
         reset("s1");
 
         Long size1 = sAdd("s1", zhangsan, lisi);
-        Assert.assertEquals(2, size1.longValue());
+        Assertions.assertEquals(2, size1.longValue());
 
         Long size2 = sAdd("s1", wangwu);
-        Assert.assertEquals(1, size2.longValue());
+        Assertions.assertEquals(1, size2.longValue());
 
         Long size3 = sAdd("s1", wangwu);
-        Assert.assertEquals(0, size3.longValue());
+        Assertions.assertEquals(0, size3.longValue());
 
         Set<Object> members1 = sMembers("s1");
         System.out.println(members1);
@@ -174,13 +169,13 @@ public class RedisUtilTest {
         System.out.println(members2.getClass().getName());
 
         Long size4 = sRemove("s1", lisi, zhaoliu);
-        Assert.assertEquals(1, size4.longValue());
+        Assertions.assertEquals(1, size4.longValue());
 
         Long size5 = sSize("s1");
-        Assert.assertEquals(2, size5.longValue());
+        Assertions.assertEquals(2, size5.longValue());
 
         Boolean isMember = sIsMember("s1", wangwu);
-        Assert.assertEquals(true, isMember);
+        Assertions.assertEquals(true, isMember);
     }
 
     @Test
@@ -188,7 +183,7 @@ public class RedisUtilTest {
         reset("z1");
 
         Boolean bool1 = zAdd("z1", lisi, 11);
-        Assert.assertEquals(true, bool1);
+        Assertions.assertEquals(true, bool1);
 
         zAdd("z1", wangwu, 8.0);
 
@@ -201,7 +196,7 @@ public class RedisUtilTest {
         zAdd("z1", lisi, 12);
         zAdd("z1", zhaoliu, 6);
         Long count = zCount("z1", 4, 6);
-        Assert.assertEquals(1, count.longValue());
+        Assertions.assertEquals(1, count.longValue());
 
         Set<Object> set1 = zRange("z1", 1, 2);
         System.out.println(set1);
@@ -210,12 +205,12 @@ public class RedisUtilTest {
         System.out.println(set2);
 
         Long index = zRank("z1", wangwu);
-        Assert.assertEquals(1, index.longValue());
+        Assertions.assertEquals(1, index.longValue());
 
         Long size1 = zSize("z1");
-        Assert.assertEquals(3, size1.longValue());
+        Assertions.assertEquals(3, size1.longValue());
         Long size2 = zSize("z122");
-        Assert.assertEquals(0, size2.longValue());
+        Assertions.assertEquals(0, size2.longValue());
 
         Double newScore = zIncrement("z1", wangwu, 20);
         System.out.println(newScore);
@@ -242,10 +237,10 @@ public class RedisUtilTest {
         System.out.println(valueList);
 
         Long size = hDel("h1", "job");
-        Assert.assertEquals(1, size.longValue());
+        Assertions.assertEquals(1, size.longValue());
 
         Boolean bool = hHasKey("h1", "job");
-        Assert.assertEquals(false, bool);
+        Assertions.assertEquals(false, bool);
 
         Set<Object> fields = hKeys("h1");
         System.out.println(fields);
@@ -274,11 +269,11 @@ public class RedisUtilTest {
         System.out.println(keys);
 
         Boolean abcdefg = hasKey("abcdefg");
-        Assert.assertEquals(false, abcdefg);
+        Assertions.assertEquals(false, abcdefg);
 
         set("test-expire", "test");
         Long time1 = getExpire("test-expire");
-        Assert.assertEquals(-1, time1.longValue());
+        Assertions.assertEquals(-1, time1.longValue());
 
         expire("test-expire", 60);
         Long time2 = getExpire("test-expire");

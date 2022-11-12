@@ -4,15 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
-
     <parent>
         <artifactId>jefw</artifactId>
         <groupId>com.jastarwang</groupId>
-        <version>1.2.0</version>
+        <version>1.2.1</version>
     </parent>
     <artifactId>jefw-jwt</artifactId>
     <name>${project.artifactId}</name>
-    <description>JWT模块，提供对jwt的便捷支持</description>
+    <description>JWT模块：提供对jwt的便捷支持</description>
 
     <dependencies>
 
