@@ -2,34 +2,40 @@
 <p align="center" style="color:darkgray;">让 天 下 没 有 难 写 的 代 码</p>
 <p align="center">
   <a target="_blank"><img src="https://img.shields.io/badge/release-1.2.1-orange.svg" alt="release" /></a>
+  <a target="_blank"><img src="https://jitpack.io/v/com.gitee.jastar-wang/jefw.svg" alt="jitpack" /></a>
   <a target="_blank"><img src="https://img.shields.io/badge/jdk-1.8+-green.svg" alt="jdk" /></a>
   <a target="_blank"><img src="https://img.shields.io/badge/license-MulanPSL2-blue" alt="license" /></a>
-  <a target="_blank"><img src="https://img.shields.io/badge/build-passing-success.svg" alt="build" /></a>
-  <a target="_blank"><img src="https://img.shields.io/badge/process-release-inactive.svg" alt="process" /></a>
+  <a target="_blank"><img src="https://img.shields.io/badge/process-release-success.svg" alt="process" /></a>
+  <a target="_blank"><img src="https://img.shields.io/badge/build-passing-inactive.svg" alt="build" /></a>
 </p>
 
 -----------------------------------------------
 
 ## 前言
-作为一名 <del>潜伏</del> 一线多年的码农，在工作中经常会遇到各种各样的工具类，`Ctrl C 、V`甚是繁琐；
-所以几年前，我有一个大胆的想法——整合工具类。功夫不负有心人，经过不懈的努力，这个目标终于被前辈完成了（狗头）——`hutool`，感谢前辈提供了这么一个又大又圆的轮子！
+作为一名混迹多年的<del style="color:gray;font-size:12px;">专业</del>码农，在各种项目中经常会遇到各种工具类，虽有`CV`大法但也甚是繁琐；
+so，几年前，吾有一个大胆的想法：整合工具类。
+
+功夫不负有心人，经过不懈的努力，这个目标终于被前辈完成了[狗头]——`hutool`，感谢前辈提供了一个又大又圆的轮子！
 
 ## 使命
-笔者经历过很多的项目，每个项目中都有参差不齐的工具类，甚至一个项目有多个名字不同但功能一致的工具类；
-在这个前后端分离大流行的时代，我们经常需要给前端返回`json`数据，并在最外层包装一层固定结构，以便调用方能统一处理，规范点的企业可能会封装在内部的二方库中，有的则直接在每个工程中`copy`一套响应模型；
-另外在工作中我们还会用到很多的中间件，然鹅笔者认为，使用起来还是不够丝滑……
+（旁白声）你是否也有以下的烦恼？
+- 项目中有参差不齐的工具类，甚至一个项目有多个名字不同但功能相同的工具类。
+- 现在是前后端分离的时代，`json`是和前端交互的利器，我们经常需要定义一套固定的结构来包装响应数据，以便前端能统一处理请求（有规范者则会封装在内部二方库）。
+- `Redis`可以说是当今项目中的必备组件了，虽然`春天`提供了`RedisTemplate`，但是方法写起来很长很费劲，不够丝滑。
+- 对象云存储也是常见的基础服务，但是面对各大厂商的不同`SDK`，这无疑加大了我们的学习成本，要是有一套轻量的标准就好了。
+- ……
 
 所以今天，`jefw` 诞生了。
 
 `jefw` 来源于 `Jastar Easy Framework` 的简写，生而为了这些使命：
 - 对一些常用的且 `hutool` 中没有的工具类进行补充（Tips：只做补充，不造轮子）
 - 参考《阿里巴巴Java开发手册》的规范，定义了一套通用的响应数据包装模型`ResponseResult`等
-- 对目前一些流行的中间件进行封装（或`starter`化），拿过来就能用，比如：`redis`、`redisson`等
+- 对目前一些流行的中间件进行封装（或`starter`化），拎包入住，拿来就用。比如：`redis`、`redisson`等
 
 `jefw` 的目标——让天下没有难写的代码（哪里怪怪的）。
 
 ## 介绍
-`jefw` 采用多模块的形式开发，可按需依赖；同时除了第三方的必要依赖，不会引用其他任何的无用类库，以保证项目独立和小巧的体积。
+`jefw` 采用多模块设计，各模块间互不依赖。同时除了第三方的必要依赖，不会引用其他任何的无用库，以保证项目的独立和小巧的体积。
 
 ```
 com.jastarwang.jefw（根包）
@@ -56,10 +62,31 @@ jefw-jwt  |√|【认证鉴权】基于`jjwt`封装实现，支持对`token`的�
 ## 快速开始
 
 ### 安装
-前面提到，`jefw` 采用模块设计，各模块间互不依赖，所以根据自己的需求引入对应模块即可；当然，也支持一键引入所有模块：
+
+（1）首先在项目的`pom.xml`中引入仓库源：
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+```
+（2）如果你本地`maven`的`settings.xml`配置了阿里云的仓库源（没有请跳过）如下：
+```xml
+<mirror>
+  <id>aliyunmaven</id>
+  <mirrorOf>*</mirrorOf>
+  <name>阿里云公共仓库</name>
+  <url>https://maven.aliyun.com/repository/public</url>
+</mirror>
+```
+需要把`<mirrorOf>*</mirrorOf>`修改为`<mirrorOf>*,!jitpack.io</mirrorOf>`，否则所有依赖会始终从阿里云仓库加载，导致加载失败。
+
+（3）引入本项目，可按需依赖。当然，也支持一键引入所有模块：
 ```xml
 <dependency>
-    <groupId>com.jastarwang</groupId>
+    <groupId>com.gitee.jastar-wang.jefw</groupId>
     <artifactId>jefw-all</artifactId>
     <version>${jefw.latestVersion}</version>
 </dependency>
@@ -158,9 +185,11 @@ feat(Controller):用户查询接口开发
 ```
 
 ## 反馈建议
-如果您在项目使用中遇到了任何问题，或者有一些更好的建议和想法，可以及时向我们反馈，点击 [Gitee Issue](https://gitee.com/jastar-wang/jefw/issues)
-
-还望各位老板，动动您的小手，点下 `star`~
+如果你在项目使用中遇到了任何问题，或者有一些更好的建议和想法，可以及时向我反馈，机票：[Gitee Issue](https://gitee.com/jastar-wang/jefw/issues)
 
 ## 许可证
-`jefw` 采用“木兰宽松许可证第2版”开源协议，详见 [Mulan PSL v2](http://license.coscl.org.cn/MulanPSL2)
+`jefw` 采用“木兰宽松许可证第2版”开源协议，机票：[Mulan PSL v2](http://license.coscl.org.cn/MulanPSL2)
+
+---
+
+来都来了，不点下`star`？

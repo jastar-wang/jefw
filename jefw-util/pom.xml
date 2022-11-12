@@ -4,7 +4,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
-
     <parent>
         <artifactId>jefw</artifactId>
         <groupId>com.jastarwang</groupId>
@@ -12,7 +11,7 @@
     </parent>
     <artifactId>jefw-util</artifactId>
     <name>${project.artifactId}</name>
-    <description>常用工具类模块</description>
+    <description>工具类模块：提供一些额外的常用工具类支持</description>
 
     <dependencies>
 
