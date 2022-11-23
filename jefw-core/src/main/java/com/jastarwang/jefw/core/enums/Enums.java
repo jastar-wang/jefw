@@ -13,17 +13,33 @@ package com.jastarwang.jefw.core.enums;
 
 /**
  * 枚举工具类
- * <li>拆分出此类参考自 <code>java.util.Collections</code> 等的设计方式</li>
- * <li>设计愿景：抽象出枚举在工作中常用且通用的功能，避免逐个类实现</li>
+ * <li>设计愿景：参考 {@link java.util.Collections} 等的设计方式，抽象出枚举在工作中常用且通用的功能，避免逐个类实现</li>
  * <li>使用须知：使用该工具类的枚举需实现 {@link Enumable} 接口</li>
  *
  * <pre>
  * 示例：
- * // 根据“值（或名key）为1”的条件获得指定枚举对象
- * TestEnum testEnum = Enums.of(TestEnum.class, 1);
+ * public enum Gender implements Enumable &lt; Integer, String &gt; {
+ *     FEMALE(0, "女"),
+ *     MALE(1, "男");
  *
- * // 根据“值（或名key）为1”的条件获得指定枚举对象对应的value
- * String value = Enums.valueOf(TestEnum.class, 1);
+ *     private final Integer code;
+ *     private final String value;
+ *
+ *     Gender(Integer code, String value) {
+ *         this.code = code;
+ *         this.value = value;
+ *     }
+ *     // 省略 Getter...
+ * }
+ *
+ * // MALE
+ * Gender demo1 = Enums.byCode(Gender.class, 1);
+ * // FEMALE
+ * Gender demo2 = Enums.byValue(Gender.class, "女");
+ * // 1
+ * Integer demo3 = Enums.codeByValue(Gender.class, "男");
+ * // 保密
+ * String demo4 = Enums.valueByCodeOrElse(Gender.class, 2, "保密");
  * </pre>
  *
  * @author Jastar Wang
@@ -36,21 +52,22 @@ public class Enums {
     }
 
     /**
-     * 根据指定key获取指定枚举类的对象
+     * 根据code获取枚举类对象
      *
-     * @param clazz 指定枚举类Class
-     * @param key   key
-     * @param <K>   一般为 int 或 String
-     * @param <T>   指定枚举类
-     * @return 枚举对象
+     * @param clazz 枚举类
+     * @param code  nullable, code
+     * @param <T>   枚举类的类型
+     * @param <C>   枚举类的Code类型
+     * @param <V>   枚举类的Value类型
+     * @return 枚举对象, nullable
      */
-    public static <K, T extends Enumable> T of(Class<T> clazz, K key) {
-        T[] consts;
-        if (key == null || (consts = clazz.getEnumConstants()) == null || consts.length <= 0) {
+    public static <T extends Enumable<C, V>, C, V> T byCode(Class<T> clazz, C code) {
+        T[] consts = getConsts(clazz, code);
+        if (consts == null) {
             return null;
         }
         for (T t : consts) {
-            if (key.equals(t.getKey())) {
+            if (code.equals(t.getCode())) {
                 return t;
             }
         }
@@ -58,18 +75,36 @@ public class Enums {
     }
 
     /**
-     * 根据指定value获取指定枚举类的对象
+     * 根据code获取枚举类对象，若为空返回默认值
      *
-     * @param clazz 指定枚举类Class
-     * @param value value
-     * @param <V>   value的类型
-     * @param <T>   指定枚举类
-     * @return 枚举对象
+     * @param clazz       枚举类
+     * @param code        nullable, code
+     * @param defaultEnum nullable,默认对象
+     * @param <T>         枚举类的类型
+     * @param <C>         枚举类的Code类型
+     * @param <V>         枚举类的Value类型
+     * @return 枚举对象, nullable
+     * @since 1.2.2
+     */
+    public static <T extends Enumable<C, V>, C, V> T byCodeOrElse(Class<T> clazz, C code, T defaultEnum) {
+        T t = byCode(clazz, code);
+        return t == null ? defaultEnum : t;
+    }
+
+    /**
+     * 根据value获取枚举类对象
+     *
+     * @param clazz 枚举类
+     * @param value nullable, value
+     * @param <T>   枚举类的类型
+     * @param <C>   枚举类的Code类型
+     * @param <V>   枚举类的Value类型
+     * @return 枚举对象, nullable
      * @since 1.1.3
      */
-    public static <V, T extends Enumable> T ofValue(Class<T> clazz, V value) {
-        T[] consts;
-        if (value == null || (consts = clazz.getEnumConstants()) == null || consts.length <= 0) {
+    public static <T extends Enumable<C, V>, C, V> T byValue(Class<T> clazz, V value) {
+        T[] consts = getConsts(clazz, value);
+        if (consts == null) {
             return null;
         }
         for (T t : consts) {
@@ -81,77 +116,100 @@ public class Enums {
     }
 
     /**
-     * 根据指定key获取指定枚举类的value
-     * <br>
-     * <b>
-     * 该方法 ≈ <code>Enumable.of(class,key).getValue()</code>
-     * 可以解决key为空或没有匹配枚举对象时造成的NPE，减少业务调用处的非空判断
-     * </b>
+     * 根据value获取枚举类对象，若为空返回默认值
      *
-     * @param clazz 指定枚举类Class
-     * @param key   key
-     * @param <K>   一般为 int 或 String
-     * @param <V>   一般为String
-     * @param <T>   指定枚举类
-     * @return 枚举对象的value
+     * @param clazz       枚举类
+     * @param value       nullable, value
+     * @param defaultEnum nullable,默认对象
+     * @param <T>         枚举类的类型
+     * @param <C>         枚举类的Code类型
+     * @param <V>         枚举类的Value类型
+     * @return 枚举对象, nullable
+     * @since 1.2.2
      */
-    public static <K, V, T extends Enumable> V valueOf(Class<T> clazz, K key) {
-        T t = of(clazz, key);
+    public static <T extends Enumable<C, V>, C, V> T byValueOrElse(Class<T> clazz, V value, T defaultEnum) {
+        T t = byValue(clazz, value);
+        return t == null ? defaultEnum : t;
+    }
+
+    /**
+     * 根据code获取枚举类对象的value
+     * <p>
+     * 该方法 ≈ <code>Enums.byCode(class,code).getValue()</code>
+     * 可以解决返回值为空时造成的NPE，减少业务调用处的非空判断
+     * </p>
+     *
+     * @param clazz 枚举类
+     * @param code  nullable, code
+     * @param <T>   枚举类的类型
+     * @param <C>   枚举类的Code类型
+     * @param <V>   枚举类的Value类型
+     * @return 枚举对象的value, nullable
+     */
+    public static <T extends Enumable<C, V>, C, V> V valueByCode(Class<T> clazz, C code) {
+        T t = byCode(clazz, code);
         return t == null ? null : t.getValue();
     }
 
     /**
-     * 根据指定key获取指定枚举类的value，若为空则返回默认值
+     * 根据code获取枚举类对象的value，若为空返回默认值
      *
-     * @param clazz        指定枚举类Class
-     * @param key          key
-     * @param defaultValue value为空时的默认值
-     * @param <K>          一般为 int 或 String
-     * @param <V>          一般为String
-     * @param <T>          指定枚举类
-     * @return 枚举对象的value
+     * @param clazz        枚举类
+     * @param code         nullable, code
+     * @param defaultValue nullable, 默认value
+     * @param <T>          枚举类的类型
+     * @param <C>          枚举类的Code类型
+     * @param <V>          枚举类的Value类型
+     * @return 枚举对象的value, nullable
      */
-    public static <K, V, T extends Enumable> V valueOfOrElse(Class<T> clazz, K key, V defaultValue) {
-        T t = of(clazz, key);
+    public static <T extends Enumable<C, V>, C, V> V valueByCodeOrElse(Class<T> clazz, C code, V defaultValue) {
+        T t = byCode(clazz, code);
         return t == null ? defaultValue : t.getValue();
     }
 
     /**
-     * 根据指定value获取指定枚举类的key
-     * <br>
-     * <b>
-     * 该方法 ≈ <code>Enumable.ofValue(class,value).getKey()</code>
-     * 可以解决value为空或没有匹配枚举对象时造成的NPE，减少业务调用处的非空判断
-     * </b>
+     * 根据value获取枚举类对象的code
+     * <p>
+     * 该方法 ≈ <code>Enums.byValue(class,value).getCode()</code>
+     * 可以解决返回值为空时造成的NPE，减少业务调用处的非空判断
+     * </p>
      *
-     * @param clazz 指定枚举类Class
-     * @param value value
-     * @param <K>   一般为 int 或 String
-     * @param <V>   一般为String
-     * @param <T>   指定枚举类
-     * @return 枚举对象的key
+     * @param clazz 枚举类
+     * @param value nullable, value
+     * @param <T>   枚举类的类型
+     * @param <C>   枚举类的Code类型
+     * @param <V>   枚举类的Value类型
+     * @return 枚举对象的code, nullable
      * @since 1.1.3
      */
-    public static <K, V, T extends Enumable> K keyOf(Class<T> clazz, V value) {
-        T t = ofValue(clazz, value);
-        return t == null ? null : t.getKey();
+    public static <T extends Enumable<C, V>, C, V> C codeByValue(Class<T> clazz, V value) {
+        T t = byValue(clazz, value);
+        return t == null ? null : t.getCode();
     }
 
     /**
-     * 根据指定value获取指定枚举类的key，若为空则返回默认值
+     * 根据value获取枚举类对象的code，若为空返回默认值
      *
-     * @param clazz      指定枚举类Class
-     * @param value      value
-     * @param defaultKey key为空时的默认值
-     * @param <K>        一般为 int 或 String
-     * @param <V>        一般为String
-     * @param <T>        指定枚举类
-     * @return 枚举对象的key
+     * @param clazz       枚举类
+     * @param value       nullable, value
+     * @param defaultCode nullable, 默认code
+     * @param <T>         枚举类的类型
+     * @param <C>         枚举类的Code类型
+     * @param <V>         枚举类的Value类型
+     * @return 枚举对象的code, nullable
      * @since 1.1.3
      */
-    public static <K, V, T extends Enumable> K keyOfOrElse(Class<T> clazz, V value, K defaultKey) {
-        T t = ofValue(clazz, value);
-        return t == null ? defaultKey : t.getKey();
+    public static <T extends Enumable<C, V>, C, V> C codeByValueOrElse(Class<T> clazz, V value, C defaultCode) {
+        T t = byValue(clazz, value);
+        return t == null ? defaultCode : t.getCode();
+    }
+
+    private static <T> T[] getConsts(Class<T> clazz, Object arg) {
+        T[] consts;
+        if (arg == null || (consts = clazz.getEnumConstants()) == null || consts.length <= 0) {
+            return null;
+        }
+        return consts;
     }
 
 }
