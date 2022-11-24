@@ -11,7 +11,6 @@
  */
 package com.jastarwang.jefw.util.extra.spring;
 
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -37,26 +36,27 @@ public class WebUtil {
      * 获取当前线程的Request对象
      *
      * @return request
+     * @throws IllegalStateException 当前线程未绑定请求时抛出
      */
     public static HttpServletRequest getRequest() {
-        RequestAttributes attr = RequestContextHolder.getRequestAttributes();
-        return ((ServletRequestAttributes) attr).getRequest();
+        return getServletRequestAttributes().getRequest();
     }
 
     /**
      * 获取当前线程的Response对象
      *
      * @return response
+     * @throws IllegalStateException 当前线程未绑定请求时抛出
      */
     public static HttpServletResponse getResponse() {
-        RequestAttributes attr = RequestContextHolder.getRequestAttributes();
-        return ((ServletRequestAttributes) attr).getResponse();
+        return getServletRequestAttributes().getResponse();
     }
 
     /**
      * 获取当前线程的Session对象
      *
      * @return session
+     * @throws IllegalStateException 当前线程未绑定请求时抛出
      */
     public static HttpSession getSession() {
         return getRequest().getSession();
@@ -65,13 +65,26 @@ public class WebUtil {
     /**
      * 判断当前请求是否是Ajax请求
      *
-     * @return true表示是，反之亦然
+     * @return true or false
+     * @throws IllegalStateException 当前线程未绑定请求时抛出
      */
     public static boolean isAjax() {
-        String header = getRequest().getHeader("X-Requested-With");
-        if (XML_HTTP_REQUEST.equalsIgnoreCase(header)) {
-            return true;
-        }
-        return false;
+        return isAjax(getRequest());
     }
+
+    /**
+     * 判断指定请求是否是Ajax请求
+     *
+     * @return true or false
+     * @since 1.2.2
+     */
+    public static boolean isAjax(HttpServletRequest request) {
+        String header = request.getHeader("X-Requested-With");
+        return XML_HTTP_REQUEST.equalsIgnoreCase(header);
+    }
+
+    private static ServletRequestAttributes getServletRequestAttributes() {
+        return (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+    }
+
 }

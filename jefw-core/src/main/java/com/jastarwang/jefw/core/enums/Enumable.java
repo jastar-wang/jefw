@@ -14,29 +14,29 @@ package com.jastarwang.jefw.core.enums;
 /**
  * 枚举能力接口
  * <p>
- * 适用于数据结构等于或包含 <code>key(int、String)-value(String)</code>结构的枚举，实现该接口后可获得增强的功能实现，具体参考 {@link Enums}
+ * 适用于数据结构等于或包含 <code>Code - Value</code> 结构的枚举，实现该接口后可获得增强的功能，详见 {@link com.jastarwang.jefw.core.enums.Enums}
  * </p>
  *
+ * @param <C> <code>Code</code>字段的类型，该字段值不可重复
+ * @param <V> <code>Value</code>字段的类型，该字段值不可重复
  * @author Jastar Wang
  * @date 2021/7/27
  * @since 1.1
  */
-public interface Enumable {
+public interface Enumable<C, V> {
 
     /**
-     * 获取枚举中定义的key值
+     * 获取枚举中定义的code值
      *
-     * @param <K> 一般为 int 或 String
-     * @return key
+     * @return code
      */
-    <K> K getKey();
+    C getCode();
 
     /**
      * 获取枚举中定义的value值
      *
-     * @param <V> 一般为String
      * @return value
      */
-    <V> V getValue();
+    V getValue();
 
 }

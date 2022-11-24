@@ -1,7 +1,7 @@
 <h1 align="center" style="font-family:fantasy;">Jefw</h1>
 <p align="center" style="color:darkgray;">让 天 下 没 有 难 写 的 代 码</p>
 <p align="center">
-  <a target="_blank"><img src="https://img.shields.io/badge/release-1.2.1-orange.svg" alt="release" /></a>
+  <a target="_blank"><img src="https://img.shields.io/badge/release-1.2.2-orange.svg" alt="release" /></a>
   <a target="_blank"><img src="https://jitpack.io/v/com.gitee.jastar-wang/jefw.svg" alt="jitpack" /></a>
   <a target="_blank"><img src="https://img.shields.io/badge/jdk-1.8+-green.svg" alt="jdk" /></a>
   <a target="_blank"><img src="https://img.shields.io/badge/license-MulanPSL2-blue" alt="license" /></a>
@@ -81,7 +81,7 @@ jefw-jwt  |√|【认证鉴权】基于`jjwt`封装实现，支持对`token`的�
   <url>https://maven.aliyun.com/repository/public</url>
 </mirror>
 ```
-需要把`<mirrorOf>*</mirrorOf>`修改为`<mirrorOf>*,!jitpack.io</mirrorOf>`，否则所有依赖会始终从阿里云仓库加载，导致加载失败。
+需要把`<mirrorOf>*</mirrorOf>`修改为`<mirrorOf>*,!jitpack.io</mirrorOf>`或者`<mirrorOf>central</mirrorOf>`，否则所有依赖会始终从阿里云仓库加载，导致加载失败。
 
 （3）引入本项目，可按需依赖。当然，也支持一键引入所有模块：
 ```xml
@@ -138,9 +138,8 @@ See the Mulan PSL v2 for more details.
 ```
 4. 设置一个 `tab` 为4个空格
 5. 设置单行注释不在行首，且与描述之间插入空格
-6. 设置对于多个参数的方法文档注释，参数的描述不进行右对齐
-7. 设置 `import` 导包 不使用 `*` 模式导入
-8. 其他规范参考《阿里巴巴Java开发手册》最新版
+6. 设置 `import` 导包 不使用 `*` 模式导入
+7. 其他规范参考《阿里巴巴Java开发手册》最新版
 
 > 小声bb：不要问我为什么这么多规矩，作为一个有强迫症级别代码洁癖的人，就是这么`gang` [狗头]
 

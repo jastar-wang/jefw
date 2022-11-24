@@ -14,6 +14,7 @@ package com.jastarwang.jefw.jwt.test;
 import com.jastarwang.jefw.jwt.JwtUtil;
 import io.jsonwebtoken.JwtBuilder;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.SpringBootConfiguration;
@@ -28,6 +29,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  * @date 2020/8/12
  * @since 1.0
  */
+@Disabled
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @SpringBootConfiguration
