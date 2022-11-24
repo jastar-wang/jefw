@@ -7,7 +7,7 @@
     <parent>
         <artifactId>jefw</artifactId>
         <groupId>com.jastarwang</groupId>
-        <version>1.2.1</version>
+        <version>1.2.2</version>
     </parent>
     <artifactId>jefw-util</artifactId>
     <name>${project.artifactId}</name>
@@ -15,15 +15,13 @@
 
     <dependencies>
 
-        <!-- hutool-http -->
+        <!-- 以下依赖，在不使用IpUtil时，可以不提供 -->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-http</artifactId>
             <version>${hutool.version}</version>
             <optional>true</optional>
         </dependency>
-
-        <!-- hutool-json -->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-json</artifactId>
@@ -31,15 +29,13 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- spring boot web -->
+        <!-- 以下依赖，在不使用WebUtil时，可以不提供 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <version>${spring-boot.version}</version>
             <optional>true</optional>
         </dependency>
-
-        <!-- servlet -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>

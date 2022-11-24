@@ -42,6 +42,7 @@ import java.util.List;
  * @date 2021/09/14
  * @since 1.2.0
  */
+@Disabled
 @ExtendWith(SpringExtension.class)
 @EnableAutoConfiguration
 @SpringBootTest
