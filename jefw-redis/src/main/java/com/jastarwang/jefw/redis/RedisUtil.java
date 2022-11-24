@@ -162,13 +162,41 @@ public class RedisUtil {
      * 获取值并根据指定类型转换
      *
      * @param key   key，非空
-     * @param clazz 模板类型，非空
+     * @param clazz 类型，非空
      * @param <T>   类型
      * @return value
      */
     public static <T> T get(String key, Class<T> clazz) {
         Object result = get(key);
         return convertToClazz(result, clazz);
+    }
+
+    /**
+     * 获取指定类型的List值（用于忽略编译告警）
+     *
+     * @param key   key，非空
+     * @param clazz 元素类型，无实际作用，只用于约束编码
+     * @param <T>   元素类型
+     * @return list
+     * @since 1.2.2
+     */
+    @SuppressWarnings("all")
+    public static <T> List<T> getList(String key, Class<T> clazz) {
+        return get(key, List.class);
+    }
+
+    /**
+     * 获取指定类型的Map值（用于忽略编译告警）
+     *
+     * @param key        key，非空
+     * @param keyClazz   键类型，无实际作用，只用于约束编码
+     * @param valueClazz 值类型，无实际作用，只用于约束编码
+     * @return map
+     * @since 1.2.2
+     */
+    @SuppressWarnings("all")
+    public static <K, V> Map<K, V> getMap(String key, Class<K> keyClazz, Class<V> valueClazz) {
+        return get(key, Map.class);
     }
 
     /**

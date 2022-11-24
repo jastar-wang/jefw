@@ -94,21 +94,40 @@ public class RedisUtilTest {
     public void valueTest2() {
         clearAll();
 
-        String utA = "ut:a", utM1 = "ut:m1", utM2 = "ut:2", utM3 = "ut:m3", utM4 = "ut:m4", utM5 = "ut:m5";
+        String utA = "ut:a", utB = "ut:b", utC = "ut:c";
+        String utM1 = "ut:m1", utM2 = "ut:2", utM3 = "ut:m3", utM4 = "ut:m4", utM5 = "ut:m5";
 
+        // set,getAndSet
         set(utA, "张三");
         String oldValue = (String) getAndSet(utA, "李四");
         Assertions.assertEquals("张三", oldValue);
 
+        // set and get List<Long>
+        List<Long> ids = new ArrayList<>();
+        ids.add(1L);
+        ids.add(2L);
+        ids.add(3L);
+        set(utC, ids);
+        List<Long> getIds = getList(utC, Long.class);
+        System.out.println(getIds);
+
+        // multiSet
         Map<String, Student> map = new HashMap<>();
         map.put(utM1, new Student("tony", 18L));
         map.put(utM2, new Student("liming", 19L));
         multiSet(map);
 
+        // multiGet
         List<Object> objects = multiGet(Arrays.asList(utM1, utM2));
         Assertions.assertNotNull(objects);
         System.out.println(objects);
 
+        // getMap
+        set(utB, map);
+        Map<String, Student> getMap = getMap(utB, String.class, Student.class);
+        System.out.println(getMap);
+
+        // increment
         increment(utM3);
         increment(utM4, 2L);
         increment(utM5, -1L);
@@ -116,6 +135,7 @@ public class RedisUtilTest {
         Assertions.assertEquals(2L, get(utM4, Long.class));
         Assertions.assertEquals(-1L, get(utM5, Long.class));
 
+        // size
         System.out.println(size(utM1));
     }
 
@@ -156,7 +176,7 @@ public class RedisUtilTest {
         System.out.println(ut5Value);
 
         set(ut6, teachers);
-        List<Teacher> list = get(ut6, List.class);
+        List<Teacher> list = getList(ut6, Teacher.class);
         System.out.println(list);
     }
 
