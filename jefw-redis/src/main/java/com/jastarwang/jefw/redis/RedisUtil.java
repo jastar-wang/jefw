@@ -20,6 +20,10 @@ import org.springframework.data.redis.core.ZSetOperations;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -88,7 +92,7 @@ public class RedisUtil {
     /**
      * 存入值
      *
-     * @param key key，非空
+     * @param key   key，非空
      * @param value value，非空
      */
     public static void set(String key, Object value) {
@@ -98,8 +102,8 @@ public class RedisUtil {
     /**
      * 存入值
      *
-     * @param key key，非空
-     * @param value value，非空
+     * @param key     key，非空
+     * @param value   value，非空
      * @param seconds 过期时间（单位：秒）
      */
     public static void set(String key, Object value, long seconds) {
@@ -109,9 +113,9 @@ public class RedisUtil {
     /**
      * 存入值
      *
-     * @param key key，非空
-     * @param value value，非空
-     * @param timeout 过期时间，非空
+     * @param key      key，非空
+     * @param value    value，非空
+     * @param timeout  过期时间，非空
      * @param timeUnit 过期时间单位，非空
      */
     public static void set(String key, Object value, long timeout, TimeUnit timeUnit) {
@@ -157,9 +161,9 @@ public class RedisUtil {
     /**
      * 获取值并根据指定类型转换
      *
-     * @param key key，非空
+     * @param key   key，非空
      * @param clazz 模板类型，非空
-     * @param <T> 类型
+     * @param <T>   类型
      * @return value
      */
     public static <T> T get(String key, Class<T> clazz) {
@@ -170,7 +174,7 @@ public class RedisUtil {
     /**
      * 设置新的值并返回旧的值
      *
-     * @param key key，非空
+     * @param key   key，非空
      * @param value value
      * @return 旧值
      */
@@ -181,7 +185,7 @@ public class RedisUtil {
     /**
      * 设置新的值并返回旧的值
      *
-     * @param key key，非空
+     * @param key   key，非空
      * @param value value
      * @param clazz 类型
      * @return 旧值
@@ -204,7 +208,7 @@ public class RedisUtil {
      * 批量获取值
      * <p>（要求值集合的类型一致）</p>
      *
-     * @param keys key集合，非空
+     * @param keys  key集合，非空
      * @param clazz 类型
      * @return value集合
      */
@@ -226,7 +230,7 @@ public class RedisUtil {
     /**
      * 自增
      *
-     * @param key key，非空
+     * @param key   key，非空
      * @param delta 步长
      * @return 自增后的值
      */
@@ -268,9 +272,9 @@ public class RedisUtil {
     /**
      * 根据下标范围获取元素列表
      *
-     * @param key key，非空
+     * @param key   key，非空
      * @param start 开始下标（含）
-     * @param end 结束下标（含），-1表示最后一个，-2表示倒数第二个，以此类推
+     * @param end   结束下标（含），-1表示最后一个，-2表示倒数第二个，以此类推
      * @return 元素列表
      */
     public static List<Object> lRange(String key, long start, long end) {
@@ -281,9 +285,9 @@ public class RedisUtil {
      * 根据下标范围获取元素列表
      * <b>注意：务必保证预期的结果是指定的Class类型</b>
      *
-     * @param key key，非空
+     * @param key   key，非空
      * @param start 开始下标（含）
-     * @param end 结束下标（含），-1表示最后一个，-2表示倒数第二个，以此类推
+     * @param end   结束下标（含），-1表示最后一个，-2表示倒数第二个，以此类推
      * @param clazz 类型
      * @return 元素列表
      */
@@ -295,9 +299,9 @@ public class RedisUtil {
     /**
      * 对列表进行剪裁（只保留指定区间内的元素）
      *
-     * @param key key，非空
+     * @param key   key，非空
      * @param start 开始下标（含）
-     * @param end 结束下标（含），-1表示最后一个，-2表示倒数第二个，以此类推
+     * @param end   结束下标（含），-1表示最后一个，-2表示倒数第二个，以此类推
      */
     public static void lTrim(String key, long start, long end) {
         l().trim(key, start, end);
@@ -316,7 +320,7 @@ public class RedisUtil {
     /**
      * 往列表的第一个位置插入一个元素
      *
-     * @param key key，非空
+     * @param key   key，非空
      * @param value value
      * @return 插入完成之后列表的长度
      */
@@ -327,7 +331,7 @@ public class RedisUtil {
     /**
      * 把指定集合中的元素依次添加到列表的首位
      *
-     * @param key key，非空
+     * @param key    key，非空
      * @param values 指定集合
      * @return 插入完成之后列表的长度
      */
@@ -338,7 +342,7 @@ public class RedisUtil {
     /**
      * 把指定集合中的元素依次添加到列表的首位
      *
-     * @param key key，非空
+     * @param key    key，非空
      * @param values 指定集合
      * @return 插入完成之后列表的长度
      */
@@ -353,7 +357,7 @@ public class RedisUtil {
     /**
      * 往列表的最后一个位置插入一个元素
      *
-     * @param key key，非空
+     * @param key   key，非空
      * @param value value
      * @return 插入完成之后列表的长度
      */
@@ -364,7 +368,7 @@ public class RedisUtil {
     /**
      * 把指定集合中的元素依次添加到列表的末位
      *
-     * @param key key，非空
+     * @param key    key，非空
      * @param values 指定集合
      * @return 插入完成之后列表的长度
      */
@@ -375,7 +379,7 @@ public class RedisUtil {
     /**
      * 把指定集合中的元素依次添加到列表的末位
      *
-     * @param key key，非空
+     * @param key    key，非空
      * @param values 指定集合
      * @return 插入完成之后列表的长度
      */
@@ -390,7 +394,7 @@ public class RedisUtil {
     /**
      * 指定下标设置值
      *
-     * @param key key，非空
+     * @param key   key，非空
      * @param index 下标，注意不能越界，否则抛出异常
      * @param value 值
      */
@@ -403,7 +407,7 @@ public class RedisUtil {
     /**
      * 根据下标获取指定元素
      *
-     * @param key key，非空（可不存在）
+     * @param key   key，非空（可不存在）
      * @param index 下标（可超过实际长度，不会发生越界问题）
      * @return 元素或null
      */
@@ -415,7 +419,7 @@ public class RedisUtil {
      * 根据下标获取指定元素
      * <b>注意：务必保证预期的结果是指定的Class类型</b>
      *
-     * @param key key，非空（可不存在）
+     * @param key   key，非空（可不存在）
      * @param index 下标（可超过实际长度，不会发生越界问题）
      * @param clazz 类型
      * @return 元素或null
@@ -443,7 +447,7 @@ public class RedisUtil {
      * 移除并返回列表第一个元素
      * <b>注意：务必保证预期的结果是指定的Class类型</b>
      *
-     * @param key key，非空
+     * @param key   key，非空
      * @param clazz 类型
      * @return 左边第一个元素
      */
@@ -492,7 +496,7 @@ public class RedisUtil {
     /**
      * 将一个或多个元素添加到集合中，已存在的元素将忽略
      *
-     * @param key key，非空
+     * @param key    key，非空
      * @param values 一个或多个元素
      * @return 添加成功的元素数量，不包括被忽略的元素
      */
@@ -503,7 +507,7 @@ public class RedisUtil {
     /**
      * 删除集合中的一个或多个元素，不存在的元素将忽略
      *
-     * @param key key，非空
+     * @param key    key，非空
      * @param values 一个或多个元素
      * @return 删除成功的元素数量，不包括被忽略的元素
      */
@@ -531,7 +535,7 @@ public class RedisUtil {
      * 判断指定元素是否存在于集合中
      *
      * @param key key，非空
-     * @param o 指定元素
+     * @param o   指定元素
      * @return 是否存在集合中
      */
     public static Boolean sIsMember(String key, Object o) {
@@ -557,7 +561,7 @@ public class RedisUtil {
     /**
      * 获取集合中的所有元素，不存在的key视为空集合
      *
-     * @param key key，非空
+     * @param key   key，非空
      * @param clazz 类型
      * @return 集合
      */
@@ -580,7 +584,7 @@ public class RedisUtil {
     /**
      * 将元素添加到有序集合中，已存在的元素将覆盖分值并计算新位置
      *
-     * @param key key，非空
+     * @param key   key，非空
      * @param value 元素
      * @param score 元素对应的分值
      * @return 是否添加成功
@@ -598,7 +602,7 @@ public class RedisUtil {
     /**
      * 删除有序集合中的一个或多个元素，不存在的元素将忽略
      *
-     * @param key key，非空
+     * @param key    key，非空
      * @param values 一个或多个元素
      * @return 删除成功的元素数量，不包括被忽略的元素
      */
@@ -609,7 +613,7 @@ public class RedisUtil {
     /**
      * 将有序集合中的指定元素对应的分值进行加减计算
      *
-     * @param key key，非空
+     * @param key   key，非空
      * @param value 指定元素
      * @param delta 分值，负数表示减
      * @return 该元素新的分值
@@ -622,7 +626,7 @@ public class RedisUtil {
      * 获取指定元素在有序集合中的排名（分值由小到大排序，从0开始）
      *
      * @param key key，非空
-     * @param o 指定元素
+     * @param o   指定元素
      * @return 元素下标，key不存在或元素不存在则返回null
      */
     public static Long zRank(String key, Object o) {
@@ -633,7 +637,7 @@ public class RedisUtil {
      * 获取指定元素在有序集合中的排名（分值由大到小排序）
      *
      * @param key key，非空
-     * @param o 指定元素
+     * @param o   指定元素
      * @return 元素下标，key不存在或元素不存在则返回null
      */
     public static Long zReverseRank(String key, Object o) {
@@ -643,9 +647,9 @@ public class RedisUtil {
     /**
      * 获取集合中指定下标区间范围内的元素集合
      *
-     * @param key key，非空
+     * @param key   key，非空
      * @param start 开始下标，从0开始，超出不会引起错误
-     * @param end 结束下标，-1表示最后一个，-2表示倒数第二个，以此类推
+     * @param end   结束下标，-1表示最后一个，-2表示倒数第二个，以此类推
      * @return 元素集合
      */
     public static Set<Object> zRange(String key, long start, long end) {
@@ -655,9 +659,9 @@ public class RedisUtil {
     /**
      * 获取集合中指定下标区间范围内的元素集合
      *
-     * @param key key，非空
+     * @param key   key，非空
      * @param start 开始下标，从0开始，超出不会引起错误
-     * @param end 结束下标，-1表示最后一个，-2表示倒数第二个，以此类推
+     * @param end   结束下标，-1表示最后一个，-2表示倒数第二个，以此类推
      * @param clazz 类型
      * @return 元素集合
      */
@@ -718,7 +722,7 @@ public class RedisUtil {
      * 获取集合中指定元素对应的分值
      *
      * @param key key，非空
-     * @param o 指定元素
+     * @param o   指定元素
      * @return 分值，key不存在或元素不存在则返回null
      */
     public static Double zScore(String key, Object o) {
@@ -733,7 +737,7 @@ public class RedisUtil {
     /**
      * 删除一个或多个filed，不存在的将忽略
      *
-     * @param key key，非空
+     * @param key      key，非空
      * @param hashKeys hashKey集合，非空
      * @return 删除成功的数量，不包括被忽略的
      */
@@ -744,7 +748,7 @@ public class RedisUtil {
     /**
      * 查询是否存在指定的filed
      *
-     * @param key key，非空
+     * @param key     key，非空
      * @param hashKey hashKey，非空
      * @return 是否存在
      */
@@ -755,7 +759,7 @@ public class RedisUtil {
     /**
      * 获取指定key的指定field
      *
-     * @param key key，非空
+     * @param key     key，非空
      * @param hashKey hashKey，非空
      * @return 值
      */
@@ -766,9 +770,9 @@ public class RedisUtil {
     /**
      * 获取指定key的指定field
      *
-     * @param key key，非空
+     * @param key     key，非空
      * @param hashKey hashKey，非空
-     * @param clazz 类型
+     * @param clazz   类型
      * @return 值
      */
     public static <T> T hGet(String key, Object hashKey, Class<T> clazz) {
@@ -778,7 +782,7 @@ public class RedisUtil {
     /**
      * 批量获取
      *
-     * @param key key，非空
+     * @param key      key，非空
      * @param hashKeys hashKey集合，非空
      * @return 值的集合，顺序与key的顺序一致
      */
@@ -789,7 +793,7 @@ public class RedisUtil {
     /**
      * 将指定field对应的value进行自增
      *
-     * @param key key，非空
+     * @param key     key，非空
      * @param hashKey hashKey，非空
      * @return 自增后的值
      */
@@ -800,9 +804,9 @@ public class RedisUtil {
     /**
      * 将指定field对应的value进行自增
      *
-     * @param key key，非空
+     * @param key     key，非空
      * @param hashKey hashKey，非空
-     * @param delta 步长
+     * @param delta   步长
      * @return 自增后的值
      */
     public static Long hIncrement(String key, Object hashKey, long delta) {
@@ -812,9 +816,9 @@ public class RedisUtil {
     /**
      * 将指定field对应的value进行自增
      *
-     * @param key key，非空
+     * @param key     key，非空
      * @param hashKey hashKey，非空
-     * @param delta 步长
+     * @param delta   步长
      * @return 自增后的值
      */
     public static Double hIncrement(String key, Object hashKey, double delta) {
@@ -834,7 +838,7 @@ public class RedisUtil {
     /**
      * 获取value的长度
      *
-     * @param key key，非空
+     * @param key     key，非空
      * @param hashKey hashKey，非空
      * @return 长度
      */
@@ -856,7 +860,7 @@ public class RedisUtil {
      * 批量设置值
      *
      * @param key key，非空
-     * @param m hashKey和值
+     * @param m   hashKey和值
      */
     public static void hPutAll(String key, Map<?, ?> m) {
         h().putAll(key, m);
@@ -865,9 +869,9 @@ public class RedisUtil {
     /**
      * 设置值
      *
-     * @param key key，非空
+     * @param key     key，非空
      * @param hashKey hashKey，非空
-     * @param value 值
+     * @param value   值
      */
     public static void hPut(String key, Object hashKey, Object value) {
         h().put(key, hashKey, value);
@@ -876,9 +880,9 @@ public class RedisUtil {
     /**
      * 仅当指定的hashKey不存在的时候设置值
      *
-     * @param key key，非空
+     * @param key     key，非空
      * @param hashKey hashKey，非空
-     * @param value 值
+     * @param value   值
      */
     public static void hPutIfAbsent(String key, Object hashKey, Object value) {
         h().putIfAbsent(key, hashKey, value);
@@ -965,7 +969,7 @@ public class RedisUtil {
     /**
      * 将指定的key设置过期时间
      *
-     * @param key key，非空
+     * @param key     key，非空
      * @param seconds 过期时间（单位：秒）
      * @return 是否设置成功
      */
@@ -976,9 +980,9 @@ public class RedisUtil {
     /**
      * 将指定的key设置过期时间
      *
-     * @param key key，非空
+     * @param key     key，非空
      * @param timeout 过期时间
-     * @param unit 时间单位
+     * @param unit    时间单位
      * @return 是否设置成功
      */
     public static Boolean expire(String key, long timeout, TimeUnit unit) {
@@ -988,7 +992,7 @@ public class RedisUtil {
     /**
      * 将指定的key设置到某时间过期
      *
-     * @param key key，非空
+     * @param key  key，非空
      * @param date 过期时间
      * @return 是否设置成功
      */
@@ -1009,7 +1013,7 @@ public class RedisUtil {
     /**
      * 获取指定key的过期时间
      *
-     * @param key key，非空
+     * @param key  key，非空
      * @param unit 时间单位
      * @return 剩余的过期时间
      */
@@ -1022,7 +1026,16 @@ public class RedisUtil {
         if (o == null) {
             return null;
         }
-        return (T) (clazz.equals(Long.class) ? Long.valueOf(o.toString()) : o);
+        if (clazz.equals(Long.class)) {
+            return (T) Long.valueOf(o.toString());
+        } else if (clazz.equals(LocalDate.class)) {
+            return (T) LocalDate.parse(o.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        } else if (clazz.equals(LocalTime.class)) {
+            return (T) LocalTime.parse(o.toString(), DateTimeFormatter.ofPattern("HH:mm:ss.SSS"));
+        } else if (clazz.equals(LocalDateTime.class)) {
+            return (T) LocalDateTime.parse(o.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"));
+        }
+        return (T) o;
     }
 
     private static <T> Set<T> convertToClazz(Set<Object> set, Class<T> clazz) {
