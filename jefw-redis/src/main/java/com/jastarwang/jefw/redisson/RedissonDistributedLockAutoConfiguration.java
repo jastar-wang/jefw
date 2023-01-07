@@ -9,38 +9,33 @@
  * MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
  * See the Mulan PSL v2 for more details.
  */
-package com.jastarwang.jefw.jwt;
+package com.jastarwang.jefw.redisson;
 
-import io.jsonwebtoken.Jwts;
+import org.redisson.api.RedissonClient;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * jwt自动配置类
+ * Redisson分布式锁自动配置类
  * <p>
- * 当系统依赖了Jwt的相关类库时，才会启用该配置
- * （这里用检测 {@link io.jsonwebtoken.Jwts} 是否存在来表示）
+ * 当系统依赖了Redisson的相关类库时，才会启用该配置
+ * （这里用检测 {@link RedissonClient} 是否存在来表示）
  * </p>
  *
  * @author Jastar Wang
- * @date 2020/8/10
+ * @date 2020/10/21
  * @since 1.0
  */
 @Configuration
-@ConditionalOnClass(Jwts.class)
-public class JwtAutoConfiguration {
+@ConditionalOnClass(RedissonClient.class)
+public class RedissonDistributedLockAutoConfiguration {
 
     @Bean
-    @ConfigurationProperties(prefix = "jwt")
-    public JwtProperties jwtProperties() {
-        return new JwtProperties();
-    }
-
-    @Bean
-    public JwtUtil jwtUtil() {
-        return new JwtUtil();
+    @ConditionalOnMissingBean(name = "distributedLock")
+    public RedissonDistributedLock distributedLock(RedissonClient redissonClient) {
+        return new RedissonDistributedLock(redissonClient);
     }
 
 }

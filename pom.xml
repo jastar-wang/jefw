@@ -7,7 +7,7 @@
 
     <groupId>com.jastarwang</groupId>
     <artifactId>jefw</artifactId>
-    <version>1.2.2</version>
+    <version>1.2.3</version>
     <name>jefw</name>
     <description>JastarWang Easy Framework</description>
     <url>https://gitee.com/jastar-wang/jefw</url>
@@ -18,7 +18,6 @@
         <module>jefw-util</module>
         <module>jefw-redis</module>
         <module>jefw-oss</module>
-        <module>jefw-jwt</module>
     </modules>
 
     <properties>
@@ -27,15 +26,12 @@
         <compile.version>8</compile.version>
         <!-- common -->
         <lombok.version>1.18.24</lombok.version>
-        <spring-boot.version>2.7.5</spring-boot.version>
+        <spring-boot.version>2.7.6</spring-boot.version>
         <jackson.version>2.14.1</jackson.version>
         <junit-platform-launcher.version>1.9.1</junit-platform-launcher.version>
-        <!-- jwt module -->
-        <jjwt.version>0.9.1</jjwt.version>
         <!-- oss module -->
         <aliyun.sdk.oss.version>3.13.2</aliyun.sdk.oss.version>
         <!-- redis module -->
-        <jedis.version>4.3.1</jedis.version>
         <redisson.version>3.18.0</redisson.version>
         <!-- util module -->
         <hutool.version>5.8.10</hutool.version>

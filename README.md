@@ -1,7 +1,7 @@
 <h1 align="center" style="font-family:fantasy;">Jefw</h1>
 <p align="center" style="color:darkgray;">让 天 下 没 有 难 写 的 代 码</p>
 <p align="center">
-  <a target="_blank"><img src="https://img.shields.io/badge/release-1.2.2-orange.svg" alt="release" /></a>
+  <a target="_blank"><img src="https://img.shields.io/badge/release-1.2.3-orange.svg" alt="release" /></a>
   <a target="_blank"><img src="https://jitpack.io/v/com.gitee.jastar-wang/jefw.svg" alt="jitpack" /></a>
   <a target="_blank"><img src="https://img.shields.io/badge/jdk-1.8+-green.svg" alt="jdk" /></a>
   <a target="_blank"><img src="https://img.shields.io/badge/license-MulanPSL2-blue" alt="license" /></a>
@@ -46,7 +46,6 @@ com.jastarwang.jefw（根包）
 ├───────────└─ spring
 ├─ redis（缓存操作）
 ├─ oss（对象存储）
-├─ jwt（Token操作）
 ├─ ···
 ```
 
@@ -57,7 +56,6 @@ jefw-core |√|【核心模块】如：常用的前端响应数据包装模型�
 jefw-util |√|【常用工具】只做补充，所以强烈推荐搭配 `hutool` 使用，药效更好
 jefw-redis|√|【缓存模块】提供对存取`redis`数据、分布式锁`redisson`的便捷支持
 jefw-oss  |√|【对象存储】整合主流厂商对象存储并对外提供统一便捷的API调用 <br>（Tips：目前仅支持阿里云`OSS`，暂时设计成了静态工具类，尚未实践过其他平台，寄希望于广大码友）
-jefw-jwt  |√|【认证鉴权】基于`jjwt`封装实现，支持对`token`的常用操作
 
 ## 快速开始
 

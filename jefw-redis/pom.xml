@@ -7,7 +7,7 @@
     <parent>
         <artifactId>jefw</artifactId>
         <groupId>com.jastarwang</groupId>
-        <version>1.2.2</version>
+        <version>1.2.3</version>
     </parent>
     <artifactId>jefw-redis</artifactId>
     <name>${project.artifactId}</name>
@@ -20,14 +20,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
             <version>${spring-boot.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- jedis client -->
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <version>${jedis.version}</version>
             <scope>provided</scope>
         </dependency>
 

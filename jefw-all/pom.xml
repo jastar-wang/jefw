@@ -8,7 +8,7 @@
     <parent>
         <artifactId>jefw</artifactId>
         <groupId>com.jastarwang</groupId>
-        <version>1.2.2</version>
+        <version>1.2.3</version>
     </parent>
     <artifactId>jefw-all</artifactId>
     <name>${project.artifactId}</name>
@@ -19,11 +19,6 @@
         <dependency>
             <groupId>com.jastarwang</groupId>
             <artifactId>jefw-core</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.jastarwang</groupId>
-            <artifactId>jefw-jwt</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
