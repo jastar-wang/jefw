@@ -23,11 +23,6 @@
         </dependency>
         <dependency>
             <groupId>com.jastarwang</groupId>
-            <artifactId>jefw-jwt</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.jastarwang</groupId>
             <artifactId>jefw-oss</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
