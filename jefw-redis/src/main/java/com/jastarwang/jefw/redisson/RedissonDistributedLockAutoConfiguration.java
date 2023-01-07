@@ -12,7 +12,7 @@
 package com.jastarwang.jefw.redisson;
 
 import org.redisson.api.RedissonClient;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * Redisson分布式锁自动配置类
  * <p>
- * 当系统检测到了RedissonClient的Bean时，才会启用该配置
+ * 当系统依赖了Redisson的相关类库时，才会启用该配置
  * （这里用检测 {@link RedissonClient} 是否存在来表示）
  * </p>
  *
@@ -29,7 +29,7 @@ import org.springframework.context.annotation.Configuration;
  * @since 1.0
  */
 @Configuration
-@ConditionalOnBean(RedissonClient.class)
+@ConditionalOnClass(RedissonClient.class)
 public class RedissonDistributedLockAutoConfiguration {
 
     @Bean
