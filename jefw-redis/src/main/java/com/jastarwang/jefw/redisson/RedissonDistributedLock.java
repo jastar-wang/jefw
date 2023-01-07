@@ -14,7 +14,6 @@ package com.jastarwang.jefw.redisson;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 
-import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -28,17 +27,20 @@ import java.util.function.Supplier;
  */
 public class RedissonDistributedLock implements DistributedLock {
 
-    @Resource
-    private RedissonClient redissonClient;
+    private final RedissonClient redissonClient;
 
-    @Override
-    public <T> T lock(String resource, long waitTime, Supplier<T> succeed, Function<Exception, T> failed) {
-        return lock(resource, waitTime, -1, succeed, failed);
+    public RedissonDistributedLock(RedissonClient redissonClient) {
+        this.redissonClient = redissonClient;
     }
 
     @Override
-    public <T> T lock(String resource, long waitTime, long leaseTime, Supplier<T> succeed, Function<Exception, T> failed) {
-        return lock(resource, waitTime, leaseTime, TimeUnit.SECONDS, succeed, failed);
+    public <T> T lock(String resource, long waitSeconds, Supplier<T> succeed, Function<Exception, T> failed) {
+        return lock(resource, waitSeconds, -1, succeed, failed);
+    }
+
+    @Override
+    public <T> T lock(String resource, long waitSeconds, long leaseSeconds, Supplier<T> succeed, Function<Exception, T> failed) {
+        return lock(resource, waitSeconds, leaseSeconds, TimeUnit.SECONDS, succeed, failed);
     }
 
     @Override
@@ -49,7 +51,7 @@ public class RedissonDistributedLock implements DistributedLock {
             if (isLocked) {
                 return succeed.get();
             }
-            return failed.apply(new UnableToAcquireLockException("Unable to acquire lock, because redisson returned false!"));
+            return failed.apply(new CannotAcquireLockException("Cannot to acquire lock, because redisson returned false!"));
         } catch (InterruptedException e) {
             return failed.apply(e);
         } finally {
@@ -58,4 +60,21 @@ public class RedissonDistributedLock implements DistributedLock {
             }
         }
     }
+
+    @Override
+    public <T> T lock(String resource, Supplier<T> succeed, Supplier<T> failed) {
+        RLock lock = redissonClient.getLock(resource);
+        try {
+            boolean isLocked = lock.tryLock();
+            if (isLocked) {
+                return succeed.get();
+            }
+            return failed == null ? null : failed.get();
+        } finally {
+            if (lock.isHeldByCurrentThread()) {
+                lock.unlock();
+            }
+        }
+    }
+
 }

@@ -1,10 +1,27 @@
 # 更新日志
 
-## [1.2.3] - 2023-01-07
+## [1.2.3-dev] - 2023-01-07
+
+### 特性
+
+- 【core】新增：无参数无返回值的函数式接口`Execute`
+- 【redis】新增：分布式锁不阻塞等待的接口
+
+### 优化
+
+- 【redis】优化：加锁失败异常类的命名（不兼容）
+- 【redis】优化：分布式锁参数的详细注释
+- 【redis】优化：`RedissonClient`注入方式改为构造方法
+- 【redis】优化：去除`RedissonClient`的自动配置，因为大多数情况下都需要自主配置，或直接引入`redisson-spring-boot-starter`
 
 ### 删除
 
 - 【jwt】删除`JwtUtil`工具类（`hutool`已在5.7.0引入实现）
+- 【redis】删除`jedis`客户端依赖，因为`spring-boot`默认自带了`lettuce`
+
+### 依赖
+
+- 【all】升级`spring-boot`版本（`2.7.5` => `2.7.6`）
 
 ---
 

@@ -9,22 +9,20 @@
  * MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
  * See the Mulan PSL v2 for more details.
  */
-package com.jastarwang.jefw.redisson;
+package com.jastarwang.jefw.core.function;
 
 /**
- * 加锁失败异常
+ * 无参数无返回值的函数式接口
  *
  * @author Jastar Wang
- * @date 2020/10/21
- * @since 1.0
+ * @date 2023/1/7
+ * @since 1.2.3
  */
-public class UnableToAcquireLockException extends RuntimeException {
+public interface Execute {
 
-    public UnableToAcquireLockException() {
-    }
-
-    public UnableToAcquireLockException(String message) {
-        super(message);
-    }
+    /**
+     * Do something.
+     */
+    void exec();
 
 }

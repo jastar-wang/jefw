@@ -23,14 +23,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- jedis client -->
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <version>${jedis.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- redisson（不使用分布式锁时，可以不提供） -->
         <dependency>
             <groupId>org.redisson</groupId>

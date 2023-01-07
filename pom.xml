@@ -26,13 +26,12 @@
         <compile.version>8</compile.version>
         <!-- common -->
         <lombok.version>1.18.24</lombok.version>
-        <spring-boot.version>2.7.5</spring-boot.version>
+        <spring-boot.version>2.7.6</spring-boot.version>
         <jackson.version>2.14.1</jackson.version>
         <junit-platform-launcher.version>1.9.1</junit-platform-launcher.version>
         <!-- oss module -->
         <aliyun.sdk.oss.version>3.13.2</aliyun.sdk.oss.version>
         <!-- redis module -->
-        <jedis.version>4.3.1</jedis.version>
         <redisson.version>3.18.0</redisson.version>
         <!-- util module -->
         <hutool.version>5.8.10</hutool.version>
