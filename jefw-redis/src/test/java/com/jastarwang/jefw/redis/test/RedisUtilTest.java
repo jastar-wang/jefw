@@ -11,6 +11,7 @@
  */
 package com.jastarwang.jefw.redis.test;
 
+import com.jastarwang.jefw.lock.config.DistributedLockAutoConfiguration;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,7 +42,7 @@ import static com.jastarwang.jefw.redis.RedisUtil.*;
  * @since 1.0
  */
 @ExtendWith(SpringExtension.class)
-@EnableAutoConfiguration
+@EnableAutoConfiguration(exclude = DistributedLockAutoConfiguration.class) // 排除该自动配置，因为其依赖需在外部配置的Bean
 @SpringBootTest
 @SpringBootConfiguration // 必须加此注解单元测试才不报错
 public class RedisUtilTest {
