@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 /**
  * 对象存储服务接口
  * <p><b>注意：对象完整名称不能以斜杠“/”开头</b></p>
- * FIXME 接口待完善
  *
  * @author Jastar Wang
  * @date 2023/2/19
@@ -43,7 +42,9 @@ public interface OssService {
 
     /**
      * 检查bucket是否存在
-     * <br><b>注意：非本账号下的bucket存在也会返回true</b>
+     * <p>注意：</p>
+     * <li>阿里云：非本账号下的bucket存在时，也会返回true</li>
+     * <li>腾讯云：bucketName格式必须为BucketName-APPID，否则会抛出Bad异常</li>
      *
      * @param bucketName bucket名称
      * @return true-存在，false-不存在
@@ -126,10 +127,11 @@ public interface OssService {
     /**
      * 为非公开的object生成带有时效签名的访问路径
      *
+     * @param bucketName bucket名称
      * @param key        object完整名称
      * @param expiration 签名过期时间
      * @return 可直接访问的路径
      */
-    String getPrivateUrl(String key, LocalDateTime expiration);
+    String getPrivateUrl(String bucketName, String key, LocalDateTime expiration);
 
 }

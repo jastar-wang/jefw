@@ -15,7 +15,7 @@
 
     <dependencies>
 
-        <!-- spring-boot -->
+        <!-- spring boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -23,7 +23,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- hutool-core -->
+        <!-- hutool core -->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-core</artifactId>
@@ -39,11 +39,33 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- aliyun-sdk-oss -->
+        <!-- aliyun oss -->
         <dependency>
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
             <version>${aliyun.sdk.oss.version}</version>
+            <exclusions>
+                <!-- 该包版本过低，与tencent cos中的包冲突 -->
+                <exclusion>
+                    <artifactId>httpclient</artifactId>
+                    <groupId>org.apache.httpcomponents</groupId>
+                </exclusion>
+            </exclusions>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- tencent cos -->
+        <dependency>
+            <groupId>com.qcloud</groupId>
+            <artifactId>cos_api</artifactId>
+            <version>${tencent.sdk.cos.version}</version>
+            <exclusions>
+                <!-- 排除此包，否则冲突报错 -->
+                <exclusion>
+                    <artifactId>okio</artifactId>
+                    <groupId>com.squareup.okio</groupId>
+                </exclusion>
+            </exclusions>
             <optional>true</optional>
         </dependency>
 

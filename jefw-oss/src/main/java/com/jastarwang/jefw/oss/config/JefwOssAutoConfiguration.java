@@ -15,6 +15,13 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.jastarwang.jefw.oss.OssService;
 import com.jastarwang.jefw.oss.impl.OssServiceAliyunImpl;
+import com.jastarwang.jefw.oss.impl.OssServiceTencentImpl;
+import com.qcloud.cos.COSClient;
+import com.qcloud.cos.ClientConfig;
+import com.qcloud.cos.auth.BasicCOSCredentials;
+import com.qcloud.cos.auth.COSCredentials;
+import com.qcloud.cos.http.HttpProtocol;
+import com.qcloud.cos.region.Region;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -23,7 +30,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * OSS对象存储自动配置（当前仅支持一种方式存在）
+ * OSS对象存储自动配置
+ * FIXME 优化为可动态选择实现
  *
  * @author Jastar Wang
  * @date 2021/9/14
@@ -60,10 +68,40 @@ public class JefwOssAutoConfiguration {
      * 当系统依赖了aliyun-sdk-oss时，才会启用该配置
      * （这里用检测 {@link OSS} 是否存在来表示）
      */
-    @Bean
+    @Bean(initMethod = "init", destroyMethod = "destroy")
     @ConditionalOnClass(OSS.class)
     public OssService ossServiceAliyunImpl(OSS oss) {
         return new OssServiceAliyunImpl(oss);
+    }
+
+    // ========================= 腾讯云 ============================= //
+
+    /**
+     * 当系统依赖了tencent-sdk-cos并且此bean不存在时，才会启用该配置
+     * （这里用检测 {@link COSClient} 是否存在来表示）
+     */
+    @Bean
+    @ConditionalOnClass(COSClient.class)
+    @ConditionalOnMissingBean(COSClient.class)
+    public COSClient cosClient(JefwOssProperties jefwOssProperties) {
+        COSCredentials cred = new BasicCOSCredentials(
+                jefwOssProperties.getTencent().getAccessKeyId(),
+                jefwOssProperties.getTencent().getAccessKeySecret()
+        );
+        Region region = new Region(jefwOssProperties.getTencent().getRegion());
+        ClientConfig clientConfig = new ClientConfig(region);
+        clientConfig.setHttpProtocol(jefwOssProperties.getTencent().getHttps() ? HttpProtocol.https : HttpProtocol.http);
+        return new COSClient(cred, clientConfig);
+    }
+
+    /**
+     * 当系统依赖了tencent-sdk-cos时，才会启用该配置
+     * （这里用检测 {@link COSClient} 是否存在来表示）
+     */
+    @Bean(initMethod = "init", destroyMethod = "destroy")
+    @ConditionalOnClass(COSClient.class)
+    public OssService ossServiceTencentImpl(COSClient cosClient) {
+        return new OssServiceTencentImpl(cosClient);
     }
 
 }

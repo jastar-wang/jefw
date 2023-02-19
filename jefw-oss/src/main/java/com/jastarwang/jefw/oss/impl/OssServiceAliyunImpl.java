@@ -22,7 +22,10 @@ import com.jastarwang.jefw.oss.OssService;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.net.URL;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 import static com.jastarwang.jefw.oss.OssAccessPolicy.*;
 
@@ -118,9 +121,13 @@ public class OssServiceAliyunImpl implements OssService {
     }
 
     @Override
-    public String getPrivateUrl(String key, LocalDateTime expiration) {
-        // TODO 待实现
-        return null;
+    public String getPrivateUrl(String bucketName, String key, LocalDateTime expiration) {
+        Date date = null;
+        if (expiration != null) {
+            date = Date.from(expiration.atZone(ZoneId.of("+8")).toInstant());
+        }
+        URL url = client.generatePresignedUrl(bucketName, key, date);
+        return url.toString();
     }
 
     private CannedAccessControlList aclAdapter(OssAccessPolicy accessPolicy) {

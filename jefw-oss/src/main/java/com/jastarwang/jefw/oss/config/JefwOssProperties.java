@@ -67,6 +67,10 @@ public class JefwOssProperties {
 
     public static class Aliyun {
         /**
+         * 可空，是否是HTTPS，默认是
+         */
+        private Boolean https = true;
+        /**
          * 非空，密钥ID
          */
         private String accessKeyId;
@@ -75,17 +79,25 @@ public class JefwOssProperties {
          */
         private String accessKeySecret;
         /**
-         * 非空，桶名称
+         * 非空，桶名称（只是为了方便业务，本库中不使用）
          */
         private String bucketName;
         /**
-         * 非空，文件访问前缀（如：https://oss.xxx.com/）
+         * 非空，文件访问前缀（如：https://oss.xxx.com/，只是为了方便业务，本库中不使用）
          */
         private String urlPrefix;
         /**
          * 非空，访问站点（如：oss-cn-chengdu.aliyuncs.com）
          */
         private String endpoint;
+
+        public Boolean getHttps() {
+            return https;
+        }
+
+        public void setHttps(Boolean https) {
+            this.https = https;
+        }
 
         public String getAccessKeyId() {
             return accessKeyId;
@@ -130,7 +142,8 @@ public class JefwOssProperties {
         @Override
         public String toString() {
             return "Aliyun{" +
-                    "accessKeyId='" + accessKeyId + '\'' +
+                    "https=" + https +
+                    ", accessKeyId='" + accessKeyId + '\'' +
                     ", accessKeySecret='" + accessKeySecret + '\'' +
                     ", bucketName='" + bucketName + '\'' +
                     ", urlPrefix='" + urlPrefix + '\'' +
@@ -141,6 +154,10 @@ public class JefwOssProperties {
 
     public static class Tencent {
         /**
+         * 可空，是否是HTTPS，默认是
+         */
+        private Boolean https = true;
+        /**
          * 非空，密钥ID
          */
         private String accessKeyId;
@@ -149,17 +166,25 @@ public class JefwOssProperties {
          */
         private String accessKeySecret;
         /**
-         * 非空，桶名称
+         * 非空，桶名称（只是为了方便业务，本库中不使用）
          */
         private String bucketName;
         /**
-         * 非空，文件访问前缀（如：https://oss.xxx.com/）
+         * 非空，文件访问前缀（如：https://oss.xxx.com/，只是为了方便业务，本库中不使用）
          */
         private String urlPrefix;
         /**
          * 非空，地区（如：ap-chengdu）
          */
         private String region;
+
+        public Boolean getHttps() {
+            return https;
+        }
+
+        public void setHttps(Boolean https) {
+            this.https = https;
+        }
 
         public String getAccessKeyId() {
             return accessKeyId;
@@ -204,7 +229,8 @@ public class JefwOssProperties {
         @Override
         public String toString() {
             return "Tencent{" +
-                    "accessKeyId='" + accessKeyId + '\'' +
+                    "https=" + https +
+                    ", accessKeyId='" + accessKeyId + '\'' +
                     ", accessKeySecret='" + accessKeySecret + '\'' +
                     ", bucketName='" + bucketName + '\'' +
                     ", urlPrefix='" + urlPrefix + '\'' +
