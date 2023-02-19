@@ -1,0 +1,14 @@
+jefw:
+  oss:
+    aliyun:
+      access-key-id: xxxxxx
+      access-key-secret: xxxxxx
+      endpoint: oss-cn-chengdu.aliyuncs.com
+      bucket-name: xxxxxx
+      url-prefix: https://oss.xxx.com/
+    tencent:
+      access-key-id: xxxxxx
+      access-key-secret: xxxxxx
+      bucket-name: xxxxxx-123456789
+      url-prefix: https://oss.xxx.com/
+      region: ap-chengdu

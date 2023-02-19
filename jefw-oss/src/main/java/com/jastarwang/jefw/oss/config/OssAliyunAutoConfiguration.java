@@ -9,22 +9,20 @@
  * MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
  * See the Mulan PSL v2 for more details.
  */
-package com.jastarwang.jefw.oss.aliyun;
+package com.jastarwang.jefw.oss.config;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
+import com.jastarwang.jefw.oss.OssService;
+import com.jastarwang.jefw.oss.impl.OssServiceAliyunImpl;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 阿里云OSS自动配置类
- * <p>
- * 当系统依赖了aliyun-sdk-oss时，才会启用该配置
- * （这里用检测 {@link OSS} 是否存在来表示）
- * </p>
+ * OSS对象存储自动配置 - 阿里云
  *
  * @author Jastar Wang
  * @date 2021/9/14
@@ -32,32 +30,23 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ConditionalOnClass(OSS.class)
-public class AliyunOssAutoConfiguration {
-
-    @Bean
-    @ConfigurationProperties(prefix = "oss.aliyun")
-    public AliyunOssBaseProperties aliyunOssBaseProperties() {
-        return new AliyunOssBaseProperties();
-    }
+@ConditionalOnProperty(value = "jefw.oss.enabled", havingValue = "true", matchIfMissing = true)
+public class OssAliyunAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(OSS.class)
-    public OSS aliyunOssClient(AliyunOssBaseProperties properties) {
+    public OSS aliyunOssClient(JefwOssProperties jefwOssProperties) {
         return new OSSClientBuilder().build(
-                properties.getEndpoint(),
-                properties.getAccessKeyId(),
-                properties.getAccessKeySecret()
+                jefwOssProperties.getAliyun().getEndpoint(),
+                jefwOssProperties.getAliyun().getAccessKeyId(),
+                jefwOssProperties.getAliyun().getAccessKeySecret()
         );
     }
 
-    /**
-     * 本方法是为了注入 AliyunOssUtil 里的成员变量
-     *
-     * @return AliyunOssUtil 对象，请使用类的静态调用而不是本对象
-     */
-    @Bean
-    public AliyunOssUtil aliyunOssUtil() {
-        return new AliyunOssUtil();
+    @Bean(initMethod = "init", destroyMethod = "destroy")
+    @ConditionalOnClass(OSS.class)
+    public OssService ossServiceAliyunImpl(OSS oss) {
+        return new OssServiceAliyunImpl(oss);
     }
 
 }

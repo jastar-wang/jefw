@@ -7,13 +7,20 @@
     <parent>
         <artifactId>jefw</artifactId>
         <groupId>com.jastarwang</groupId>
-        <version>1.2.3</version>
+        <version>1.2.4</version>
     </parent>
     <artifactId>jefw-redis</artifactId>
     <name>${project.artifactId}</name>
     <description>Redis模块：提供缓存工具类以及分布式锁的封装支持</description>
 
     <dependencies>
+
+        <!-- jefw core -->
+        <dependency>
+            <groupId>com.jastarwang</groupId>
+            <artifactId>jefw-core</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
 
         <!-- spring data redis starter -->
         <dependency>

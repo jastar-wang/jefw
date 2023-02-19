@@ -9,8 +9,9 @@
  * MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
  * See the Mulan PSL v2 for more details.
  */
-package com.jastarwang.jefw.redisson;
+package com.jastarwang.jefw.lock.config;
 
+import com.jastarwang.jefw.lock.impl.RedissonDistributedLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -18,10 +19,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Redisson分布式锁自动配置类
+ * 分布式锁自动配置类
  * <p>
- * 当系统依赖了Redisson的相关类库时，才会启用该配置
- * （这里用检测 {@link RedissonClient} 是否存在来表示）
+ * 默认使用 Redisson 实现，且当系统依赖了 Redisson 的相关类库时，才会启用该配置
+ * （这里用检测 {@link RedissonClient} 类来判断）
  * </p>
  *
  * @author Jastar Wang
@@ -30,7 +31,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ConditionalOnClass(RedissonClient.class)
-public class RedissonDistributedLockAutoConfiguration {
+public class DistributedLockAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(name = "distributedLock")

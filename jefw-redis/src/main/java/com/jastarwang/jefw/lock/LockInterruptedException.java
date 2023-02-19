@@ -9,22 +9,27 @@
  * MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
  * See the Mulan PSL v2 for more details.
  */
-package com.jastarwang.jefw.redisson;
+package com.jastarwang.jefw.lock;
 
 /**
- * 加锁失败异常
+ * 加锁的线程被打断异常
+ * <p>当持有锁的线程被打断时，会抛出此异常，但仍然能自动释放锁</p>
  *
  * @author Jastar Wang
- * @date 2020/10/21
- * @since 1.0
+ * @date 2023/02/19
+ * @since 1.2.4
  */
-public class CannotAcquireLockException extends RuntimeException {
+public class LockInterruptedException extends RuntimeException {
 
-    public CannotAcquireLockException() {
+    public LockInterruptedException() {
     }
 
-    public CannotAcquireLockException(String message) {
+    public LockInterruptedException(String message) {
         super(message);
+    }
+
+    public LockInterruptedException(Throwable cause) {
+        super(cause);
     }
 
 }
