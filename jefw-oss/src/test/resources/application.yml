@@ -1,0 +1,8 @@
+jefw:
+  oss:
+    aliyun:
+      access-key-id: xxxxxxxxx
+      access-key-secret: xxxxxxxxx
+      endpoint: oss-cn-xxx.aliyuncs.com
+      bucket-name: xxxxxxxxx
+      url-prefix: https://oss.xxx.com/

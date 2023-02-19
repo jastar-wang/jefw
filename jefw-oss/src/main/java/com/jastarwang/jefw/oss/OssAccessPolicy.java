@@ -9,16 +9,16 @@
  * MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
  * See the Mulan PSL v2 for more details.
  */
-package com.jastarwang.jefw.oss.enums;
+package com.jastarwang.jefw.oss;
 
 /**
- * 对象存储权限枚举
+ * 对象访问权限策略
  *
  * @author Jastar Wang
  * @date 2021/9/15
  * @since 1.2.0
  */
-public enum OssAuthEnum {
+public enum OssAccessPolicy {
 
     /**
      * 默认，跟随平台自身或继承Bucket权限
