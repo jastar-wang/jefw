@@ -11,6 +11,10 @@
  */
 package com.jastarwang.jefw.oss.config;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
+
 /**
  * 对象存储服务的参数配置
  *
@@ -18,6 +22,9 @@ package com.jastarwang.jefw.oss.config;
  * @date 2023/2/19
  * @since 1.2.4
  */
+@Configuration
+@ConfigurationProperties(prefix = "jefw.oss")
+@ConditionalOnProperty(value = "jefw.oss.enabled", havingValue = "true", matchIfMissing = true)
 public class JefwOssProperties {
     /**
      * 可空，是否启用OSS模块，默认启用
