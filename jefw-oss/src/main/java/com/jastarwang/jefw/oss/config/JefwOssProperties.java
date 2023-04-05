@@ -13,8 +13,6 @@ package com.jastarwang.jefw.oss.config;
 
 import com.jastarwang.jefw.oss.OssChannel;
 
-import java.util.StringJoiner;
-
 /**
  * 对象存储服务的参数配置
  *
@@ -76,39 +74,35 @@ public class JefwOssProperties {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", JefwOssProperties.class.getSimpleName() + "[", "]")
-                .add("enabled=" + enabled)
-                .add("defaultChannel=" + defaultChannel)
-                .add("aliyun=" + aliyun)
-                .add("tencent=" + tencent)
-                .toString();
+        return "JefwOssProperties{" +
+                "enabled=" + enabled +
+                ", defaultChannel=" + defaultChannel +
+                ", aliyun=" + aliyun +
+                ", tencent=" + tencent +
+                '}';
     }
 
-    public static class Aliyun {
+    public static class Base {
         /**
          * 可空，是否是HTTPS，默认是
          */
-        private Boolean https = true;
+        protected Boolean https = true;
         /**
          * 非空，密钥ID
          */
-        private String accessKeyId;
+        protected String accessKeyId;
         /**
          * 非空，密钥
          */
-        private String accessKeySecret;
+        protected String accessKeySecret;
         /**
          * 非空，桶名称（只是为了方便业务，本库中不使用）
          */
-        private String bucketName;
+        protected String bucketName;
         /**
          * 非空，文件访问前缀（如：https://oss.xxx.com/，只是为了方便业务，本库中不使用）
          */
-        private String urlPrefix;
-        /**
-         * 非空，访问站点（如：oss-cn-chengdu.aliyuncs.com）
-         */
-        private String endpoint;
+        protected String urlPrefix;
 
         public Boolean getHttps() {
             return https;
@@ -149,6 +143,13 @@ public class JefwOssProperties {
         public void setUrlPrefix(String urlPrefix) {
             this.urlPrefix = urlPrefix;
         }
+    }
+
+    public static class Aliyun extends Base {
+        /**
+         * 非空，访问站点（如：oss-cn-chengdu.aliyuncs.com）
+         */
+        private String endpoint;
 
         public String getEndpoint() {
             return endpoint;
@@ -171,71 +172,11 @@ public class JefwOssProperties {
         }
     }
 
-    public static class Tencent {
-        /**
-         * 可空，是否是HTTPS，默认是
-         */
-        private Boolean https = true;
-        /**
-         * 非空，密钥ID
-         */
-        private String accessKeyId;
-        /**
-         * 非空，密钥
-         */
-        private String accessKeySecret;
-        /**
-         * 非空，桶名称（只是为了方便业务，本库中不使用）
-         */
-        private String bucketName;
-        /**
-         * 非空，文件访问前缀（如：https://oss.xxx.com/，只是为了方便业务，本库中不使用）
-         */
-        private String urlPrefix;
+    public static class Tencent extends Base {
         /**
          * 非空，地区（如：ap-chengdu）
          */
         private String region;
-
-        public Boolean getHttps() {
-            return https;
-        }
-
-        public void setHttps(Boolean https) {
-            this.https = https;
-        }
-
-        public String getAccessKeyId() {
-            return accessKeyId;
-        }
-
-        public void setAccessKeyId(String accessKeyId) {
-            this.accessKeyId = accessKeyId;
-        }
-
-        public String getAccessKeySecret() {
-            return accessKeySecret;
-        }
-
-        public void setAccessKeySecret(String accessKeySecret) {
-            this.accessKeySecret = accessKeySecret;
-        }
-
-        public String getBucketName() {
-            return bucketName;
-        }
-
-        public void setBucketName(String bucketName) {
-            this.bucketName = bucketName;
-        }
-
-        public String getUrlPrefix() {
-            return urlPrefix;
-        }
-
-        public void setUrlPrefix(String urlPrefix) {
-            this.urlPrefix = urlPrefix;
-        }
 
         public String getRegion() {
             return region;
