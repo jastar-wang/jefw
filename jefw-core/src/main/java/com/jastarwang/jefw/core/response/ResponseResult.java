@@ -84,18 +84,6 @@ public class ResponseResult<T> implements Serializable {
     }
 
     /**
-     * 格式化信息并返回
-     *
-     * @param code   非空，响应码对象，其提示信息可使用“{}”占位格式化
-     * @param params 可空，参数列表，要与占位符的个数一致
-     * @since 1.3.0
-     */
-    public static <T> ResponseResult<T> successf(AbstractResponseCode code, Object... params) {
-        String finalMsg = (params != null && params.length > 0) ? String.format(code.getMsg().replaceAll("\\{}", "%s"), params) : code.getMsg();
-        return success(code.getCode(), finalMsg, null);
-    }
-
-    /**
      * @since 1.1.1
      */
     public static <T> ResponseResult<T> success(String code, String msg) {
@@ -107,6 +95,18 @@ public class ResponseResult<T> implements Serializable {
      */
     public static <T> ResponseResult<T> success(String code, String msg, T data) {
         return new ResponseResult<>(true, code, msg, data);
+    }
+
+    /**
+     * 格式化信息并返回
+     *
+     * @param code   非空，响应码对象，其提示信息可使用“{}”占位格式化
+     * @param params 可空，参数列表，要与占位符的个数一致
+     * @since 1.3.0
+     */
+    public static <T> ResponseResult<T> successf(AbstractResponseCode code, Object... params) {
+        String finalMsg = (params != null && params.length > 0) ? String.format(code.getMsg().replaceAll("\\{}", "%s"), params) : code.getMsg();
+        return success(code.getCode(), finalMsg, null);
     }
 
     public static <T> ResponseResult<T> fail() {
@@ -126,18 +126,6 @@ public class ResponseResult<T> implements Serializable {
     }
 
     /**
-     * 格式化信息并返回
-     *
-     * @param code   非空，响应码对象，其提示信息可使用“{}”占位格式化
-     * @param params 可空，参数列表，要与占位符的个数一致
-     * @since 1.3.0
-     */
-    public static <T> ResponseResult<T> failf(AbstractResponseCode code, Object... params) {
-        String finalMsg = (params != null && params.length > 0) ? String.format(code.getMsg().replaceAll("\\{}", "%s"), params) : code.getMsg();
-        return fail(code.getCode(), finalMsg, null);
-    }
-
-    /**
      * @since 1.1.1
      */
     public static <T> ResponseResult<T> fail(String code, String msg) {
@@ -149,6 +137,18 @@ public class ResponseResult<T> implements Serializable {
      */
     public static <T> ResponseResult<T> fail(String code, String msg, T data) {
         return new ResponseResult<>(false, code, msg, data);
+    }
+
+    /**
+     * 格式化信息并返回
+     *
+     * @param code   非空，响应码对象，其提示信息可使用“{}”占位格式化
+     * @param params 可空，参数列表，要与占位符的个数一致
+     * @since 1.3.0
+     */
+    public static <T> ResponseResult<T> failf(AbstractResponseCode code, Object... params) {
+        String finalMsg = (params != null && params.length > 0) ? String.format(code.getMsg().replaceAll("\\{}", "%s"), params) : code.getMsg();
+        return fail(code.getCode(), finalMsg, null);
     }
 
     /**

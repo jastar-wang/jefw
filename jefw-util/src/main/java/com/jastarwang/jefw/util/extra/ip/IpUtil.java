@@ -12,6 +12,8 @@
 package com.jastarwang.jefw.util.extra.ip;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.Header;
+import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -50,13 +52,13 @@ public class IpUtil {
         if (StrUtil.isBlank(ip)) {
             return null;
         }
-        // request
         Map<String, Object> param = new HashMap<>();
         param.put("ip", ip);
         param.put("accessKey", API_ACCESS_KEY);
-        String response = HttpUtil.post(API_URL, param);
-        // parse
+        HttpRequest post = HttpUtil.createPost(API_URL).form(param);
+        post.header(Header.USER_AGENT, StrUtil.removeSuffix(post.header(Header.USER_AGENT), " Hutool"));
         try {
+            String response = post.execute().body();
             JSONObject jsonObject = JSONUtil.parseObj(response);
             Integer code = jsonObject.get("code", Integer.class);
             if (code != null && code == 0) {
@@ -64,7 +66,6 @@ public class IpUtil {
             }
             return null;
         } catch (Exception e) {
-            // ignore
             return null;
         }
     }

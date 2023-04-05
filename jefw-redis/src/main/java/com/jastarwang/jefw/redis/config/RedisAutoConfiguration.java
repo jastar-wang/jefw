@@ -9,7 +9,7 @@
  * MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
  * See the Mulan PSL v2 for more details.
  */
-package com.jastarwang.jefw.redis;
+package com.jastarwang.jefw.redis.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -26,6 +26,8 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
+import com.jastarwang.jefw.core.consts.Pattern;
+import com.jastarwang.jefw.redis.RedisUtil;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -55,10 +57,6 @@ import java.time.format.DateTimeFormatter;
 @ConditionalOnClass(RedisTemplate.class)
 public class RedisAutoConfiguration {
 
-    static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
-    static final String DEFAULT_TIME_FORMAT = "HH:mm:ss.SSS";
-    static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
-
     @Bean
     @ConditionalOnMissingBean(name = "redisTemplate")
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
@@ -83,9 +81,9 @@ public class RedisAutoConfiguration {
         om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
         om.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT);
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT);
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT);
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(Pattern.Date.NORMAL_DATE);
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(Pattern.Date.NORMAL_TIME_MS);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(Pattern.Date.NORMAL_DATE_TIME_MS);
         JavaTimeModule timeModule = new JavaTimeModule();
         timeModule.addSerializer(LocalDate.class, new LocalDateSerializer(dateFormatter));
         timeModule.addSerializer(LocalTime.class, new LocalTimeSerializer(timeFormatter));

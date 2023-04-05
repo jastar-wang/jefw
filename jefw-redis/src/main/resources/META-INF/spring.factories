@@ -1,3 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.jastarwang.jefw.redis.RedisAutoConfiguration,\
+com.jastarwang.jefw.redis.config.RedisAutoConfiguration,\
 com.jastarwang.jefw.lock.config.DistributedLockAutoConfiguration
