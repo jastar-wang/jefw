@@ -11,9 +11,9 @@
  */
 package com.jastarwang.jefw.oss.config;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import com.jastarwang.jefw.oss.OssChannel;
+
+import java.util.StringJoiner;
 
 /**
  * 对象存储服务的参数配置
@@ -22,14 +22,17 @@ import org.springframework.context.annotation.Configuration;
  * @date 2023/2/19
  * @since 1.2.4
  */
-@Configuration
-@ConfigurationProperties(prefix = "jefw.oss")
-@ConditionalOnProperty(value = "jefw.oss.enabled", havingValue = "true", matchIfMissing = true)
 public class JefwOssProperties {
     /**
      * 可空，是否启用OSS模块，默认启用
      */
     private Boolean enabled = true;
+    /**
+     * 可空，默认存储渠道
+     * <li>若只检测到一个存储服务，则使用该存储服务</li>
+     * <li>若有多个存储服务，则取第一个服务（根据枚举的顺序）</li>
+     */
+    private OssChannel defaultChannel;
     /**
      * 阿里云OSS配置
      */
@@ -45,6 +48,14 @@ public class JefwOssProperties {
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public OssChannel getDefaultChannel() {
+        return defaultChannel;
+    }
+
+    public void setDefaultChannel(OssChannel defaultChannel) {
+        this.defaultChannel = defaultChannel;
     }
 
     public Aliyun getAliyun() {
@@ -65,11 +76,12 @@ public class JefwOssProperties {
 
     @Override
     public String toString() {
-        return "JefwOssProperties{" +
-                "enabled=" + enabled +
-                ", aliyun=" + aliyun +
-                ", tencent=" + tencent +
-                '}';
+        return new StringJoiner(", ", JefwOssProperties.class.getSimpleName() + "[", "]")
+                .add("enabled=" + enabled)
+                .add("defaultChannel=" + defaultChannel)
+                .add("aliyun=" + aliyun)
+                .add("tencent=" + tencent)
+                .toString();
     }
 
     public static class Aliyun {

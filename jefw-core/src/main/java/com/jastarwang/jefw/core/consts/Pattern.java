@@ -9,7 +9,6 @@
  * MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
  * See the Mulan PSL v2 for more details.
  */
-
 package com.jastarwang.jefw.core.consts;
 
 /**
@@ -17,7 +16,7 @@ package com.jastarwang.jefw.core.consts;
  *
  * @author Jastar Wang
  * @date 2023/4/5
- * @since 1.0
+ * @since 1.3.0
  */
 public class Pattern {
     /**

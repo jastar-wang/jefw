@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
  * @date 2023/2/19
  * @since 1.2.4
  */
-public interface OssService {
+public interface JefwOssService {
     /**
      * 自定义初始化操作
      */
@@ -39,6 +39,13 @@ public interface OssService {
      * @return 原始客户端对象，调用方自行转换类型
      */
     Object prototype();
+
+    /**
+     * 获取存储渠道
+     *
+     * @return 实现类对应的存储渠道
+     */
+    OssChannel getChannel();
 
     /**
      * 检查bucket是否存在

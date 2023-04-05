@@ -11,42 +11,37 @@
  */
 package com.jastarwang.jefw.oss.config;
 
-import com.aliyun.oss.OSS;
-import com.aliyun.oss.OSSClientBuilder;
-import com.jastarwang.jefw.oss.OssService;
-import com.jastarwang.jefw.oss.impl.OssServiceAliyunImpl;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import com.jastarwang.jefw.oss.JefwOssService;
+import com.jastarwang.jefw.oss.JefwOssTemplate;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
+
 /**
- * OSS对象存储自动配置 - 阿里云
+ * OSS对象存储自动配置-主入口
  *
  * @author Jastar Wang
- * @date 2021/9/14
- * @since 1.2.0
+ * @date 2023/4/5
+ * @since 1.3.0
  */
 @Configuration
-@ConditionalOnClass(OSS.class)
 @ConditionalOnProperty(value = "jefw.oss.enabled", havingValue = "true", matchIfMissing = true)
-public class OssAliyunAutoConfiguration {
+public class JefwOssAutoConfiguration {
 
     @Bean
-    @ConditionalOnMissingBean(OSS.class)
-    public OSS aliyunOssClient(JefwOssProperties jefwOssProperties) {
-        return new OSSClientBuilder().build(
-                jefwOssProperties.getAliyun().getEndpoint(),
-                jefwOssProperties.getAliyun().getAccessKeyId(),
-                jefwOssProperties.getAliyun().getAccessKeySecret()
-        );
+    @ConfigurationProperties(prefix = "jefw.oss")
+    public JefwOssProperties jefwOssProperties() {
+        return new JefwOssProperties();
     }
 
-    @Bean(initMethod = "init", destroyMethod = "destroy")
-    @ConditionalOnClass(OSS.class)
-    public OssService ossServiceAliyunImpl(OSS oss) {
-        return new OssServiceAliyunImpl(oss);
+    @Bean
+    @ConditionalOnMissingBean
+    public JefwOssTemplate jefwOssTemplate(JefwOssProperties jefwOssProperties, List<JefwOssService> jefwOssServices) {
+        return new JefwOssTemplate(jefwOssProperties, jefwOssServices);
     }
 
 }
