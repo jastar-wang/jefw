@@ -34,7 +34,7 @@ public class JefwSmsAutoConfiguration {
 
     @Bean
     @ConfigurationProperties(prefix = "jefw.sms")
-    public JefwSmsProperties jefwOssProperties() {
+    public JefwSmsProperties jefwSmsProperties() {
         return new JefwSmsProperties();
     }
 

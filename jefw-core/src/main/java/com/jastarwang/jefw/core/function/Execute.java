@@ -18,6 +18,7 @@ package com.jastarwang.jefw.core.function;
  * @date 2023/1/7
  * @since 1.2.3
  */
+@FunctionalInterface
 public interface Execute {
 
     /**

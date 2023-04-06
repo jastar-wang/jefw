@@ -27,8 +27,6 @@ import javax.servlet.http.HttpSession;
  */
 public class WebUtil {
 
-    private static final String XML_HTTP_REQUEST = "XMLHttpRequest";
-
     private WebUtil() {
     }
 
@@ -80,7 +78,7 @@ public class WebUtil {
      */
     public static boolean isAjax(HttpServletRequest request) {
         String header = request.getHeader("X-Requested-With");
-        return XML_HTTP_REQUEST.equalsIgnoreCase(header);
+        return "XMLHttpRequest".equalsIgnoreCase(header);
     }
 
     private static ServletRequestAttributes getServletRequestAttributes() {
