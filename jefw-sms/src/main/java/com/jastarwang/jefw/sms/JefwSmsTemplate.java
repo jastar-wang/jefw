@@ -42,10 +42,23 @@ public class JefwSmsTemplate implements InitializingBean {
      * 默认短信服务
      */
     private JefwSmsService defaultService;
+    /**
+     * 默认短信渠道
+     */
+    private SmsChannel defaultChannel;
 
     public JefwSmsTemplate(JefwSmsProperties jefwSmsProperties, List<JefwSmsService> jefwSmsServices) {
         this.jefwSmsProperties = jefwSmsProperties;
         this.jefwSmsServices = jefwSmsServices;
+    }
+
+    /**
+     * 获取短信配置
+     *
+     * @return 短信配置信息
+     */
+    public JefwSmsProperties getProperties() {
+        return jefwSmsProperties;
     }
 
     /**
@@ -65,6 +78,15 @@ public class JefwSmsTemplate implements InitializingBean {
      */
     public JefwSmsService getDefaultService() {
         return defaultService;
+    }
+
+    /**
+     * 获取默认的短信渠道
+     *
+     * @return 默认的短信渠道
+     */
+    public SmsChannel getDefaultChannel() {
+        return defaultChannel;
     }
 
     /**
@@ -94,6 +116,20 @@ public class JefwSmsTemplate implements InitializingBean {
         service.send(phones, templateOrId, params);
     }
 
+    /**
+     * 发送短信
+     *
+     * @param channel      非空，自主选择短信发送渠道
+     * @param phones       非空，手机号，多个用英文逗号隔开。
+     *                     <b>注意：请注意各个平台的最大数量限制</b>
+     * @param templateOrId 非空，模板内容或模板ID
+     * @param params       可空，参数，要与模板所需的数量一致。
+     *                     <b>注意：腾讯云渠道下请使用有序Map（如：LinkedHashMap），以保证同模板参数的顺序一致</b>
+     */
+    public void send(SmsChannel channel, String phones, String templateOrId, Map<String, Object> params) {
+        serviceRegistry.get(channel).send(phones, templateOrId, params);
+    }
+
     @Override
     public void afterPropertiesSet() {
         for (JefwSmsService jefwSmsService : jefwSmsServices) {
@@ -104,5 +140,6 @@ public class JefwSmsTemplate implements InitializingBean {
         } else {
             defaultService = jefwSmsServices.get(0);
         }
+        defaultChannel = defaultService.getChannel();
     }
 }

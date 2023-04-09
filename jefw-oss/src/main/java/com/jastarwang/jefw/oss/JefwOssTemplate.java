@@ -42,10 +42,23 @@ public class JefwOssTemplate implements InitializingBean {
      * 默认存储服务
      */
     private JefwOssService defaultService;
+    /**
+     * 默认存储渠道
+     */
+    private OssChannel defaultChannel;
 
     public JefwOssTemplate(JefwOssProperties jefwOssProperties, List<JefwOssService> jefwOssServices) {
         this.jefwOssProperties = jefwOssProperties;
         this.jefwOssServices = jefwOssServices;
+    }
+
+    /**
+     * 获取存储配置
+     *
+     * @return 存储配置信息
+     */
+    public JefwOssProperties getProperties() {
+        return jefwOssProperties;
     }
 
     /**
@@ -67,6 +80,15 @@ public class JefwOssTemplate implements InitializingBean {
         return defaultService;
     }
 
+    /**
+     * 获取默认的存储渠道
+     *
+     * @return 默认的存储渠道
+     */
+    public OssChannel getDefaultChannel() {
+        return defaultChannel;
+    }
+
     @Override
     public void afterPropertiesSet() {
         for (JefwOssService jefwOssService : jefwOssServices) {
@@ -77,5 +99,6 @@ public class JefwOssTemplate implements InitializingBean {
         } else {
             defaultService = jefwOssServices.get(0);
         }
+        defaultChannel = defaultService.getChannel();
     }
 }
