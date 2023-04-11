@@ -22,6 +22,10 @@ import com.jastarwang.jefw.sms.SmsChannel;
  */
 public class JefwSmsProperties {
     /**
+     * 可空，是否启用SMS模块，默认禁用
+     */
+    private Boolean enabled = false;
+    /**
      * 可空，默认短信渠道
      * <li>若只检测到一个短信服务，则使用该服务</li>
      * <li>若有多个短信服务，则取第一个服务（根据枚举的顺序）</li>
@@ -35,6 +39,14 @@ public class JefwSmsProperties {
      * 大汉三通
      */
     private Dh3Tong dh3tong;
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
 
     public SmsChannel getDefaultChannel() {
         return defaultChannel;
@@ -63,7 +75,8 @@ public class JefwSmsProperties {
     @Override
     public String toString() {
         return "JefwSmsProperties{" +
-                "defaultChannel=" + defaultChannel +
+                "enabled=" + enabled +
+                ", defaultChannel=" + defaultChannel +
                 ", tencent=" + tencent +
                 ", dh3tong=" + dh3tong +
                 '}';

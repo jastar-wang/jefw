@@ -29,7 +29,7 @@ import java.util.List;
  * @since 1.3.0
  */
 @Configuration
-@ConditionalOnProperty(value = "jefw.sms.enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(value = "jefw.sms.enabled", havingValue = "true")
 public class JefwSmsAutoConfiguration {
 
     @Bean

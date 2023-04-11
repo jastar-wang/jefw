@@ -31,7 +31,7 @@ import org.springframework.core.annotation.Order;
  */
 @Configuration
 @ConditionalOnClass(OSS.class)
-@ConditionalOnProperty(value = "jefw.oss.enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(value = "jefw.oss.enabled", havingValue = "true")
 public class AliyunJefwOssAutoConfiguration {
 
     @Bean

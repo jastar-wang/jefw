@@ -35,7 +35,7 @@ import org.springframework.core.annotation.Order;
  */
 @Configuration
 @ConditionalOnClass(COSClient.class)
-@ConditionalOnProperty(value = "jefw.oss.enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(value = "jefw.oss.enabled", havingValue = "true")
 public class TencentJefwOssAutoConfiguration {
 
     @Bean

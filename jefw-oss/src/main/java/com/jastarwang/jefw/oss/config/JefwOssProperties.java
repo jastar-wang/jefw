@@ -22,9 +22,9 @@ import com.jastarwang.jefw.oss.OssChannel;
  */
 public class JefwOssProperties {
     /**
-     * 可空，是否启用OSS模块，默认启用
+     * 可空，是否启用OSS模块，默认禁用
      */
-    private Boolean enabled = true;
+    private Boolean enabled = false;
     /**
      * 可空，默认存储渠道
      * <li>若只检测到一个存储服务，则使用该存储服务</li>

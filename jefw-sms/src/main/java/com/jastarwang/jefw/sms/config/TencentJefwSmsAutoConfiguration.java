@@ -33,7 +33,7 @@ import org.springframework.core.annotation.Order;
  */
 @Configuration
 @ConditionalOnClass(SmsClient.class)
-@ConditionalOnProperty(value = "jefw.sms.enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(value = "jefw.sms.enabled", havingValue = "true")
 public class TencentJefwSmsAutoConfiguration {
 
     @Order(200)

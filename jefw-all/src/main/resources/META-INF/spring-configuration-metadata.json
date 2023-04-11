@@ -84,9 +84,9 @@
     {
       "name": "jefw.oss.enabled",
       "type": "java.lang.Boolean",
-      "description": "可空，是否启用OSS模块，默认启用",
+      "description": "可空，是否启用OSS模块，默认禁用",
       "sourceType": "com.jastarwang.jefw.oss.config.JefwOssProperties",
-      "defaultValue": true
+      "defaultValue": false
     },
     {
       "name": "jefw.oss.tencent.access-key-id",
@@ -130,6 +130,13 @@
       "type": "com.jastarwang.jefw.sms.SmsChannel",
       "description": "可空，默认短信渠道 <li>若只检测到一个短信服务，则使用该服务<\/li> <li>若有多个短信服务，则取第一个服务（根据枚举的顺序）<\/li>",
       "sourceType": "com.jastarwang.jefw.sms.config.JefwSmsProperties"
+    },
+    {
+      "name": "jefw.sms.enabled",
+      "type": "java.lang.Boolean",
+      "description": "可空，是否启用SMS模块，默认禁用",
+      "sourceType": "com.jastarwang.jefw.sms.config.JefwSmsProperties",
+      "defaultValue": false
     },
     {
       "name": "jefw.sms.dh3tong.account",
