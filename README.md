@@ -1,7 +1,7 @@
 <h1 align="center" style="font-family:fantasy;">Jefw</h1>
 <p align="center" style="color:darkgray;">让 天 下 没 有 难 写 的 代 码</p>
 <p align="center">
-  <a target="_blank"><img src="https://img.shields.io/badge/release-1.2.4-orange.svg" alt="release" /></a>
+  <a target="_blank"><img src="https://img.shields.io/badge/release-1.3.0-orange.svg" alt="release" /></a>
   <a target="_blank"><img src="https://jitpack.io/v/com.gitee.jastar-wang/jefw.svg" alt="jitpack" /></a>
   <a target="_blank"><img src="https://img.shields.io/badge/jdk-1.8+-green.svg" alt="jdk" /></a>
   <a target="_blank"><img src="https://img.shields.io/badge/license-MulanPSL2-blue" alt="license" /></a>
@@ -24,12 +24,12 @@
 - 项目中有参差不齐的工具类，甚至一个项目有多个名字不同但功能相同的工具类。
 - 现在是前后端分离的时代，`json`是和前端交互的利器，我们经常需要定义一套固定的结构来包装响应数据，以便前端能统一处理请求（有规范者则会封装在内部二方库）。
 - `Redis`可以说是当今项目中的必备组件了，虽然`春天`提供了`RedisTemplate`，但是方法写起来很长很费劲，不够丝滑。
-- 对象云存储也是常见的基础服务，但是面对各大厂商的不同`SDK`，这无疑加大了我们的学习成本，要是有一套轻量的标准就好了。
+- 对象云存储、短信发送等也是开发中常见的基础服务，但是面对各大厂商的不同`SDK`，这无疑加大了我们的学习成本，要是有一套轻量的标准就好了。
 - ……
 
 所以今天，`jefw` 诞生了。
 
-`jefw` 来源于 `Jastar Easy Framework` 的简写，生而为了这些使命：
+`jefw` 来源于 `Jastar Easy Framework` 的简写，生而为了：
 
 - 对一些常用的且 `hutool` 中没有的工具类进行补充（Tips：只做补充，不造轮子）
 - 参考《阿里巴巴Java开发手册》的规范，定义了一套通用的响应数据包装模型`ResponseResult`等
@@ -39,7 +39,7 @@
 
 ## 介绍
 
-`jefw` 采用多模块设计，各模块间互不依赖。同时除了第三方的必要依赖，不会引用其他任何的无用库，以保证项目的独立和小巧的体积。
+`jefw` 采用多模块设计，各模块间互不依赖（部分模块依赖`core`包）。同时除了第三方的必要依赖，不会引用其他任何的无用库，以保证项目的独立和小巧的体积。
 
 ```
 com.jastarwang.jefw（根包）
@@ -51,16 +51,18 @@ com.jastarwang.jefw（根包）
 ├─ redis（缓存操作）
 ├─ lock（分布式锁）
 ├─ oss（对象存储）
+├─ sms（短信发送）
 ├─ ···
 ```
 
 模块|状态|描述
 ---|---|---
 jefw-all  |√|一键引入所有模块
-jefw-core |√|【核心模块】如：常用的前端响应数据包装模型、枚举能力扩展接口
+jefw-core |√|【核心模块】提供常用的数据模型定义；如：响应数据模型、枚举能力扩展接口、函数式接口
 jefw-util |√|【常用工具】只做补充，所以强烈推荐搭配 `hutool` 使用，药效更好
 jefw-redis|√|【缓存模块】提供对存取`redis`数据、分布式锁`redisson`的便捷支持
-jefw-oss  |√|【对象存储】整合主流厂商对象存储并对外提供统一便捷的API调用 <br>（Tips：目前已支持阿里云`OSS`和腾讯云`COS`）
+jefw-oss  |√|【对象存储】整合主流厂商对象存储并对外提供统一便捷的API调用 <br>（Tips：目前已支持`阿里云OSS`、`腾讯云COS`）
+jefw-sms  |√|【短信发送】整合主流厂商短信服务并对外提供统一便捷的API调用 <br>（Tips：目前已支持`腾讯云`、`大汉三通`）
 
 ## 快速开始
 
@@ -98,7 +100,7 @@ jefw-oss  |√|【对象存储】整合主流厂商对象存储并对外提供�
 ```xml
 
 <dependency>
-    <groupId>com.jastar-wang</groupId>
+    <groupId>com.jastar-wang.jefw</groupId>
     <artifactId>jefw-all</artifactId>
     <version>${jefw.latestVersion}</version>
 </dependency>
@@ -151,7 +153,7 @@ See the Mulan PSL v2 for more details.
   * TODO
   * @author your niubility name
   * @date ${DATE}
-  * @since 1.0
+  * @since 1.3.0
   */
 ```
 
@@ -223,4 +225,4 @@ feat(Controller):用户查询接口开发
 
 ---
 
-来都来了，不点下`star`？
+愣着干嘛？点`star`啊！！！

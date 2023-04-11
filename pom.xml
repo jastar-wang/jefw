@@ -27,8 +27,8 @@
         <compile.version>8</compile.version>
         <!-- common -->
         <lombok.version>1.18.26</lombok.version>
-        <spring-boot.version>2.7.10</spring-boot.version>
         <jackson.version>2.14.2</jackson.version>
+        <spring-boot.version>2.7.10</spring-boot.version>
         <junit-platform-launcher.version>1.9.2</junit-platform-launcher.version>
         <!-- oss module -->
         <aliyun.sdk.oss.version>3.16.2</aliyun.sdk.oss.version>
