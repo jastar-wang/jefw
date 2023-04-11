@@ -1,0 +1,197 @@
+{
+  "groups": [
+    {
+      "name": "jefw.oss",
+      "type": "com.jastarwang.jefw.oss.config.JefwOssProperties",
+      "sourceType": "com.jastarwang.jefw.oss.config.JefwOssAutoConfiguration",
+      "sourceMethod": "jefwOssProperties()"
+    },
+    {
+      "name": "jefw.oss.aliyun",
+      "type": "com.jastarwang.jefw.oss.config.JefwOssProperties$Aliyun",
+      "sourceType": "com.jastarwang.jefw.oss.config.JefwOssProperties",
+      "sourceMethod": "getAliyun()"
+    },
+    {
+      "name": "jefw.oss.tencent",
+      "type": "com.jastarwang.jefw.oss.config.JefwOssProperties$Tencent",
+      "sourceType": "com.jastarwang.jefw.oss.config.JefwOssProperties",
+      "sourceMethod": "getTencent()"
+    },
+    {
+      "name": "jefw.sms",
+      "type": "com.jastarwang.jefw.sms.config.JefwSmsProperties",
+      "sourceType": "com.jastarwang.jefw.sms.config.JefwSmsAutoConfiguration",
+      "sourceMethod": "jefwSmsProperties()"
+    },
+    {
+      "name": "jefw.sms.dh3tong",
+      "type": "com.jastarwang.jefw.sms.config.JefwSmsProperties$Dh3Tong",
+      "sourceType": "com.jastarwang.jefw.sms.config.JefwSmsProperties",
+      "sourceMethod": "getDh3tong()"
+    },
+    {
+      "name": "jefw.sms.tencent",
+      "type": "com.jastarwang.jefw.sms.config.JefwSmsProperties$Tencent",
+      "sourceType": "com.jastarwang.jefw.sms.config.JefwSmsProperties",
+      "sourceMethod": "getTencent()"
+    }
+  ],
+  "properties": [
+    {
+      "name": "jefw.oss.aliyun.access-key-id",
+      "type": "java.lang.String",
+      "description": "非空，密钥ID",
+      "sourceType": "com.jastarwang.jefw.oss.config.JefwOssProperties$Aliyun"
+    },
+    {
+      "name": "jefw.oss.aliyun.access-key-secret",
+      "type": "java.lang.String",
+      "description": "非空，密钥",
+      "sourceType": "com.jastarwang.jefw.oss.config.JefwOssProperties$Aliyun"
+    },
+    {
+      "name": "jefw.oss.aliyun.bucket-name",
+      "type": "java.lang.String",
+      "description": "非空，桶名称（只是为了方便业务，本库中不使用）",
+      "sourceType": "com.jastarwang.jefw.oss.config.JefwOssProperties$Aliyun"
+    },
+    {
+      "name": "jefw.oss.aliyun.endpoint",
+      "type": "java.lang.String",
+      "description": "非空，访问站点（如：oss-cn-chengdu.aliyuncs.com）",
+      "sourceType": "com.jastarwang.jefw.oss.config.JefwOssProperties$Aliyun"
+    },
+    {
+      "name": "jefw.oss.aliyun.https",
+      "type": "java.lang.Boolean",
+      "description": "可空，是否是HTTPS，默认是",
+      "sourceType": "com.jastarwang.jefw.oss.config.JefwOssProperties$Aliyun",
+      "defaultValue": true
+    },
+    {
+      "name": "jefw.oss.aliyun.url-prefix",
+      "type": "java.lang.String",
+      "description": "非空，文件访问前缀（如：https:\/\/oss.xxx.com\/，只是为了方便业务，本库中不使用）",
+      "sourceType": "com.jastarwang.jefw.oss.config.JefwOssProperties$Aliyun"
+    },
+    {
+      "name": "jefw.oss.default-channel",
+      "type": "com.jastarwang.jefw.oss.OssChannel",
+      "description": "可空，默认存储渠道 <li>若只检测到一个存储服务，则使用该存储服务<\/li> <li>若有多个存储服务，则取第一个服务（根据枚举的顺序）<\/li>",
+      "sourceType": "com.jastarwang.jefw.oss.config.JefwOssProperties"
+    },
+    {
+      "name": "jefw.oss.enabled",
+      "type": "java.lang.Boolean",
+      "description": "可空，是否启用OSS模块，默认禁用",
+      "sourceType": "com.jastarwang.jefw.oss.config.JefwOssProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "jefw.oss.tencent.access-key-id",
+      "type": "java.lang.String",
+      "description": "非空，密钥ID",
+      "sourceType": "com.jastarwang.jefw.oss.config.JefwOssProperties$Tencent"
+    },
+    {
+      "name": "jefw.oss.tencent.access-key-secret",
+      "type": "java.lang.String",
+      "description": "非空，密钥",
+      "sourceType": "com.jastarwang.jefw.oss.config.JefwOssProperties$Tencent"
+    },
+    {
+      "name": "jefw.oss.tencent.bucket-name",
+      "type": "java.lang.String",
+      "description": "非空，桶名称（只是为了方便业务，本库中不使用）",
+      "sourceType": "com.jastarwang.jefw.oss.config.JefwOssProperties$Tencent"
+    },
+    {
+      "name": "jefw.oss.tencent.https",
+      "type": "java.lang.Boolean",
+      "description": "可空，是否是HTTPS，默认是",
+      "sourceType": "com.jastarwang.jefw.oss.config.JefwOssProperties$Tencent",
+      "defaultValue": true
+    },
+    {
+      "name": "jefw.oss.tencent.region",
+      "type": "java.lang.String",
+      "description": "非空，地区（如：ap-chengdu）",
+      "sourceType": "com.jastarwang.jefw.oss.config.JefwOssProperties$Tencent"
+    },
+    {
+      "name": "jefw.oss.tencent.url-prefix",
+      "type": "java.lang.String",
+      "description": "非空，文件访问前缀（如：https:\/\/oss.xxx.com\/，只是为了方便业务，本库中不使用）",
+      "sourceType": "com.jastarwang.jefw.oss.config.JefwOssProperties$Tencent"
+    },
+    {
+      "name": "jefw.sms.default-channel",
+      "type": "com.jastarwang.jefw.sms.SmsChannel",
+      "description": "可空，默认短信渠道 <li>若只检测到一个短信服务，则使用该服务<\/li> <li>若有多个短信服务，则取第一个服务（根据枚举的顺序）<\/li>",
+      "sourceType": "com.jastarwang.jefw.sms.config.JefwSmsProperties"
+    },
+    {
+      "name": "jefw.sms.enabled",
+      "type": "java.lang.Boolean",
+      "description": "可空，是否启用SMS模块，默认禁用",
+      "sourceType": "com.jastarwang.jefw.sms.config.JefwSmsProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "jefw.sms.dh3tong.account",
+      "type": "java.lang.String",
+      "description": "账号",
+      "sourceType": "com.jastarwang.jefw.sms.config.JefwSmsProperties$Dh3Tong"
+    },
+    {
+      "name": "jefw.sms.dh3tong.api-url",
+      "type": "java.lang.String",
+      "description": "API地址",
+      "sourceType": "com.jastarwang.jefw.sms.config.JefwSmsProperties$Dh3Tong"
+    },
+    {
+      "name": "jefw.sms.dh3tong.pwd",
+      "type": "java.lang.String",
+      "description": "密码",
+      "sourceType": "com.jastarwang.jefw.sms.config.JefwSmsProperties$Dh3Tong"
+    },
+    {
+      "name": "jefw.sms.tencent.app-id",
+      "type": "java.lang.String",
+      "description": "非空，短信应用ID",
+      "sourceType": "com.jastarwang.jefw.sms.config.JefwSmsProperties$Tencent"
+    },
+    {
+      "name": "jefw.sms.tencent.endpoint",
+      "type": "java.lang.String",
+      "description": "非空，调用地址，一般形式为 *.tencentcloudapi.com",
+      "sourceType": "com.jastarwang.jefw.sms.config.JefwSmsProperties$Tencent"
+    },
+    {
+      "name": "jefw.sms.tencent.region",
+      "type": "java.lang.String",
+      "description": "非空，地域",
+      "sourceType": "com.jastarwang.jefw.sms.config.JefwSmsProperties$Tencent"
+    },
+    {
+      "name": "jefw.sms.tencent.secret-id",
+      "type": "java.lang.String",
+      "description": "非空，SecretId",
+      "sourceType": "com.jastarwang.jefw.sms.config.JefwSmsProperties$Tencent"
+    },
+    {
+      "name": "jefw.sms.tencent.secret-key",
+      "type": "java.lang.String",
+      "description": "非空，SecretKey",
+      "sourceType": "com.jastarwang.jefw.sms.config.JefwSmsProperties$Tencent"
+    },
+    {
+      "name": "jefw.sms.tencent.sign-name",
+      "type": "java.lang.String",
+      "description": "非空，短信签名",
+      "sourceType": "com.jastarwang.jefw.sms.config.JefwSmsProperties$Tencent"
+    }
+  ],
+  "hints": []
+}

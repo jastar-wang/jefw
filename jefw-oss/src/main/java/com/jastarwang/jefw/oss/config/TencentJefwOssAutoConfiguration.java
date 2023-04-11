@@ -11,8 +11,8 @@
  */
 package com.jastarwang.jefw.oss.config;
 
-import com.jastarwang.jefw.oss.OssService;
-import com.jastarwang.jefw.oss.impl.OssServiceTencentImpl;
+import com.jastarwang.jefw.oss.JefwOssService;
+import com.jastarwang.jefw.oss.impl.TencentJefwOssService;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
 import com.qcloud.cos.auth.BasicCOSCredentials;
@@ -24,6 +24,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 /**
  * OSS对象存储自动配置 - 腾讯云
@@ -34,12 +35,12 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ConditionalOnClass(COSClient.class)
-@ConditionalOnProperty(value = "jefw.oss.enabled", havingValue = "true", matchIfMissing = true)
-public class OssTencentAutoConfiguration {
+@ConditionalOnProperty(value = "jefw.oss.enabled", havingValue = "true")
+public class TencentJefwOssAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(COSClient.class)
-    public COSClient cosClient(JefwOssProperties jefwOssProperties) {
+    public COSClient tencentOssClient(JefwOssProperties jefwOssProperties) {
         COSCredentials cred = new BasicCOSCredentials(
                 jefwOssProperties.getTencent().getAccessKeyId(),
                 jefwOssProperties.getTencent().getAccessKeySecret()
@@ -50,10 +51,11 @@ public class OssTencentAutoConfiguration {
         return new COSClient(cred, clientConfig);
     }
 
+    @Order(300)
     @Bean(initMethod = "init", destroyMethod = "destroy")
-    @ConditionalOnClass(COSClient.class)
-    public OssService ossServiceTencentImpl(COSClient cosClient) {
-        return new OssServiceTencentImpl(cosClient);
+    @ConditionalOnMissingBean(name = "tencentJefwOssService")
+    public JefwOssService tencentJefwOssService(COSClient cosClient) {
+        return new TencentJefwOssService(cosClient);
     }
 
 }

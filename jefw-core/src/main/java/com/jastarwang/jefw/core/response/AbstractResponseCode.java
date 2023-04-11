@@ -21,23 +21,6 @@ package com.jastarwang.jefw.core.response;
  */
 public interface AbstractResponseCode {
     /**
-     * 默认操作成功状态码
-     */
-    String DEFAULT_SUCCESS_CODE = "0";
-    /**
-     * 默认操作成功提示信息
-     */
-    String DEFAULT_SUCCESS_MSG = "ok";
-    /**
-     * 默认操作失败状态码
-     */
-    String DEFAULT_FAIL_CODE = "-1";
-    /**
-     * 默认操作失败提示信息
-     */
-    String DEFAULT_FAIL_MSG = "failed";
-
-    /**
      * 获取状态码
      *
      * @return 状态码

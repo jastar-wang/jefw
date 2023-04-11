@@ -12,12 +12,14 @@
 package com.jastarwang.jefw.oss.impl;
 
 import cn.hutool.core.io.IoUtil;
-import com.aliyun.oss.OSS;
-import com.aliyun.oss.model.CannedAccessControlList;
-import com.aliyun.oss.model.OSSObject;
-import com.aliyun.oss.model.ObjectMetadata;
+import com.jastarwang.jefw.oss.JefwOssService;
 import com.jastarwang.jefw.oss.OssAccessPolicy;
-import com.jastarwang.jefw.oss.OssService;
+import com.jastarwang.jefw.oss.OssChannel;
+import com.qcloud.cos.COSClient;
+import com.qcloud.cos.model.COSObject;
+import com.qcloud.cos.model.CannedAccessControlList;
+import com.qcloud.cos.model.ObjectMetadata;
+import com.qcloud.cos.model.PutObjectRequest;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -30,20 +32,20 @@ import java.util.Date;
 import static com.jastarwang.jefw.oss.OssAccessPolicy.*;
 
 /**
- * OSS对象存储之阿里云实现
+ * OSS对象存储之腾讯云实现
  *
- * <li><a href="https://help.aliyun.com/document_detail/32007.html">SDK文档</a></li>
- * <li><a href="https://help.aliyun.com/document_detail/31946.html">API文档</a></li>
+ * <li><a href="https://cloud.tencent.com/document/product/436/10199">SDK文档</a></li>
+ * <li><a href="https://cloud.tencent.com/document/product/436/7751">API文档</a></li>
  *
  * @author Jastar Wang
- * @date 2023/2/19
+ * @date 2023/2/20
  * @since 1.2.4
  */
-public class OssServiceAliyunImpl implements OssService {
+public class TencentJefwOssService implements JefwOssService {
 
-    private final OSS client;
+    private final COSClient client;
 
-    public OssServiceAliyunImpl(OSS client) {
+    public TencentJefwOssService(COSClient client) {
         this.client = client;
     }
 
@@ -62,6 +64,11 @@ public class OssServiceAliyunImpl implements OssService {
     @Override
     public Object prototype() {
         return client;
+    }
+
+    @Override
+    public OssChannel getChannel() {
+        return OssChannel.TENCENT;
     }
 
     @Override
@@ -86,7 +93,9 @@ public class OssServiceAliyunImpl implements OssService {
 
     @Override
     public void putObj(String bucketName, String key, byte[] bytes) {
-        client.putObject(bucketName, key, new ByteArrayInputStream(bytes));
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentLength(bytes.length);
+        client.putObject(bucketName, key, new ByteArrayInputStream(bytes), metadata);
     }
 
     @Override
@@ -97,23 +106,25 @@ public class OssServiceAliyunImpl implements OssService {
     @Override
     public void putObj(String bucketName, String key, byte[] bytes, OssAccessPolicy acl) {
         ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setObjectAcl(aclAdapter(acl));
-        client.putObject(bucketName, key, new ByteArrayInputStream(bytes), metadata);
+        metadata.setContentLength(bytes.length);
+        PutObjectRequest request = new PutObjectRequest(bucketName, key, new ByteArrayInputStream(bytes), metadata);
+        request.setCannedAcl(aclAdapter(acl));
+        client.putObject(request);
     }
 
     @Override
     public void putObj(String bucketName, String key, File file, OssAccessPolicy acl) {
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setObjectAcl(aclAdapter(acl));
-        client.putObject(bucketName, key, file, metadata);
+        PutObjectRequest request = new PutObjectRequest(bucketName, key, file);
+        request.setCannedAcl(aclAdapter(acl));
+        client.putObject(request);
     }
 
     @Override
     public byte[] getObj(String bucketName, String key) {
         InputStream objectContent = null;
         try {
-            OSSObject ossObject = client.getObject(bucketName, key);
-            objectContent = ossObject.getObjectContent();
+            COSObject object = client.getObject(bucketName, key);
+            objectContent = object.getObjectContent();
             return IoUtil.readBytes(objectContent);
         } finally {
             IoUtil.close(objectContent);

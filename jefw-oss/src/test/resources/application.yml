@@ -1,11 +1,12 @@
 jefw:
   oss:
+    default-channel:
     aliyun:
       access-key-id: xxxxxx
       access-key-secret: xxxxxx
-      endpoint: oss-cn-chengdu.aliyuncs.com
       bucket-name: xxxxxx
       url-prefix: https://oss.xxx.com/
+      endpoint: oss-cn-chengdu.aliyuncs.com
     tencent:
       access-key-id: xxxxxx
       access-key-secret: xxxxxx

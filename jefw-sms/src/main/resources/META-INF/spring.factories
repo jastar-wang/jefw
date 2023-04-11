@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.jastarwang.jefw.sms.config.JefwSmsAutoConfiguration,\
+com.jastarwang.jefw.sms.config.TencentJefwSmsAutoConfiguration,\
+com.jastarwang.jefw.sms.config.Dh3TongJefwSmsAutoConfiguration

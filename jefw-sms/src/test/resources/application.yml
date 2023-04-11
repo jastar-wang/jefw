@@ -1,0 +1,14 @@
+jefw:
+  sms:
+    default-channel:
+    tencent:
+      app-id: 1234567890
+      secret-id: xxxxxx
+      secret-key: xxxxxx
+      endpoint: sms.tencentcloudapi.com
+      region: ap-beijing
+      sign-name: xxxxxx
+    dh3tong:
+      account: xxxxxx
+      pwd: xxxxxx
+      api-url: https://www.dh3t.com/json/sms/Submit

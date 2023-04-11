@@ -13,8 +13,6 @@ package com.jastarwang.jefw.core.response;
 
 import java.io.Serializable;
 
-import static com.jastarwang.jefw.core.response.AbstractResponseCode.*;
-
 /**
  * 异步请求响应包装类
  *
@@ -24,7 +22,24 @@ import static com.jastarwang.jefw.core.response.AbstractResponseCode.*;
  */
 public class ResponseResult<T> implements Serializable {
 
-    private static final long serialVersionUID = -2206058744756418468L;
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 默认操作成功状态码
+     */
+    public static String DEFAULT_SUCCESS_CODE = "0";
+    /**
+     * 默认操作成功提示信息
+     */
+    public static String DEFAULT_SUCCESS_MSG = "ok";
+    /**
+     * 默认操作失败状态码
+     */
+    public static String DEFAULT_FAIL_CODE = "-1";
+    /**
+     * 默认操作失败提示信息
+     */
+    public static String DEFAULT_FAIL_MSG = "failed";
 
     /**
      * 业务操作是否成功
@@ -37,7 +52,7 @@ public class ResponseResult<T> implements Serializable {
     /**
      * 状态码
      * <p>
-     * <b>该状态码非HTTP状态码，默认成功返回{@link AbstractResponseCode#DEFAULT_SUCCESS_CODE}，失败默认返回{@link AbstractResponseCode#DEFAULT_FAIL_CODE}</b>
+     * <b>该状态码非HTTP状态码，默认成功返回{@link ResponseResult#DEFAULT_SUCCESS_CODE}，失败默认返回{@link ResponseResult#DEFAULT_FAIL_CODE}</b>
      * </p>
      */
     private String code;
@@ -69,17 +84,29 @@ public class ResponseResult<T> implements Serializable {
     }
 
     /**
-     * @since 1.1
+     * @since 1.1.1
      */
     public static <T> ResponseResult<T> success(String code, String msg) {
         return success(code, msg, null);
     }
 
     /**
-     * @since 1.1
+     * @since 1.1.1
      */
     public static <T> ResponseResult<T> success(String code, String msg, T data) {
         return new ResponseResult<>(true, code, msg, data);
+    }
+
+    /**
+     * 格式化信息并返回
+     *
+     * @param code   非空，响应码对象，其提示信息可使用“{}”占位格式化
+     * @param params 可空，参数列表，要与占位符的个数一致
+     * @since 1.3.0
+     */
+    public static <T> ResponseResult<T> successf(AbstractResponseCode code, Object... params) {
+        String finalMsg = (params != null && params.length > 0) ? String.format(code.getMsg().replaceAll("\\{}", "%s"), params) : code.getMsg();
+        return success(code.getCode(), finalMsg, null);
     }
 
     public static <T> ResponseResult<T> fail() {
@@ -99,17 +126,63 @@ public class ResponseResult<T> implements Serializable {
     }
 
     /**
-     * @since 1.1
+     * @since 1.1.1
      */
     public static <T> ResponseResult<T> fail(String code, String msg) {
         return fail(code, msg, null);
     }
 
     /**
-     * @since 1.1
+     * @since 1.1.1
      */
     public static <T> ResponseResult<T> fail(String code, String msg, T data) {
         return new ResponseResult<>(false, code, msg, data);
+    }
+
+    /**
+     * 格式化信息并返回
+     *
+     * @param code   非空，响应码对象，其提示信息可使用“{}”占位格式化
+     * @param params 可空，参数列表，要与占位符的个数一致
+     * @since 1.3.0
+     */
+    public static <T> ResponseResult<T> failf(AbstractResponseCode code, Object... params) {
+        String finalMsg = (params != null && params.length > 0) ? String.format(code.getMsg().replaceAll("\\{}", "%s"), params) : code.getMsg();
+        return fail(code.getCode(), finalMsg, null);
+    }
+
+    /**
+     * 设置默认的状态码与提示信息
+     * <p>适用场景：需自定义默认信息，可在适当位置（如：main方法）调用该方法设置一次即可。</p>
+     *
+     * @param successCode 可空，成功状态码
+     * @param successMsg  可空，成功提示信息
+     * @param failCode    可空，失败状态码
+     * @param failMsg     可空，失败提示信息
+     * @since 1.3.0
+     */
+    public static synchronized void setDefaultCodeAndMsg(String successCode, String successMsg, String failCode, String failMsg) {
+        if (successCode != null && !"".equals(successCode.trim())) {
+            DEFAULT_SUCCESS_CODE = successCode;
+        }
+        if (successMsg != null && !"".equals(successMsg.trim())) {
+            DEFAULT_SUCCESS_MSG = successMsg;
+        }
+        if (failCode != null && !"".equals(failCode.trim())) {
+            DEFAULT_FAIL_CODE = failCode;
+        }
+        if (failMsg != null && !"".equals(failMsg.trim())) {
+            DEFAULT_FAIL_MSG = failMsg;
+        }
+    }
+
+    /**
+     * 恢复默认的状态码与提示信息
+     *
+     * @since 1.3.0
+     */
+    public static void resetDefaultCodeAndMsg() {
+        setDefaultCodeAndMsg("0", "ok", "-1", "failed");
     }
 
     //=============================== constructor =================================//

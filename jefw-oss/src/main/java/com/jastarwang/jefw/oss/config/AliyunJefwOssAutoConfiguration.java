@@ -13,13 +13,14 @@ package com.jastarwang.jefw.oss.config;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
-import com.jastarwang.jefw.oss.OssService;
-import com.jastarwang.jefw.oss.impl.OssServiceAliyunImpl;
+import com.jastarwang.jefw.oss.JefwOssService;
+import com.jastarwang.jefw.oss.impl.AliyunJefwOssService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 /**
  * OSS对象存储自动配置 - 阿里云
@@ -30,8 +31,8 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ConditionalOnClass(OSS.class)
-@ConditionalOnProperty(value = "jefw.oss.enabled", havingValue = "true", matchIfMissing = true)
-public class OssAliyunAutoConfiguration {
+@ConditionalOnProperty(value = "jefw.oss.enabled", havingValue = "true")
+public class AliyunJefwOssAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(OSS.class)
@@ -43,10 +44,11 @@ public class OssAliyunAutoConfiguration {
         );
     }
 
+    @Order(200)
     @Bean(initMethod = "init", destroyMethod = "destroy")
-    @ConditionalOnClass(OSS.class)
-    public OssService ossServiceAliyunImpl(OSS oss) {
-        return new OssServiceAliyunImpl(oss);
+    @ConditionalOnMissingBean(name = "aliyunJefwOssService")
+    public JefwOssService aliyunJefwOssService(OSS oss) {
+        return new AliyunJefwOssService(oss);
     }
 
 }
