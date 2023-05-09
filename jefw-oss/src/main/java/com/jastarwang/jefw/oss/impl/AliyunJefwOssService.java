@@ -161,7 +161,7 @@ public class AliyunJefwOssService implements JefwOssService {
             request.setExpiration(date);
             request.addHeader("Host", URLUtil.url(config.getUrlPrefix()).getHost());
             url = client.generatePresignedUrl(request);
-            return config.getUrlPrefix() + StrUtil.removePrefix(url.toString(), StrUtil.subBefore(url.toString(), key, false));
+            return StrUtil.removeSuffix(config.getUrlPrefix(), "/") + url.getPath() + "?" + url.getQuery();
         } else {
             url = client.generatePresignedUrl(bucketName, key, date);
             return url.toString();

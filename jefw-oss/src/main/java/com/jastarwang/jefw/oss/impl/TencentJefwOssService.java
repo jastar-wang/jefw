@@ -168,7 +168,7 @@ public class TencentJefwOssService implements JefwOssService {
             Map<String, String> headers = new HashMap<>();
             headers.put(Headers.HOST, URLUtil.url(config.getUrlPrefix()).getHost());
             url = client.generatePresignedUrl(bucketName, key, date, HttpMethodName.GET, headers, new HashMap<>());
-            return config.getUrlPrefix() + StrUtil.removePrefix(url.toString(), StrUtil.subBefore(url.toString(), key, false));
+            return StrUtil.removeSuffix(config.getUrlPrefix(), "/") + url.getPath() + "?" + url.getQuery();
         } else {
             url = client.generatePresignedUrl(bucketName, key, date);
             return url.toString();
