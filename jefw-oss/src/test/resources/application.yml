@@ -1,6 +1,7 @@
 jefw:
   oss:
-    default-channel:
+    enabled: true
+    default-channel: tencent
     aliyun:
       access-key-id: xxxxxx
       access-key-secret: xxxxxx
