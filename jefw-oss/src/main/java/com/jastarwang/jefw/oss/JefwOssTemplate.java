@@ -75,6 +75,7 @@ public class JefwOssTemplate implements InitializingBean {
      * 获取默认的存储服务
      *
      * @return 默认的存储服务
+     * @since 1.3.1
      */
     public JefwOssService getDefaultService() {
         return defaultService;
@@ -87,6 +88,15 @@ public class JefwOssTemplate implements InitializingBean {
      */
     public OssChannel getDefaultChannel() {
         return defaultChannel;
+    }
+
+    /**
+     * 获取默认的存储配置
+     *
+     * @return 默认的存储配置（子类）
+     */
+    public JefwOssProperties.Base getDefaultConfig() {
+        return defaultService.getConfig();
     }
 
     @Override

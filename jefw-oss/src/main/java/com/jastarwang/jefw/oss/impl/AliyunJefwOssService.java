@@ -19,6 +19,7 @@ import com.aliyun.oss.model.ObjectMetadata;
 import com.jastarwang.jefw.oss.JefwOssService;
 import com.jastarwang.jefw.oss.OssAccessPolicy;
 import com.jastarwang.jefw.oss.OssChannel;
+import com.jastarwang.jefw.oss.config.JefwOssProperties;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -43,9 +44,11 @@ import static com.jastarwang.jefw.oss.OssAccessPolicy.*;
 public class AliyunJefwOssService implements JefwOssService {
 
     private final OSS client;
+    private final JefwOssProperties.Aliyun config;
 
-    public AliyunJefwOssService(OSS client) {
+    public AliyunJefwOssService(OSS client, JefwOssProperties.Aliyun config) {
         this.client = client;
+        this.config = config;
     }
 
     @Override
@@ -61,13 +64,18 @@ public class AliyunJefwOssService implements JefwOssService {
     }
 
     @Override
-    public Object prototype() {
+    public Object getClient() {
         return client;
     }
 
     @Override
     public OssChannel getChannel() {
         return OssChannel.ALIYUN;
+    }
+
+    @Override
+    public JefwOssProperties.Aliyun getConfig() {
+        return config;
     }
 
     @Override

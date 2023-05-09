@@ -11,6 +11,8 @@
  */
 package com.jastarwang.jefw.oss;
 
+import com.jastarwang.jefw.oss.config.JefwOssProperties;
+
 import java.io.File;
 import java.time.LocalDateTime;
 
@@ -38,7 +40,7 @@ public interface JefwOssService {
      *
      * @return 原始客户端对象，调用方自行转换类型
      */
-    Object prototype();
+    Object getClient();
 
     /**
      * 获取存储渠道
@@ -46,6 +48,13 @@ public interface JefwOssService {
      * @return 实现类对应的存储渠道
      */
     OssChannel getChannel();
+
+    /**
+     * 获取本渠道配置信息
+     *
+     * @return 配置信息子类
+     */
+    JefwOssProperties.Base getConfig();
 
     /**
      * 检查bucket是否存在

@@ -198,9 +198,10 @@ public class JefwOssServiceTest {
 
     @Test
     public void getDefaultService() {
-        System.out.println("阿里云实现类："+aliyunJefwOssService);
-        System.out.println("腾讯云实现类："+tencentJefwOssService);
-        System.out.println("默认的实现类："+ossTemplate.getDefaultService());
+        System.out.println("阿里云实现类：" + aliyunJefwOssService);
+        System.out.println("腾讯云实现类：" + tencentJefwOssService);
+        System.out.println("默认的实现类：" + ossTemplate.getDefaultService());
+        System.out.println("默认渠道配置：" + ossTemplate.getDefaultConfig());
     }
 
 }

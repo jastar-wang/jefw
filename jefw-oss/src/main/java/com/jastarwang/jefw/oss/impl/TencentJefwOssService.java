@@ -15,6 +15,7 @@ import cn.hutool.core.io.IoUtil;
 import com.jastarwang.jefw.oss.JefwOssService;
 import com.jastarwang.jefw.oss.OssAccessPolicy;
 import com.jastarwang.jefw.oss.OssChannel;
+import com.jastarwang.jefw.oss.config.JefwOssProperties;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.model.COSObject;
 import com.qcloud.cos.model.CannedAccessControlList;
@@ -44,9 +45,11 @@ import static com.jastarwang.jefw.oss.OssAccessPolicy.*;
 public class TencentJefwOssService implements JefwOssService {
 
     private final COSClient client;
+    private final JefwOssProperties.Tencent config;
 
-    public TencentJefwOssService(COSClient client) {
+    public TencentJefwOssService(COSClient client, JefwOssProperties.Tencent config) {
         this.client = client;
+        this.config = config;
     }
 
     @Override
@@ -62,13 +65,18 @@ public class TencentJefwOssService implements JefwOssService {
     }
 
     @Override
-    public Object prototype() {
+    public Object getClient() {
         return client;
     }
 
     @Override
     public OssChannel getChannel() {
         return OssChannel.TENCENT;
+    }
+
+    @Override
+    public JefwOssProperties.Tencent getConfig() {
+        return config;
     }
 
     @Override
