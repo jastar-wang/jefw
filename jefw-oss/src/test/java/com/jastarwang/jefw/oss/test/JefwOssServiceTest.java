@@ -16,6 +16,7 @@ import com.jastarwang.jefw.oss.JefwOssService;
 import com.jastarwang.jefw.oss.JefwOssTemplate;
 import com.jastarwang.jefw.oss.OssAccessPolicy;
 import com.jastarwang.jefw.oss.config.JefwOssProperties;
+import com.jastarwang.jefw.oss.model.ObjectSummary;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -31,6 +32,7 @@ import javax.annotation.Resource;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * OSS对象存储单元测试
@@ -206,6 +208,14 @@ public class JefwOssServiceTest {
         System.out.println("腾讯云实现类：" + tencentJefwOssService);
         System.out.println("默认的实现类：" + ossTemplate.getDefaultService());
         System.out.println("默认渠道配置：" + ossTemplate.getDefaultConfig());
+    }
+
+    @Test
+    public void listObj() {
+        List<ObjectSummary> aliObjs = aliyunJefwOssService.listObj(ALIYUN_EXIST_BUCKET, null);
+        System.out.println("阿里云对象总数：" + aliObjs.size());
+        List<ObjectSummary> tencentObjs = tencentJefwOssService.listObj(TENCENT_EXIST_BUCKET, null);
+        System.out.println("腾讯云对象总数：" + tencentObjs.size());
     }
 
 }

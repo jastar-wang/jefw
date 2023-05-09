@@ -11,6 +11,8 @@
  */
 package com.jastarwang.jefw.oss.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
@@ -18,11 +20,13 @@ import com.jastarwang.jefw.oss.JefwOssService;
 import com.jastarwang.jefw.oss.OssAccessPolicy;
 import com.jastarwang.jefw.oss.OssChannel;
 import com.jastarwang.jefw.oss.config.JefwOssProperties;
+import com.jastarwang.jefw.oss.model.ObjectSummary;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.Headers;
 import com.qcloud.cos.http.HttpMethodName;
 import com.qcloud.cos.model.COSObject;
 import com.qcloud.cos.model.CannedAccessControlList;
+import com.qcloud.cos.model.ObjectListing;
 import com.qcloud.cos.model.ObjectMetadata;
 import com.qcloud.cos.model.PutObjectRequest;
 
@@ -32,9 +36,12 @@ import java.io.InputStream;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.jastarwang.jefw.oss.OssAccessPolicy.*;
 
@@ -166,6 +173,18 @@ public class TencentJefwOssService implements JefwOssService {
             url = client.generatePresignedUrl(bucketName, key, date);
             return url.toString();
         }
+    }
+
+    @Override
+    public List<ObjectSummary> listObj(String bucketName, String prefix) {
+        ObjectListing objectListing = client.listObjects(bucketName, prefix);
+        if (objectListing == null || CollUtil.isEmpty(objectListing.getObjectSummaries())) {
+            return Collections.emptyList();
+        }
+        return objectListing.getObjectSummaries().stream()
+                .filter(obj -> !(obj.getSize() <= 0 && obj.getKey().endsWith("/")))
+                .map(obj -> BeanUtil.copyProperties(obj, ObjectSummary.class))
+                .collect(Collectors.toList());
     }
 
     private CannedAccessControlList aclAdapter(OssAccessPolicy accessPolicy) {
