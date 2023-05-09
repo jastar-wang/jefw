@@ -11,13 +11,22 @@
  */
 package com.jastarwang.jefw.oss.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.URLUtil;
 import com.jastarwang.jefw.oss.JefwOssService;
 import com.jastarwang.jefw.oss.OssAccessPolicy;
 import com.jastarwang.jefw.oss.OssChannel;
+import com.jastarwang.jefw.oss.config.JefwOssProperties;
+import com.jastarwang.jefw.oss.model.ObjectSummary;
 import com.qcloud.cos.COSClient;
+import com.qcloud.cos.Headers;
+import com.qcloud.cos.http.HttpMethodName;
 import com.qcloud.cos.model.COSObject;
 import com.qcloud.cos.model.CannedAccessControlList;
+import com.qcloud.cos.model.ObjectListing;
 import com.qcloud.cos.model.ObjectMetadata;
 import com.qcloud.cos.model.PutObjectRequest;
 
@@ -27,7 +36,12 @@ import java.io.InputStream;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.jastarwang.jefw.oss.OssAccessPolicy.*;
 
@@ -44,9 +58,11 @@ import static com.jastarwang.jefw.oss.OssAccessPolicy.*;
 public class TencentJefwOssService implements JefwOssService {
 
     private final COSClient client;
+    private final JefwOssProperties.Tencent config;
 
-    public TencentJefwOssService(COSClient client) {
+    public TencentJefwOssService(COSClient client, JefwOssProperties.Tencent config) {
         this.client = client;
+        this.config = config;
     }
 
     @Override
@@ -62,13 +78,18 @@ public class TencentJefwOssService implements JefwOssService {
     }
 
     @Override
-    public Object prototype() {
+    public Object getClient() {
         return client;
     }
 
     @Override
     public OssChannel getChannel() {
         return OssChannel.TENCENT;
+    }
+
+    @Override
+    public JefwOssProperties.Tencent getConfig() {
+        return config;
     }
 
     @Override
@@ -133,12 +154,37 @@ public class TencentJefwOssService implements JefwOssService {
 
     @Override
     public String getPrivateUrl(String bucketName, String key, LocalDateTime expiration) {
+        return getPrivateUrl(bucketName, key, expiration, false);
+    }
+
+    @Override
+    public String getPrivateUrl(String bucketName, String key, LocalDateTime expiration, boolean useCustomDomain) {
         Date date = null;
         if (expiration != null) {
             date = Date.from(expiration.atZone(ZoneId.of("+8")).toInstant());
         }
-        URL url = client.generatePresignedUrl(bucketName, key, date);
-        return url.toString();
+        URL url;
+        if (useCustomDomain) {
+            Map<String, String> headers = new HashMap<>();
+            headers.put(Headers.HOST, URLUtil.url(config.getUrlPrefix()).getHost());
+            url = client.generatePresignedUrl(bucketName, key, date, HttpMethodName.GET, headers, new HashMap<>());
+            return StrUtil.removeSuffix(config.getUrlPrefix(), "/") + url.getPath() + "?" + url.getQuery();
+        } else {
+            url = client.generatePresignedUrl(bucketName, key, date);
+            return url.toString();
+        }
+    }
+
+    @Override
+    public List<ObjectSummary> listObj(String bucketName, String prefix) {
+        ObjectListing objectListing = client.listObjects(bucketName, prefix);
+        if (objectListing == null || CollUtil.isEmpty(objectListing.getObjectSummaries())) {
+            return Collections.emptyList();
+        }
+        return objectListing.getObjectSummaries().stream()
+                .filter(obj -> !(obj.getSize() <= 0 && obj.getKey().endsWith("/")))
+                .map(obj -> BeanUtil.copyProperties(obj, ObjectSummary.class))
+                .collect(Collectors.toList());
     }
 
     private CannedAccessControlList aclAdapter(OssAccessPolicy accessPolicy) {

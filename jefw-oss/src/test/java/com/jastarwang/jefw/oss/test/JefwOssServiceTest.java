@@ -16,6 +16,7 @@ import com.jastarwang.jefw.oss.JefwOssService;
 import com.jastarwang.jefw.oss.JefwOssTemplate;
 import com.jastarwang.jefw.oss.OssAccessPolicy;
 import com.jastarwang.jefw.oss.config.JefwOssProperties;
+import com.jastarwang.jefw.oss.model.ObjectSummary;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -31,6 +32,7 @@ import javax.annotation.Resource;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * OSS对象存储单元测试
@@ -183,9 +185,13 @@ public class JefwOssServiceTest {
 
         // 获取带签名的链接
         String url1 = aliyunJefwOssService.getPrivateUrl(ALIYUN_EXIST_BUCKET, OBJ2, LocalDateTime.now().plusMinutes(2));
-        System.out.println("阿里云：" + url1);
+        String url12 = aliyunJefwOssService.getPrivateUrl(ALIYUN_EXIST_BUCKET, OBJ2, LocalDateTime.now().plusMinutes(2), true);
+        System.out.println("阿里云（官方域名）：" + url1);
+        System.out.println("阿里云（自定义域名）：" + url12);
         String url2 = tencentJefwOssService.getPrivateUrl(TENCENT_EXIST_BUCKET, OBJ2, LocalDateTime.now().plusMinutes(2));
-        System.out.println("腾讯云：" + url2);
+        String url22 = tencentJefwOssService.getPrivateUrl(TENCENT_EXIST_BUCKET, OBJ2, LocalDateTime.now().plusMinutes(2), true);
+        System.out.println("腾讯云（官方域名）：" + url2);
+        System.out.println("腾讯云（自定义域名）：" + url22);
 
         // 删除对象
         aliyunJefwOssService.delObj(ALIYUN_EXIST_BUCKET, OBJ2);
@@ -198,9 +204,18 @@ public class JefwOssServiceTest {
 
     @Test
     public void getDefaultService() {
-        System.out.println("阿里云实现类："+aliyunJefwOssService);
-        System.out.println("腾讯云实现类："+tencentJefwOssService);
-        System.out.println("默认的实现类："+ossTemplate.getDefaultService());
+        System.out.println("阿里云实现类：" + aliyunJefwOssService);
+        System.out.println("腾讯云实现类：" + tencentJefwOssService);
+        System.out.println("默认的实现类：" + ossTemplate.getDefaultService());
+        System.out.println("默认渠道配置：" + ossTemplate.getDefaultConfig());
+    }
+
+    @Test
+    public void listObj() {
+        List<ObjectSummary> aliObjs = aliyunJefwOssService.listObj(ALIYUN_EXIST_BUCKET, null);
+        System.out.println("阿里云对象总数：" + aliObjs.size());
+        List<ObjectSummary> tencentObjs = tencentJefwOssService.listObj(TENCENT_EXIST_BUCKET, null);
+        System.out.println("腾讯云对象总数：" + tencentObjs.size());
     }
 
 }

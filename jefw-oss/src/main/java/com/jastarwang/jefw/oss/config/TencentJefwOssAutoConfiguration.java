@@ -54,8 +54,8 @@ public class TencentJefwOssAutoConfiguration {
     @Order(300)
     @Bean(initMethod = "init", destroyMethod = "destroy")
     @ConditionalOnMissingBean(name = "tencentJefwOssService")
-    public JefwOssService tencentJefwOssService(COSClient cosClient) {
-        return new TencentJefwOssService(cosClient);
+    public JefwOssService tencentJefwOssService(COSClient cosClient, JefwOssProperties jefwOssProperties) {
+        return new TencentJefwOssService(cosClient, jefwOssProperties.getTencent());
     }
 
 }

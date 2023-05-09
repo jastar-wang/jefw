@@ -47,8 +47,8 @@ public class AliyunJefwOssAutoConfiguration {
     @Order(200)
     @Bean(initMethod = "init", destroyMethod = "destroy")
     @ConditionalOnMissingBean(name = "aliyunJefwOssService")
-    public JefwOssService aliyunJefwOssService(OSS oss) {
-        return new AliyunJefwOssService(oss);
+    public JefwOssService aliyunJefwOssService(OSS oss, JefwOssProperties jefwOssProperties) {
+        return new AliyunJefwOssService(oss, jefwOssProperties.getAliyun());
     }
 
 }
