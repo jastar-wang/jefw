@@ -12,8 +12,11 @@
 package com.jastarwang.jefw.oss.impl;
 
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.URLUtil;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.model.CannedAccessControlList;
+import com.aliyun.oss.model.GeneratePresignedUrlRequest;
 import com.aliyun.oss.model.OSSObject;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.jastarwang.jefw.oss.JefwOssService;
@@ -136,12 +139,26 @@ public class AliyunJefwOssService implements JefwOssService {
 
     @Override
     public String getPrivateUrl(String bucketName, String key, LocalDateTime expiration) {
+        return getPrivateUrl(bucketName, key, expiration, false);
+    }
+
+    @Override
+    public String getPrivateUrl(String bucketName, String key, LocalDateTime expiration, boolean useCustomDomain) {
         Date date = null;
         if (expiration != null) {
             date = Date.from(expiration.atZone(ZoneId.of("+8")).toInstant());
         }
-        URL url = client.generatePresignedUrl(bucketName, key, date);
-        return url.toString();
+        URL url;
+        if (useCustomDomain) {
+            GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(bucketName, key);
+            request.setExpiration(date);
+            request.addHeader("Host", URLUtil.url(config.getUrlPrefix()).getHost());
+            url = client.generatePresignedUrl(request);
+            return config.getUrlPrefix() + StrUtil.removePrefix(url.toString(), StrUtil.subBefore(url.toString(), key, false));
+        } else {
+            url = client.generatePresignedUrl(bucketName, key, date);
+            return url.toString();
+        }
     }
 
     private CannedAccessControlList aclAdapter(OssAccessPolicy accessPolicy) {

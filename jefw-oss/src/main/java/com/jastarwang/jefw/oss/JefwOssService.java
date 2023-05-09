@@ -146,8 +146,20 @@ public interface JefwOssService {
      * @param bucketName bucket名称
      * @param key        object完整名称
      * @param expiration 签名过期时间
-     * @return 可直接访问的路径
+     * @return 带有签名的访问路径（官方域名）
      */
     String getPrivateUrl(String bucketName, String key, LocalDateTime expiration);
+
+    /**
+     * 为非公开的object生成带有时效签名的访问路径
+     *
+     * @param bucketName      bucket名称
+     * @param key             object完整名称
+     * @param expiration      签名过期时间
+     * @param useCustomDomain 是否使用自定义域名
+     * @return 带有签名的访问路径（由useCustomDomain参数决定使用官方域名或者自定义域名）
+     * @since 1.3.1
+     */
+    String getPrivateUrl(String bucketName, String key, LocalDateTime expiration, boolean useCustomDomain);
 
 }
