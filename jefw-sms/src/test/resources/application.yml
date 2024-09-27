@@ -1,5 +1,6 @@
 jefw:
   sms:
+    enabled: true
     default-channel:
     tencent:
       app-id: 1234567890
