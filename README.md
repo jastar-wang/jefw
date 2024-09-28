@@ -1,7 +1,7 @@
 <h1 align="center" style="font-family:fantasy;">Jefw</h1>
 <p align="center" style="color:darkgray;">让 天 下 没 有 难 写 的 代 码</p>
 <p align="center">
-  <a target="_blank"><img src="https://img.shields.io/badge/release-1.3.1-orange.svg" alt="release" /></a>
+  <a target="_blank"><img src="https://img.shields.io/badge/release-1.3.2-orange.svg" alt="release" /></a>
   <a target="_blank"><img src="https://jitpack.io/v/com.gitee.jastar-wang/jefw.svg" alt="jitpack" /></a>
   <a target="_blank"><img src="https://img.shields.io/badge/jdk-1.8+-green.svg" alt="jdk" /></a>
   <a target="_blank"><img src="https://img.shields.io/badge/license-MulanPSL2-blue" alt="license" /></a>
@@ -13,9 +13,9 @@
 
 ## 前言
 
-作为一名混迹多年的<del style="color:gray;font-size:12px;">专业</del>码农，在各种项目中经常会遇到各种工具类，虽有`CV`大法但也甚是繁琐； so，几年前，吾有一个大胆的想法：整合工具类。
+作为一名混迹多年的 <del style="color:gray;font-size:12px;">专业</del> 码农，在工作中经常会遇到各种工具类，虽有`CV`大法但也甚是繁琐； so，几年前，吾有一个大胆的想法：整合工具类。
 
-功夫不负有心人，经过不懈的努力，这个目标终于被前辈完成了[狗头]——`hutool`，感谢前辈提供了一个又大又圆的轮子！
+功夫不负有心人，经过不懈的努力，这个目标终于被前辈抢先完成了[狗头]——`hutool`，感谢前辈提供了一个又大又圆的轮子！
 
 ## 使命
 
@@ -24,7 +24,7 @@
 - 项目中有参差不齐的工具类，甚至一个项目有多个名字不同但功能相同的工具类。
 - 现在是前后端分离的时代，`json`是和前端交互的利器，我们经常需要定义一套固定的结构来包装响应数据，以便前端能统一处理请求（有规范者则会封装在内部二方库）。
 - `Redis`可以说是当今项目中的必备组件了，虽然`春天`提供了`RedisTemplate`，但是方法写起来很长很费劲，不够丝滑。
-- 对象云存储、短信发送等也是开发中常见的基础服务，但是面对各大厂商的不同`SDK`，这无疑加大了我们的学习成本，要是有一套轻量的标准就好了。
+- 对象云存储、发送短信等已然成为了开发中必备的基础服务，但是面对各大厂商的不同`SDK`，这无疑加大了我们的学习成本。
 - ……
 
 所以今天，`jefw` 诞生了。
@@ -33,7 +33,7 @@
 
 - 对一些常用的且 `hutool` 中没有的工具类进行补充（Tips：只做补充，不造轮子）
 - 参考《阿里巴巴Java开发手册》的规范，定义了一套通用的响应数据包装模型`ResponseResult`等
-- 对目前一些流行的中间件进行封装（或`starter`化），拎包入住，拿来就用。比如：`redis`、`redisson`等
+- 对目前一些流行的中间件进行封装（或`starter`化），拎包入住，开箱即用。比如：`redis`、`redisson`等
 
 `jefw` 的目标——让天下没有难写的代码（哪里怪怪的）。
 
@@ -151,9 +151,9 @@ See the Mulan PSL v2 for more details.
 ```
 /**
   * TODO
-  * @author your niubility name
+  * @author [your niubility name]
   * @date ${DATE}
-  * @since 1.3.0
+  * @since [current version]
   */
 ```
 
@@ -164,7 +164,7 @@ See the Mulan PSL v2 for more details.
 
 > 小声bb：不要问我为什么这么多规矩，作为一个有强迫症级别代码洁癖的人，就是这么`gang` [狗头]
 
-### Git规范（阿里）
+### Git规范
 
 > 编码规范、流程规范在软件开发过程中是至关重要的，它可以使我们在开发过程中少走很多弯路。Git `commit` 规范也是如此，确实也是很有必要的，几乎不花费额外精力和时间，但在之后查找问题的效率却很高。作为一名程序员，我们更应注重代码和流程的规范性，永远不要在质量上将就。详见 https://mp.weixin.qq.com/s/vzgST0ko-HZVkFFiSZ2xGg
 
