@@ -73,7 +73,7 @@ public class TencentJefwSmsService implements JefwSmsService {
             req.setSmsSdkAppId(jefwSmsProperties.getTencent().getAppId());
             req.setSignName(jefwSmsProperties.getTencent().getSignName());
             req.setTemplateId(templateOrId);
-            if (params != null && params.size() > 0) {
+            if (params != null && !params.isEmpty()) {
                 List<String> values = params.values().stream().map(Object::toString).collect(Collectors.toList());
                 req.setTemplateParamSet(values.toArray(new String[]{}));
             }

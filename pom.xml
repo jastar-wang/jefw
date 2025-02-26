@@ -32,13 +32,13 @@
         <junit-platform-launcher.version>1.8.2</junit-platform-launcher.version>
         <!-- oss module -->
         <aliyun.sdk.oss.version>3.18.1</aliyun.sdk.oss.version>
-        <tencent.sdk.cos.version>5.6.233</tencent.sdk.cos.version>
+        <tencent.sdk.cos.version>5.6.242</tencent.sdk.cos.version>
         <!-- sms module -->
-        <tencent.cloud.sdk.version>3.1.1111</tencent.cloud.sdk.version>
+        <tencent.cloud.sdk.version>3.1.1179</tencent.cloud.sdk.version>
         <!-- redis module -->
         <redisson.version>3.36.0</redisson.version>
         <!-- util module -->
-        <hutool.version>5.8.32</hutool.version>
+        <hutool.version>5.8.36</hutool.version>
         <servlet-api.version>4.0.1</servlet-api.version>
     </properties>
 
