@@ -21,6 +21,8 @@ import java.util.List;
  * @since 1.3.0
  */
 public class SmsSendFailedException extends RuntimeException {
+
+    private static final long serialVersionUID = 1L;
     /**
      * 原始参数
      */

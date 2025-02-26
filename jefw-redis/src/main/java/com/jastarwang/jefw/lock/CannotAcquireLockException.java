@@ -21,6 +21,8 @@ package com.jastarwang.jefw.lock;
  */
 public class CannotAcquireLockException extends RuntimeException {
 
+    private static final long serialVersionUID = 1L;
+
     public CannotAcquireLockException() {
     }
 
