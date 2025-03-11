@@ -79,6 +79,7 @@
                 <configuration>
                     <source>${compile.version}</source>
                     <target>${compile.version}</target>
+                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
             <plugin>
@@ -98,7 +99,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.5.0</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -108,31 +109,18 @@
                         </goals>
                     </execution>
                 </executions>
-                <!-- 附加配置：关闭JavaDoc的检查 -->
                 <configuration>
-                    <additionalOptions>
-                        <additionalOption>${javadoc.opts}</additionalOption>
-                    </additionalOptions>
+                    <encoding>UTF-8</encoding>
+                    <!-- 关闭javadoc的检查 -->
+                    <doclint>none</doclint>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M5</version>
+                <version>3.5.2</version>
             </plugin>
         </plugins>
     </build>
 
-    <profiles>
-        <!-- 在jdk1.8+环境下启用该参数 -->
-        <profile>
-            <id>disable-javadoc-doclint</id>
-            <activation>
-                <jdk>[1.8,)</jdk>
-            </activation>
-            <properties>
-                <javadoc.opts>-Xdoclint:none</javadoc.opts>
-            </properties>
-        </profile>
-    </profiles>
 </project>
