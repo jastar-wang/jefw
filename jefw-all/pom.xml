@@ -8,7 +8,7 @@
     <parent>
         <artifactId>jefw</artifactId>
         <groupId>com.jastarwang</groupId>
-        <version>1.3.3</version>
+        <version>2.0.0</version>
     </parent>
     <artifactId>jefw-all</artifactId>
     <name>${project.artifactId}</name>
@@ -87,28 +87,25 @@
                             <!-- 官方文档：http://maven.apache.org/plugins/maven-shade-plugin/examples/resource-transformers.html#ManifestResourceTransformer -->
                             <transformers>
                                 <!-- 合并META-INF文件夹下的同名文件中的内容 -->
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports</resource>
+                                </transformer>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                                     <resource>META-INF/spring.handlers</resource>
                                 </transformer>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                                     <resource>META-INF/spring.schemas</resource>
                                 </transformer>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                                     <resource>META-INF/spring.tooling</resource>
                                 </transformer>
-                                <transformer
-                                        implementation="org.springframework.boot.maven.PropertiesMergingResourceTransformer">
+                                <transformer implementation="org.springframework.boot.maven.PropertiesMergingResourceTransformer">
                                     <resource>META-INF/spring.factories</resource>
                                 </transformer>
                                 <!-- 合并SPI服务（即META-INF/services/文件夹下）的所有文件 -->
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                                 <!-- 合并配置文件的内容 -->
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.properties.PropertiesTransformer">
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.properties.PropertiesTransformer">
                                     <!-- required -->
                                     <resource>application.properties</resource>
                                     <ordinalKey>ordinal</ordinalKey>

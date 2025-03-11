@@ -1,0 +1,2 @@
+com.jastarwang.jefw.redis.config.RedisAutoConfiguration
+com.jastarwang.jefw.lock.config.DistributedLockAutoConfiguration
