@@ -19,7 +19,7 @@
         <dependency>
             <groupId>com.jastarwang</groupId>
             <artifactId>jefw-core</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
 
         <!-- spring data redis starter -->

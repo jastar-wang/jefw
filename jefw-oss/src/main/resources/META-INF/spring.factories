@@ -1,4 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.jastarwang.jefw.oss.config.JefwOssAutoConfiguration,\
-com.jastarwang.jefw.oss.config.AliyunJefwOssAutoConfiguration,\
-com.jastarwang.jefw.oss.config.TencentJefwOssAutoConfiguration

@@ -24,22 +24,22 @@
     <properties>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
-        <compile.version>8</compile.version>
+        <compile.version>17</compile.version>
+        <java.version>17</java.version>
         <!-- common -->
         <lombok.version>1.18.34</lombok.version>
         <jackson.version>2.14.3</jackson.version>
-        <spring-boot.version>2.7.18</spring-boot.version>
-        <junit-platform-launcher.version>1.8.2</junit-platform-launcher.version>
+        <spring-boot.version>3.4.3</spring-boot.version>
         <!-- oss module -->
         <aliyun.sdk.oss.version>3.18.1</aliyun.sdk.oss.version>
-        <tencent.sdk.cos.version>5.6.242</tencent.sdk.cos.version>
+        <tencent.sdk.cos.version>5.6.244</tencent.sdk.cos.version>
         <!-- sms module -->
         <tencent.cloud.sdk.version>3.1.1179</tencent.cloud.sdk.version>
         <!-- redis module -->
         <redisson.version>3.36.0</redisson.version>
         <!-- util module -->
         <hutool.version>5.8.36</hutool.version>
-        <servlet-api.version>4.0.1</servlet-api.version>
+        <servlet-api.version>6.1.0</servlet-api.version>
     </properties>
 
     <dependencies>
@@ -58,12 +58,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <version>${spring-boot.version}</version>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <!-- jackson-databind：提供单元测试环境下SpringBoot可以自动映射properties到bean的支持 -->
@@ -71,14 +65,6 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- junit-platform-launcher：解决IDEA总是把该包下载到maven默认位置的问题 -->
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-launcher</artifactId>
-            <version>${junit-platform-launcher.version}</version>
             <scope>test</scope>
         </dependency>
 

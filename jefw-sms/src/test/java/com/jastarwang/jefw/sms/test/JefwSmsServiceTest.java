@@ -15,6 +15,7 @@ import com.jastarwang.jefw.sms.JefwSmsService;
 import com.jastarwang.jefw.sms.JefwSmsTemplate;
 import com.jastarwang.jefw.sms.SmsChannel;
 import com.jastarwang.jefw.sms.config.JefwSmsProperties;
+import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,6 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import javax.annotation.Resource;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
