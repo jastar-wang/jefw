@@ -16,7 +16,7 @@ import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import com.jastarwang.jefw.sms.JefwSmsService;
 import com.jastarwang.jefw.sms.SmsChannel;
-import com.jastarwang.jefw.sms.SmsSendFailedException;
+import com.jastarwang.jefw.sms.JefwSmsException;
 import com.jastarwang.jefw.sms.config.JefwSmsProperties;
 
 import java.util.HashMap;
@@ -76,10 +76,10 @@ public class Dh3TongJefwSmsService implements JefwSmsService {
 
             Dh3TongResponse response = JSONUtil.toBean(body, Dh3TongResponse.class);
             if (!"0".equals(response.getResult())) {
-                throw new SmsSendFailedException("发送短信后对方响应异常", params, body, StrUtil.split(response.getFailPhones(), ","));
+                throw new JefwSmsException("发送短信后对方响应异常", params, body, StrUtil.split(response.getFailPhones(), ","));
             }
         } catch (Throwable e) {
-            throw new SmsSendFailedException("发送短信出错", e, params);
+            throw new JefwSmsException("发送短信出错", e, params);
         }
     }
 

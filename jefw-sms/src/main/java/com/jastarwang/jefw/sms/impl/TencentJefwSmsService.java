@@ -14,7 +14,7 @@ package com.jastarwang.jefw.sms.impl;
 import cn.hutool.core.collection.CollUtil;
 import com.jastarwang.jefw.sms.JefwSmsService;
 import com.jastarwang.jefw.sms.SmsChannel;
-import com.jastarwang.jefw.sms.SmsSendFailedException;
+import com.jastarwang.jefw.sms.JefwSmsException;
 import com.jastarwang.jefw.sms.config.JefwSmsProperties;
 import com.tencentcloudapi.common.exception.TencentCloudSDKException;
 import com.tencentcloudapi.sms.v20210111.SmsClient;
@@ -86,10 +86,10 @@ public class TencentJefwSmsService implements JefwSmsService {
                 }
             }
             if (CollUtil.isNotEmpty(failedPhones)) {
-                throw new SmsSendFailedException("发送短信后对方响应异常", params, resp, failedPhones);
+                throw new JefwSmsException("发送短信后对方响应异常", params, resp, failedPhones);
             }
         } catch (TencentCloudSDKException e) {
-            throw new SmsSendFailedException("发送短信出错", e, params);
+            throw new JefwSmsException("发送短信出错", e, params);
         }
     }
 }
