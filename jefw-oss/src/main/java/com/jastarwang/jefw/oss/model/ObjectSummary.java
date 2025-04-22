@@ -11,6 +11,7 @@
  */
 package com.jastarwang.jefw.oss.model;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -25,6 +26,7 @@ import java.util.Date;
  */
 public class ObjectSummary implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private String bucketName;

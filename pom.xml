@@ -33,6 +33,7 @@
         <!-- oss module -->
         <aliyun.sdk.oss.version>3.18.1</aliyun.sdk.oss.version>
         <tencent.sdk.cos.version>5.6.244</tencent.sdk.cos.version>
+        <qiniu.sdk.kodo.version>7.18.0</qiniu.sdk.kodo.version>
         <!-- sms module -->
         <tencent.cloud.sdk.version>3.1.1179</tencent.cloud.sdk.version>
         <!-- redis module -->

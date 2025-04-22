@@ -14,3 +14,9 @@ jefw:
       bucket-name: xxxxxx-123456789
       url-prefix: https://oss.xxx.com/
       region: ap-chengdu
+    qiniu:
+      access-key-id: xxxxxx
+      access-key-secret: xxxxxx
+      bucket-name: xxxxxx
+      url-prefix: https://oss.xxx.com/
+      region: z0

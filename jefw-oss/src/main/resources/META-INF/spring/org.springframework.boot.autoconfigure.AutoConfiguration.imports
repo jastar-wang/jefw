@@ -1,3 +1,4 @@
 com.jastarwang.jefw.oss.config.JefwOssAutoConfiguration
 com.jastarwang.jefw.oss.config.AliyunJefwOssAutoConfiguration
 com.jastarwang.jefw.oss.config.TencentJefwOssAutoConfiguration
+com.jastarwang.jefw.oss.config.QiniuJefwOssAutoConfiguration
