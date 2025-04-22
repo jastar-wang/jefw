@@ -24,7 +24,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -45,7 +44,6 @@ import java.util.List;
 @ExtendWith(SpringExtension.class)
 @EnableAutoConfiguration
 @SpringBootTest
-@SpringBootConfiguration
 public class JefwOssServiceTest {
 
     private static final String UN_EXIST_BUCKET = "adsfdasfdfdallllmkjd";
@@ -53,6 +51,7 @@ public class JefwOssServiceTest {
     private static final String OBJ2 = "test/fun/readme.txt";
     private String ALIYUN_EXIST_BUCKET;
     private String TENCENT_EXIST_BUCKET;
+    private String QINIU_EXIST_BUCKET;
 
     @Resource
     private JefwOssProperties properties;
@@ -61,9 +60,14 @@ public class JefwOssServiceTest {
     @Resource
     @Qualifier("aliyunJefwOssService")
     private JefwOssService aliyunJefwOssService;
+
     @Resource
     @Qualifier("tencentJefwOssService")
     private JefwOssService tencentJefwOssService;
+
+    @Resource
+    @Qualifier("qiniuJefwOssService")
+    private JefwOssService qiniuJefwOssService;
 
     // =============== 方式2：统一模板类 =============== //
     @Resource
@@ -74,6 +78,7 @@ public class JefwOssServiceTest {
         // 初始化用来测试的真实存在的bucket
         ALIYUN_EXIST_BUCKET = properties.getAliyun().getBucketName();
         TENCENT_EXIST_BUCKET = properties.getTencent().getBucketName();
+        QINIU_EXIST_BUCKET = properties.getQiniu().getBucketName();
     }
 
 
@@ -83,6 +88,7 @@ public class JefwOssServiceTest {
         Assertions.assertNotNull(properties, "属性配置对象未正常注入");
         Assertions.assertFalse(aliyunJefwOssService.ifBucketExist(UN_EXIST_BUCKET));
         Assertions.assertFalse(tencentJefwOssService.ifBucketExist("abcdefg-123456"));
+        Assertions.assertFalse(qiniuJefwOssService.ifBucketExist(UN_EXIST_BUCKET));
     }
 
     @Test
@@ -178,6 +184,37 @@ public class JefwOssServiceTest {
     }
 
     @Test
+    public void qiniuObjCrud() {
+        // 对象不存在
+        Assertions.assertFalse(qiniuJefwOssService.ifObjExist(QINIU_EXIST_BUCKET, OBJ1));
+        Assertions.assertFalse(qiniuJefwOssService.ifObjExist(QINIU_EXIST_BUCKET, OBJ2));
+
+        // 上传对象
+        File file = new File("F:\\upload.jpg");
+        qiniuJefwOssService.putObj(QINIU_EXIST_BUCKET, OBJ1, file);
+        qiniuJefwOssService.putObj(QINIU_EXIST_BUCKET, OBJ2, "这是内容".getBytes(StandardCharsets.UTF_8));
+
+        // 对象已存在
+        Assertions.assertTrue(qiniuJefwOssService.ifObjExist(QINIU_EXIST_BUCKET, OBJ1));
+        Assertions.assertTrue(qiniuJefwOssService.ifObjExist(QINIU_EXIST_BUCKET, OBJ2));
+
+        // 获取对象
+        byte[] txt = qiniuJefwOssService.getObj(QINIU_EXIST_BUCKET, OBJ2);
+        Assertions.assertEquals("这是内容", new String(txt));
+
+        byte[] img = qiniuJefwOssService.getObj(QINIU_EXIST_BUCKET, OBJ1);
+        FileUtil.writeBytes(img, "F:\\download.jpg");
+
+        // 删除对象
+        qiniuJefwOssService.delObj(QINIU_EXIST_BUCKET, OBJ1);
+        qiniuJefwOssService.delObj(QINIU_EXIST_BUCKET, OBJ2);
+
+        // 对象不存在
+        Assertions.assertFalse(qiniuJefwOssService.ifObjExist(QINIU_EXIST_BUCKET, OBJ1));
+        Assertions.assertFalse(qiniuJefwOssService.ifObjExist(QINIU_EXIST_BUCKET, OBJ2));
+    }
+
+    @Test
     public void getPrivateUrl() {
         // 上传私有对象
         aliyunJefwOssService.putObj(ALIYUN_EXIST_BUCKET, OBJ2, "这是内容".getBytes(StandardCharsets.UTF_8), OssAccessPolicy.PRIVATE);
@@ -206,6 +243,7 @@ public class JefwOssServiceTest {
     public void getDefaultService() {
         System.out.println("阿里云实现类：" + aliyunJefwOssService);
         System.out.println("腾讯云实现类：" + tencentJefwOssService);
+        System.out.println("七牛云实现类：" + qiniuJefwOssService);
         System.out.println("默认的实现类：" + ossTemplate.getDefaultService());
         System.out.println("默认渠道配置：" + ossTemplate.getDefaultConfig());
     }
@@ -216,6 +254,8 @@ public class JefwOssServiceTest {
         System.out.println("阿里云对象总数：" + aliObjs.size());
         List<ObjectSummary> tencentObjs = tencentJefwOssService.listObj(TENCENT_EXIST_BUCKET, null);
         System.out.println("腾讯云对象总数：" + tencentObjs.size());
+        List<ObjectSummary> qiniuObjs = qiniuJefwOssService.listObj(QINIU_EXIST_BUCKET, null);
+        System.out.println("七牛云对象总数：" + qiniuObjs.size());
     }
 
 }

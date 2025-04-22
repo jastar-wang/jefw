@@ -11,17 +11,19 @@
  */
 package com.jastarwang.jefw.sms;
 
+import java.io.Serial;
 import java.util.List;
 
 /**
- * 短信发送失败异常
+ * 发送短信调用异常
  *
  * @author Jastar Wang
  * @date 2023/4/5
  * @since 1.3.0
  */
-public class SmsSendFailedException extends RuntimeException {
+public class JefwSmsException extends RuntimeException {
 
+    @Serial
     private static final long serialVersionUID = 1L;
     /**
      * 原始参数
@@ -36,17 +38,17 @@ public class SmsSendFailedException extends RuntimeException {
      */
     private List<String> failedPhones;
 
-    public SmsSendFailedException() {
+    public JefwSmsException() {
     }
 
-    public SmsSendFailedException(String message, Object originParam, Object originResponse, List<String> failedPhones) {
+    public JefwSmsException(String message, Object originParam, Object originResponse, List<String> failedPhones) {
         super(message);
         this.originParam = originParam;
         this.originResponse = originResponse;
         this.failedPhones = failedPhones;
     }
 
-    public SmsSendFailedException(String message, Throwable cause, Object originParam) {
+    public JefwSmsException(String message, Throwable cause, Object originParam) {
         super(message, cause);
         this.originParam = originParam;
     }
@@ -77,10 +79,11 @@ public class SmsSendFailedException extends RuntimeException {
 
     @Override
     public String toString() {
-        return "SmsSendFailedException{" +
+        return "JefwSmsException{" +
                 "originParam=" + originParam +
                 ", originResponse=" + originResponse +
                 ", failedPhones=" + failedPhones +
                 '}';
     }
+    
 }

@@ -39,6 +39,10 @@ public class JefwOssProperties {
      * 腾讯云COS配置
      */
     private Tencent tencent;
+    /**
+     * 七牛云KODO配置
+     */
+    private Qiniu qiniu;
 
     public Boolean getEnabled() {
         return enabled;
@@ -72,6 +76,14 @@ public class JefwOssProperties {
         this.tencent = tencent;
     }
 
+    public Qiniu getQiniu() {
+        return qiniu;
+    }
+
+    public void setQiniu(Qiniu qiniu) {
+        this.qiniu = qiniu;
+    }
+
     @Override
     public String toString() {
         return "JefwOssProperties{" +
@@ -79,6 +91,7 @@ public class JefwOssProperties {
                 ", defaultChannel=" + defaultChannel +
                 ", aliyun=" + aliyun +
                 ", tencent=" + tencent +
+                ", qiniu=" + qiniu +
                 '}';
     }
 
@@ -189,6 +202,33 @@ public class JefwOssProperties {
         @Override
         public String toString() {
             return "Tencent{" +
+                    "https=" + https +
+                    ", accessKeyId='" + accessKeyId + '\'' +
+                    ", accessKeySecret='" + accessKeySecret + '\'' +
+                    ", bucketName='" + bucketName + '\'' +
+                    ", urlPrefix='" + urlPrefix + '\'' +
+                    ", region='" + region + '\'' +
+                    '}';
+        }
+    }
+
+    public static class Qiniu extends Base {
+        /**
+         * 非空，地区（如：z0）
+         */
+        private String region;
+
+        public String getRegion() {
+            return region;
+        }
+
+        public void setRegion(String region) {
+            this.region = region;
+        }
+
+        @Override
+        public String toString() {
+            return "Qiniu{" +
                     "https=" + https +
                     ", accessKeyId='" + accessKeyId + '\'' +
                     ", accessKeySecret='" + accessKeySecret + '\'' +
