@@ -113,15 +113,59 @@ public class RedisUtil {
 
     // void set(K key, V value, Duration timeout);
 
-    // Boolean setIfAbsent(K key, V value);
+    /**
+     * 当值不存在时存入值
+     *
+     * @param key   key，非空
+     * @param value value，非空
+     * @return 是否存入成功
+     * @since 2.1.1
+     */
+    public static Boolean setIfAbsent(String key, Object value) {
+        return v().setIfAbsent(key, value);
+    }
 
-    // Boolean setIfAbsent(K key, V value, long timeout, TimeUnit unit);
+    /**
+     * 当值不存在时存入值
+     *
+     * @param key      key，非空
+     * @param value    value，非空
+     * @param timeout  过期时间，非空
+     * @param timeUnit 过期时间单位，非空
+     * @return 是否存入成功
+     * @since 2.1.1
+     */
+    public static Boolean setIfAbsent(String key, Object value, long timeout, TimeUnit timeUnit) {
+        return v().setIfAbsent(key, value, timeout, timeUnit);
+    }
+
+    /**
+     * 当值存在时存入值
+     *
+     * @param key   key，非空
+     * @param value value，非空
+     * @return 是否存入成功
+     * @since 2.1.1
+     */
+    public static Boolean setIfPresent(String key, Object value) {
+        return v().setIfPresent(key, value);
+    }
+
+    /**
+     * 当值存在时存入值
+     *
+     * @param key      key，非空
+     * @param value    value，非空
+     * @param timeout  过期时间，非空
+     * @param timeUnit 过期时间单位，非空
+     * @return 是否存入成功
+     * @since 2.1.1
+     */
+    public static Boolean setIfPresent(String key, Object value, long timeout, TimeUnit timeUnit) {
+        return v().setIfPresent(key, value, timeout, timeUnit);
+    }
 
     // Boolean setIfAbsent(K key, V value, Duration timeout);
-
-    // Boolean setIfPresent(K key, V value);
-
-    // Boolean setIfPresent(K key, V value, long timeout, TimeUnit unit);
 
     // Boolean setIfPresent(K key, V value, Duration timeout);
 
@@ -255,11 +299,40 @@ public class RedisUtil {
         return v().increment(key, delta);
     }
 
-    // Double increment(K key, double delta);
+    /**
+     * 自增
+     *
+     * @param key   key，非空
+     * @param delta 步长
+     * @return 自增后的值
+     * @since 2.1.1
+     */
+    public static Double increment(String key, double delta) {
+        return v().increment(key, delta);
+    }
 
-    // Long decrement(K key);
+    /**
+     * 自减
+     * <p>（默认步长：1）</p>
+     *
+     * @param key key，非空
+     * @return 自减后的值
+     */
+    public static Long decrement(String key) {
+        return v().decrement(key);
+    }
 
-    // Long decrement(K key, long delta);
+    /**
+     * 自减
+     *
+     * @param key   key，非空
+     * @param delta 步长
+     * @return 自减后的值
+     * @since 2.1.1
+     */
+    public static Long decrement(String key, long delta) {
+        return v().decrement(key, delta);
+    }
 
     // Integer append(K key, String value);
 

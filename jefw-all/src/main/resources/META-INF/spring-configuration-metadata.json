@@ -13,6 +13,12 @@
       "sourceMethod": "getAliyun()"
     },
     {
+      "name": "jefw.oss.qiniu",
+      "type": "com.jastarwang.jefw.oss.config.JefwOssProperties$Qiniu",
+      "sourceType": "com.jastarwang.jefw.oss.config.JefwOssProperties",
+      "sourceMethod": "getQiniu()"
+    },
+    {
       "name": "jefw.oss.tencent",
       "type": "com.jastarwang.jefw.oss.config.JefwOssProperties$Tencent",
       "sourceType": "com.jastarwang.jefw.oss.config.JefwOssProperties",
@@ -87,6 +93,42 @@
       "description": "可空，是否启用OSS模块，默认禁用",
       "sourceType": "com.jastarwang.jefw.oss.config.JefwOssProperties",
       "defaultValue": false
+    },
+    {
+      "name": "jefw.oss.qiniu.access-key-id",
+      "type": "java.lang.String",
+      "description": "非空，密钥ID",
+      "sourceType": "com.jastarwang.jefw.oss.config.JefwOssProperties$Qiniu"
+    },
+    {
+      "name": "jefw.oss.qiniu.access-key-secret",
+      "type": "java.lang.String",
+      "description": "非空，密钥",
+      "sourceType": "com.jastarwang.jefw.oss.config.JefwOssProperties$Qiniu"
+    },
+    {
+      "name": "jefw.oss.qiniu.bucket-name",
+      "type": "java.lang.String",
+      "description": "非空，桶名称（只是为了方便业务，本库中不使用）",
+      "sourceType": "com.jastarwang.jefw.oss.config.JefwOssProperties$Qiniu"
+    },
+    {
+      "name": "jefw.oss.qiniu.https",
+      "type": "java.lang.Boolean",
+      "description": "可空，是否是HTTPS，默认是",
+      "sourceType": "com.jastarwang.jefw.oss.config.JefwOssProperties$Qiniu"
+    },
+    {
+      "name": "jefw.oss.qiniu.region",
+      "type": "java.lang.String",
+      "description": "非空，地区（如：z0）",
+      "sourceType": "com.jastarwang.jefw.oss.config.JefwOssProperties$Qiniu"
+    },
+    {
+      "name": "jefw.oss.qiniu.url-prefix",
+      "type": "java.lang.String",
+      "description": "非空，文件访问前缀（如：https:\/\/oss.xxx.com\/，只是为了方便业务，本库中不使用）",
+      "sourceType": "com.jastarwang.jefw.oss.config.JefwOssProperties$Qiniu"
     },
     {
       "name": "jefw.oss.tencent.access-key-id",
