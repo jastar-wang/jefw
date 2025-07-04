@@ -11,7 +11,7 @@
  */
 package com.jastarwang.jefw.sms;
 
-import java.util.Map;
+import java.util.LinkedHashMap;
 
 /**
  * 短信服务接口
@@ -52,7 +52,7 @@ public interface JefwSmsService {
      *                     <b>注意：请注意各个平台的最大数量限制</b>
      * @param templateOrId 非空，模板内容或模板ID
      * @param params       可空，参数，要与模板所需的数量一致。
-     *                     <b>注意：腾讯云渠道下请使用有序Map（如：LinkedHashMap），以保证同模板参数的顺序一致</b>
+     *                     <b>注意：为了兼容部分渠道(如腾讯云)要求参数顺序一致的问题，此处强制使用有序Map</b>
      */
-    void send(String phones, String templateOrId, Map<String, Object> params);
+    void send(String phones, String templateOrId, LinkedHashMap<String, Object> params);
 }
