@@ -23,13 +23,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- hutool core -->
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-core</artifactId>
-            <version>${hutool.version}</version>
-            <scope>provided</scope>
-        </dependency>
         <!-- hutool http -->
         <dependency>
             <groupId>cn.hutool</groupId>
@@ -57,7 +50,7 @@
         <dependency>
             <groupId>com.tencentcloudapi</groupId>
             <artifactId>tencentcloud-sdk-java-sms</artifactId>
-            <version>${tencent.cloud.sdk.version}</version>
+            <version>${tencent.sms.version}</version>
             <optional>true</optional>
         </dependency>
 

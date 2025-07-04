@@ -1,0 +1,69 @@
+/*
+ * Copyright (c) 2020 Jastar Wang
+ * jefw is licensed under Mulan PSL v2.
+ * You can use this software according to the terms and conditions of the Mulan PSL v2.
+ * You may obtain a copy of Mulan PSL v2 at:
+ *          http://license.coscl.org.cn/MulanPSL2
+ * THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND,
+ * EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,
+ * MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+ * See the Mulan PSL v2 for more details.
+ */
+package com.jastarwang.jefw.weixin.model;
+
+import java.io.Serial;
+import java.io.Serializable;
+
+/**
+ * 微信请求响应基类
+ *
+ * @author Jastar Wang
+ * @date 2025/4/9
+ * @since 2.2.0
+ */
+public class BaseResponse implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 响应错误码
+     */
+    protected int errcode;
+    /**
+     * 响应错误信息
+     */
+    protected String errmsg;
+
+    /**
+     * 响应是否成功
+     */
+    public boolean isOk() {
+        return errcode == 0;
+    }
+
+    public int getErrcode() {
+        return errcode;
+    }
+
+    public void setErrcode(int errcode) {
+        this.errcode = errcode;
+    }
+
+    public String getErrmsg() {
+        return errmsg;
+    }
+
+    public void setErrmsg(String errmsg) {
+        this.errmsg = errmsg;
+    }
+
+    @Override
+    public String toString() {
+        return "BaseResponse{" +
+                "errcode=" + errcode +
+                ", errmsg='" + errmsg + '\'' +
+                '}';
+    }
+
+}

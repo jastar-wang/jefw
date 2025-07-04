@@ -1,0 +1,14 @@
+jefw:
+  weixin:
+    enabled: true
+    mp:
+      app-id: xxxxxx
+      app-secret: xxxxxx
+    oa:
+      app-id: xxxxxx
+      app-secret: xxxxxx
+    pay:
+      mch-id: 1234567890
+      mch-serial-no: xxxxxx
+      api-v3-key: xxxxxx
+      private-key-path: wx_pay_apiclient_key.pem
