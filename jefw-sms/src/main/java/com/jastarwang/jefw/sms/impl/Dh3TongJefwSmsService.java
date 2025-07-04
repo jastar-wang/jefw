@@ -14,12 +14,13 @@ package com.jastarwang.jefw.sms.impl;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
+import com.jastarwang.jefw.sms.JefwSmsException;
 import com.jastarwang.jefw.sms.JefwSmsService;
 import com.jastarwang.jefw.sms.SmsChannel;
-import com.jastarwang.jefw.sms.JefwSmsException;
 import com.jastarwang.jefw.sms.config.JefwSmsProperties;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -58,7 +59,7 @@ public class Dh3TongJefwSmsService implements JefwSmsService {
     }
 
     @Override
-    public void send(String phones, String templateOrId, Map<String, Object> params) {
+    public void send(String phones, String templateOrId, LinkedHashMap<String, Object> params) {
         Map<String, Object> param = new HashMap<>();
         param.put("account", jefwSmsProperties.getDh3tong().getAccount());
         param.put("password", jefwSmsProperties.getDh3tong().getPwd());

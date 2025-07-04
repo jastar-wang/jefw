@@ -12,9 +12,9 @@
 package com.jastarwang.jefw.sms.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import com.jastarwang.jefw.sms.JefwSmsException;
 import com.jastarwang.jefw.sms.JefwSmsService;
 import com.jastarwang.jefw.sms.SmsChannel;
-import com.jastarwang.jefw.sms.JefwSmsException;
 import com.jastarwang.jefw.sms.config.JefwSmsProperties;
 import com.tencentcloudapi.common.exception.TencentCloudSDKException;
 import com.tencentcloudapi.sms.v20210111.SmsClient;
@@ -23,9 +23,8 @@ import com.tencentcloudapi.sms.v20210111.models.SendSmsResponse;
 import com.tencentcloudapi.sms.v20210111.models.SendStatus;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * 短信服务实现之腾讯云
@@ -65,7 +64,7 @@ public class TencentJefwSmsService implements JefwSmsService {
     }
 
     @Override
-    public void send(String phones, String templateOrId, Map<String, Object> params) {
+    public void send(String phones, String templateOrId, LinkedHashMap<String, Object> params) {
         try {
             SendSmsRequest req = new SendSmsRequest();
             // 单次最多200个
@@ -74,7 +73,7 @@ public class TencentJefwSmsService implements JefwSmsService {
             req.setSignName(jefwSmsProperties.getTencent().getSignName());
             req.setTemplateId(templateOrId);
             if (params != null && !params.isEmpty()) {
-                List<String> values = params.values().stream().map(Object::toString).collect(Collectors.toList());
+                List<String> values = params.values().stream().map(Object::toString).toList();
                 req.setTemplateParamSet(values.toArray(new String[]{}));
             }
             // 发送

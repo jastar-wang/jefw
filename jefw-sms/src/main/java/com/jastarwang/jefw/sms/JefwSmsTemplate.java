@@ -15,6 +15,7 @@ import com.jastarwang.jefw.sms.config.JefwSmsProperties;
 import org.springframework.beans.factory.InitializingBean;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -96,9 +97,9 @@ public class JefwSmsTemplate implements InitializingBean {
      *                     <b>注意：请注意各个平台的最大数量限制</b>
      * @param templateOrId 非空，模板内容或模板ID
      * @param params       可空，参数，要与模板所需的数量一致。
-     *                     <b>注意：腾讯云渠道下请使用有序Map（如：LinkedHashMap），以保证同模板参数的顺序一致</b>
+     *                     <b>注意：为了兼容部分渠道(如腾讯云)要求参数顺序一致的问题，此处强制使用有序Map</b>
      */
-    public void send(String phones, String templateOrId, Map<String, Object> params) {
+    public void send(String phones, String templateOrId, LinkedHashMap<String, Object> params) {
         send(defaultService, phones, templateOrId, params);
     }
 
@@ -110,9 +111,9 @@ public class JefwSmsTemplate implements InitializingBean {
      *                     <b>注意：请注意各个平台的最大数量限制</b>
      * @param templateOrId 非空，模板内容或模板ID
      * @param params       可空，参数，要与模板所需的数量一致。
-     *                     <b>注意：腾讯云渠道下请使用有序Map（如：LinkedHashMap），以保证同模板参数的顺序一致</b>
+     *                     <b>注意：为了兼容部分渠道(如腾讯云)要求参数顺序一致的问题，此处强制使用有序Map</b>
      */
-    public void send(JefwSmsService service, String phones, String templateOrId, Map<String, Object> params) {
+    public void send(JefwSmsService service, String phones, String templateOrId, LinkedHashMap<String, Object> params) {
         service.send(phones, templateOrId, params);
     }
 
@@ -124,9 +125,9 @@ public class JefwSmsTemplate implements InitializingBean {
      *                     <b>注意：请注意各个平台的最大数量限制</b>
      * @param templateOrId 非空，模板内容或模板ID
      * @param params       可空，参数，要与模板所需的数量一致。
-     *                     <b>注意：腾讯云渠道下请使用有序Map（如：LinkedHashMap），以保证同模板参数的顺序一致</b>
+     *                     <b>注意：为了兼容部分渠道(如腾讯云)要求参数顺序一致的问题，此处强制使用有序Map</b>
      */
-    public void send(SmsChannel channel, String phones, String templateOrId, Map<String, Object> params) {
+    public void send(SmsChannel channel, String phones, String templateOrId, LinkedHashMap<String, Object> params) {
         serviceRegistry.get(channel).send(phones, templateOrId, params);
     }
 

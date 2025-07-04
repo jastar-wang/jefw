@@ -41,6 +41,30 @@
       "type": "com.jastarwang.jefw.sms.config.JefwSmsProperties$Tencent",
       "sourceType": "com.jastarwang.jefw.sms.config.JefwSmsProperties",
       "sourceMethod": "getTencent()"
+    },
+    {
+      "name": "jefw.weixin",
+      "type": "com.jastarwang.jefw.weixin.config.JefwWeixinProperties",
+      "sourceType": "com.jastarwang.jefw.weixin.config.JefwWeixinAutoConfiguration",
+      "sourceMethod": "jefwWeixinProperties()"
+    },
+    {
+      "name": "jefw.weixin.mp",
+      "type": "com.jastarwang.jefw.weixin.config.JefwWeixinProperties$MiniProgram",
+      "sourceType": "com.jastarwang.jefw.weixin.config.JefwWeixinProperties",
+      "sourceMethod": "getMp()"
+    },
+    {
+      "name": "jefw.weixin.oa",
+      "type": "com.jastarwang.jefw.weixin.config.JefwWeixinProperties$OfficialAccount",
+      "sourceType": "com.jastarwang.jefw.weixin.config.JefwWeixinProperties",
+      "sourceMethod": "getOa()"
+    },
+    {
+      "name": "jefw.weixin.pay",
+      "type": "com.jastarwang.jefw.weixin.config.JefwWeixinProperties$Pay",
+      "sourceType": "com.jastarwang.jefw.weixin.config.JefwWeixinProperties",
+      "sourceMethod": "getPay()"
     }
   ],
   "properties": [
@@ -233,6 +257,57 @@
       "type": "java.lang.String",
       "description": "非空，短信签名",
       "sourceType": "com.jastarwang.jefw.sms.config.JefwSmsProperties$Tencent"
+    },
+    {
+      "name": "jefw.weixin.enabled",
+      "type": "java.lang.Boolean",
+      "description": "可空，是否启用微信模块，默认禁用",
+      "sourceType": "com.jastarwang.jefw.weixin.config.JefwWeixinProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "jefw.weixin.mp.app-id",
+      "type": "java.lang.String",
+      "sourceType": "com.jastarwang.jefw.weixin.config.JefwWeixinProperties$MiniProgram"
+    },
+    {
+      "name": "jefw.weixin.mp.app-secret",
+      "type": "java.lang.String",
+      "sourceType": "com.jastarwang.jefw.weixin.config.JefwWeixinProperties$MiniProgram"
+    },
+    {
+      "name": "jefw.weixin.oa.app-id",
+      "type": "java.lang.String",
+      "sourceType": "com.jastarwang.jefw.weixin.config.JefwWeixinProperties$OfficialAccount"
+    },
+    {
+      "name": "jefw.weixin.oa.app-secret",
+      "type": "java.lang.String",
+      "sourceType": "com.jastarwang.jefw.weixin.config.JefwWeixinProperties$OfficialAccount"
+    },
+    {
+      "name": "jefw.weixin.pay.api-v3-key",
+      "type": "java.lang.String",
+      "description": "微信支付：商户API V3密钥",
+      "sourceType": "com.jastarwang.jefw.weixin.config.JefwWeixinProperties$Pay"
+    },
+    {
+      "name": "jefw.weixin.pay.mch-id",
+      "type": "java.lang.String",
+      "description": "微信支付：商户号",
+      "sourceType": "com.jastarwang.jefw.weixin.config.JefwWeixinProperties$Pay"
+    },
+    {
+      "name": "jefw.weixin.pay.mch-serial-no",
+      "type": "java.lang.String",
+      "description": "微信支付：商户证书序列号",
+      "sourceType": "com.jastarwang.jefw.weixin.config.JefwWeixinProperties$Pay"
+    },
+    {
+      "name": "jefw.weixin.pay.private-key-path",
+      "type": "java.lang.String",
+      "description": "微信支付：商户API私钥路径（放在resource目录下，无需带classpath）",
+      "sourceType": "com.jastarwang.jefw.weixin.config.JefwWeixinProperties$Pay"
     }
   ],
   "hints": []

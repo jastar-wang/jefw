@@ -1,7 +1,7 @@
 <h1 align="center" style="font-family:fantasy;">Jefw</h1>
 <p align="center" style="color:darkgray;">让 天 下 没 有 难 写 的 代 码</p>
 <p align="center">
-  <a target="_blank"><img src="https://img.shields.io/badge/release-2.1.1-orange.svg" alt="release" /></a>
+  <a target="_blank"><img src="https://img.shields.io/badge/release-2.2.0-orange.svg" alt="release" /></a>
   <a target="_blank"><img src="https://jitpack.io/v/com.gitee.jastar-wang/jefw.svg" alt="jitpack" /></a>
   <a target="_blank"><img src="https://img.shields.io/badge/jdk-17+-green.svg" alt="jdk" /></a>
   <a target="_blank"><img src="https://img.shields.io/badge/license-MulanPSL2-blue" alt="license" /></a>
@@ -52,17 +52,19 @@ com.jastarwang.jefw（根包）
 ├─ lock（分布式锁）
 ├─ oss（对象存储）
 ├─ sms（短信发送）
+├─ weixin（微信平台）
 ├─ ···
 ```
 
 模块|状态|描述
 ---|---|---
-jefw-all  |√|一键引入所有模块
-jefw-core |√|【核心模块】提供常用的数据模型定义；如：响应数据模型、枚举能力扩展接口、函数式接口
-jefw-util |√|【常用工具】只做补充，所以强烈推荐搭配 `hutool` 使用，药效更好
-jefw-redis|√|【缓存模块】提供对存取`redis`数据、分布式锁`redisson`的便捷支持
-jefw-oss  |√|【对象存储】整合主流厂商对象存储并对外提供统一便捷的API调用 <br>（Tips：目前已支持`阿里云OSS`、`腾讯云COS`、`七牛云KODO`）
-jefw-sms  |√|【短信发送】整合主流厂商短信服务并对外提供统一便捷的API调用 <br>（Tips：目前已支持`腾讯云`、`大汉三通`）
+jefw-all     |√|一键引入所有模块
+jefw-core    |√|【核心模块】提供常用的数据模型定义；如：响应数据模型、枚举能力扩展接口、函数式接口
+jefw-util    |√|【常用工具】只做补充，所以强烈推荐搭配 `hutool` 使用，药效更好
+jefw-redis   |√|【缓存模块】提供对存取`redis`数据、分布式锁`redisson`的便捷支持
+jefw-oss     |√|【对象存储】整合主流厂商对象存储并对外提供统一便捷的API调用 <br>（Tips：目前已支持`阿里云OSS`、`腾讯云COS`、`七牛云KODO`）
+jefw-sms     |√|【短信发送】整合主流厂商短信服务并对外提供统一便捷的API调用 <br>（Tips：目前已支持`腾讯云`、`大汉三通`）
+jefw-weixin  |√|【微信平台】集成微信平台相关的服务并对外提供统一便捷的API调用 <br>（Tips：目前已支持`微信开发平台（公众号/服务号、小程序）`、`微信支付`的接口调用）
 
 ## 快速开始
 

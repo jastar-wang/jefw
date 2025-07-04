@@ -27,7 +27,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * 短信服务单元测试
@@ -78,10 +77,10 @@ public class JefwSmsServiceTest {
         String template = "您的验证码为：{code}，{time}分钟内有效，若非本人操作请忽略！";
         String templateId = "xxx";
         // 为了短信内容直观区分，构建不同的参数
-        Map<String, Object> params1 = new LinkedHashMap<>();
+        LinkedHashMap<String, Object> params1 = new LinkedHashMap<>();
         params1.put("code", "123456");
         params1.put("time", 3);
-        Map<String, Object> params2 = new LinkedHashMap<>();
+        LinkedHashMap<String, Object> params2 = new LinkedHashMap<>();
         params2.put("code", "789012");
         params2.put("time", 5);
         try {
