@@ -14,6 +14,8 @@ package com.jastarwang.jefw.redis;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.*;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
+import org.springframework.data.redis.core.script.RedisScript;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -42,6 +44,14 @@ import java.util.concurrent.TimeUnit;
 public class RedisUtil {
 
     private static RedisTemplate<String, Object> template;
+
+    private static final String INCREMENT_AND_EXPIRE_SCRIPT = """
+            local current = redis.call('INCR', KEYS[1])
+            if current == 1 then
+                redis.call('EXPIRE', KEYS[1], ARGV[1])
+            end
+            return current
+            """;
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
@@ -275,6 +285,19 @@ public class RedisUtil {
      */
     public static <T> List<T> multiGet(Collection<String> keys, Class<T> clazz) {
         return convertToClazz(v().multiGet(keys), clazz);
+    }
+
+    /**
+     * 自增并且在第一次初始化值时设置过期时间
+     * <p>（保证原子性，默认步长：1）</p>
+     *
+     * @param key     key，非空
+     * @param seconds 过期时间（单位：秒）
+     * @return 自增后的值
+     */
+    public static Long incrementAndExpire(String key, long seconds) {
+        RedisScript<Long> redisScript = new DefaultRedisScript<>(INCREMENT_AND_EXPIRE_SCRIPT, Long.class);
+        return template().execute(redisScript, List.of(key), seconds);
     }
 
     /**

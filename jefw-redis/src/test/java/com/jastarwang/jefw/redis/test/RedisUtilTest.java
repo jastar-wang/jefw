@@ -12,6 +12,7 @@
 package com.jastarwang.jefw.redis.test;
 
 import com.jastarwang.jefw.lock.config.DistributedLockAutoConfiguration;
+import com.jastarwang.jefw.redis.RedisUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,14 +24,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static com.jastarwang.jefw.redis.RedisUtil.*;
 
@@ -395,7 +389,7 @@ public class RedisUtilTest {
     }
 
     @Test
-    public void commonTest() {
+    public void commonTest1() {
         String ut1 = "ut*", ut2 = "ut:abcdefg", ut3 = "ut:test-expire";
 
         Set<String> keys = keys(ut1);
@@ -424,6 +418,19 @@ public class RedisUtilTest {
 
         Long delCount = delPattern(ut1);
         System.out.println(delCount);
+    }
+
+    @Test
+    public void commonTest2() throws InterruptedException {
+        clearAll();
+
+        Long value = incrementAndExpire("test", 30);
+        System.out.println("第1次自增：" + value);
+
+        Thread.sleep(5000);
+
+        value = RedisUtil.incrementAndExpire("test", 30);
+        System.out.println("第2次自增：" + value);
     }
 
     @Test
