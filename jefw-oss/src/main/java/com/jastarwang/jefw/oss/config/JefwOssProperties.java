@@ -177,7 +177,7 @@ public class JefwOssProperties {
             return "Aliyun{" +
                     "https=" + https +
                     ", accessKeyId='" + accessKeyId + '\'' +
-                    ", accessKeySecret='" + accessKeySecret + '\'' +
+                    ", accessKeySecret='" + mask(accessKeySecret) + '\'' +
                     ", bucketName='" + bucketName + '\'' +
                     ", urlPrefix='" + urlPrefix + '\'' +
                     ", endpoint='" + endpoint + '\'' +
@@ -204,7 +204,7 @@ public class JefwOssProperties {
             return "Tencent{" +
                     "https=" + https +
                     ", accessKeyId='" + accessKeyId + '\'' +
-                    ", accessKeySecret='" + accessKeySecret + '\'' +
+                    ", accessKeySecret='" + mask(accessKeySecret) + '\'' +
                     ", bucketName='" + bucketName + '\'' +
                     ", urlPrefix='" + urlPrefix + '\'' +
                     ", region='" + region + '\'' +
@@ -231,12 +231,22 @@ public class JefwOssProperties {
             return "Qiniu{" +
                     "https=" + https +
                     ", accessKeyId='" + accessKeyId + '\'' +
-                    ", accessKeySecret='" + accessKeySecret + '\'' +
+                    ", accessKeySecret='" + mask(accessKeySecret) + '\'' +
                     ", bucketName='" + bucketName + '\'' +
                     ", urlPrefix='" + urlPrefix + '\'' +
                     ", region='" + region + '\'' +
                     '}';
         }
+    }
+
+    private static String mask(String value) {
+        if (value == null || value.isEmpty()) {
+            return value;
+        }
+        if (value.length() <= 4) {
+            return "*".repeat(value.length());
+        }
+        return value.substring(0, 2) + "***" + value.substring(value.length() - 2);
     }
 
 }

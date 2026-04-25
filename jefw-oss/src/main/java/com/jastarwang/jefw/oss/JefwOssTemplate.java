@@ -104,11 +104,18 @@ public class JefwOssTemplate implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
+        if (jefwOssServices.isEmpty()) {
+            throw new IllegalStateException("jefw.oss.enabled=true but no available JefwOssService implementation was found. Please add a provider dependency or disable the OSS module.");
+        }
         for (JefwOssService jefwOssService : jefwOssServices) {
             serviceRegistry.put(jefwOssService.getChannel(), jefwOssService);
         }
         if (jefwOssProperties.getDefaultChannel() != null) {
             defaultService = serviceRegistry.get(jefwOssProperties.getDefaultChannel());
+            if (defaultService == null) {
+                throw new IllegalStateException("jefw.oss.default-channel=" + jefwOssProperties.getDefaultChannel() +
+                        " is not available. Current channels: " + serviceRegistry.keySet());
+            }
         } else {
             defaultService = jefwOssServices.get(0);
         }

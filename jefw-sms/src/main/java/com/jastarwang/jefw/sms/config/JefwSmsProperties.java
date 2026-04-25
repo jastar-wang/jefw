@@ -160,8 +160,8 @@ public class JefwSmsProperties {
         public String toString() {
             return "Tencent{" +
                     "appId='" + appId + '\'' +
-                    ", secretId='" + secretId + '\'' +
-                    ", secretKey='" + secretKey + '\'' +
+                    ", secretId='" + mask(secretId) + '\'' +
+                    ", secretKey='" + mask(secretKey) + '\'' +
                     ", endpoint='" + endpoint + '\'' +
                     ", region='" + region + '\'' +
                     ", signName='" + signName + '\'' +
@@ -211,10 +211,20 @@ public class JefwSmsProperties {
         public String toString() {
             return "Dh3Tong{" +
                     "account='" + account + '\'' +
-                    ", pwd='" + pwd + '\'' +
+                    ", pwd='" + mask(pwd) + '\'' +
                     ", apiUrl='" + apiUrl + '\'' +
                     '}';
         }
+    }
+
+    private static String mask(String value) {
+        if (value == null || value.isEmpty()) {
+            return value;
+        }
+        if (value.length() <= 4) {
+            return "*".repeat(value.length());
+        }
+        return value.substring(0, 2) + "***" + value.substring(value.length() - 2);
     }
 
 }

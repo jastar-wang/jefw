@@ -60,7 +60,7 @@ public class JefwWeixinProperties {
         public String toString() {
             return "MiniProgram{" +
                     "appId='" + appId + '\'' +
-                    ", appSecret='" + appSecret + '\'' +
+                    ", appSecret='" + mask(appSecret) + '\'' +
                     '}';
         }
     }
@@ -89,7 +89,7 @@ public class JefwWeixinProperties {
         public String toString() {
             return "OfficialAccount{" +
                     "appId='" + appId + '\'' +
-                    ", appSecret='" + appSecret + '\'' +
+                    ", appSecret='" + mask(appSecret) + '\'' +
                     '}';
         }
     }
@@ -149,7 +149,7 @@ public class JefwWeixinProperties {
             return "Pay{" +
                     "mchId='" + mchId + '\'' +
                     ", mchSerialNo='" + mchSerialNo + '\'' +
-                    ", apiV3Key='" + apiV3Key + '\'' +
+                    ", apiV3Key='" + mask(apiV3Key) + '\'' +
                     ", privateKeyPath='" + privateKeyPath + '\'' +
                     '}';
         }
@@ -195,6 +195,16 @@ public class JefwWeixinProperties {
                 ", oa=" + oa +
                 ", pay=" + pay +
                 '}';
+    }
+
+    private static String mask(String value) {
+        if (value == null || value.isEmpty()) {
+            return value;
+        }
+        if (value.length() <= 4) {
+            return "*".repeat(value.length());
+        }
+        return value.substring(0, 2) + "***" + value.substring(value.length() - 2);
     }
 
 }
