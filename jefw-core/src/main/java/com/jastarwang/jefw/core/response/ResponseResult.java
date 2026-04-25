@@ -11,10 +11,12 @@
  */
 package com.jastarwang.jefw.core.response;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
  * 异步请求响应包装类
+ * <p>建议使用语义更为简洁的 {@link R}，本类在未来可能会被删除</p>
  *
  * @author Jastar Wang
  * @date 2020/11/18
@@ -22,6 +24,7 @@ import java.io.Serializable;
  */
 public class ResponseResult<T> implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**
