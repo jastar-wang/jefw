@@ -133,11 +133,18 @@ public class JefwSmsTemplate implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
+        if (jefwSmsServices.isEmpty()) {
+            throw new IllegalStateException("jefw.sms.enabled=true but no available JefwSmsService implementation was found. Please add a provider dependency or disable the SMS module.");
+        }
         for (JefwSmsService jefwSmsService : jefwSmsServices) {
             serviceRegistry.put(jefwSmsService.getChannel(), jefwSmsService);
         }
         if (jefwSmsProperties.getDefaultChannel() != null) {
             defaultService = serviceRegistry.get(jefwSmsProperties.getDefaultChannel());
+            if (defaultService == null) {
+                throw new IllegalStateException("jefw.sms.default-channel=" + jefwSmsProperties.getDefaultChannel() +
+                        " is not available. Current channels: " + serviceRegistry.keySet());
+            }
         } else {
             defaultService = jefwSmsServices.get(0);
         }

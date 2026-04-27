@@ -20,3 +20,10 @@ jefw:
       bucket-name: xxxxxx
       url-prefix: https://oss.xxx.com/
       region: z0
+    minio:
+      https: false
+      access-key-id: xxxxxx
+      access-key-secret: xxxxxx
+      bucket-name: xxxxxx
+      url-prefix: http://oss.xxx.com/
+      endpoint: 127.0.0.1:9000

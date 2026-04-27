@@ -52,6 +52,7 @@ public class JefwOssServiceTest {
     private String ALIYUN_EXIST_BUCKET;
     private String TENCENT_EXIST_BUCKET;
     private String QINIU_EXIST_BUCKET;
+    private String MINIO_EXIST_BUCKET;
 
     @Resource
     private JefwOssProperties properties;
@@ -69,6 +70,10 @@ public class JefwOssServiceTest {
     @Qualifier("qiniuJefwOssService")
     private JefwOssService qiniuJefwOssService;
 
+    @Resource
+    @Qualifier("minioJefwOssService")
+    private JefwOssService minioJefwOssService;
+
     // =============== 方式2：统一模板类 =============== //
     @Resource
     private JefwOssTemplate ossTemplate;
@@ -79,8 +84,8 @@ public class JefwOssServiceTest {
         ALIYUN_EXIST_BUCKET = properties.getAliyun().getBucketName();
         TENCENT_EXIST_BUCKET = properties.getTencent().getBucketName();
         QINIU_EXIST_BUCKET = properties.getQiniu().getBucketName();
+        MINIO_EXIST_BUCKET = properties.getMinio().getBucketName();
     }
-
 
     @Test
     public void contextLoads() {
@@ -89,6 +94,17 @@ public class JefwOssServiceTest {
         Assertions.assertFalse(aliyunJefwOssService.ifBucketExist(UN_EXIST_BUCKET));
         Assertions.assertFalse(tencentJefwOssService.ifBucketExist("abcdefg-123456"));
         Assertions.assertFalse(qiniuJefwOssService.ifBucketExist(UN_EXIST_BUCKET));
+        Assertions.assertFalse(minioJefwOssService.ifBucketExist(UN_EXIST_BUCKET));
+    }
+
+    @Test
+    public void getDefaultService() {
+        System.out.println("阿里云实现类：" + aliyunJefwOssService);
+        System.out.println("腾讯云实现类：" + tencentJefwOssService);
+        System.out.println("七牛云实现类：" + qiniuJefwOssService);
+        System.out.println("MinIO实现类：" + minioJefwOssService);
+        System.out.println("默认的实现类：" + ossTemplate.getDefaultService());
+        System.out.println("默认渠道配置：" + ossTemplate.getDefaultConfig());
     }
 
     @Test
@@ -215,6 +231,37 @@ public class JefwOssServiceTest {
     }
 
     @Test
+    public void minioObjCrud() {
+        // 对象不存在
+        Assertions.assertFalse(minioJefwOssService.ifObjExist(MINIO_EXIST_BUCKET, OBJ1));
+        Assertions.assertFalse(minioJefwOssService.ifObjExist(MINIO_EXIST_BUCKET, OBJ2));
+
+        // 上传对象
+        File file = new File("F:\\upload.jpg");
+        minioJefwOssService.putObj(MINIO_EXIST_BUCKET, OBJ1, file);
+        minioJefwOssService.putObj(MINIO_EXIST_BUCKET, OBJ2, "这是内容".getBytes(StandardCharsets.UTF_8));
+
+        // 对象已存在
+        Assertions.assertTrue(minioJefwOssService.ifObjExist(MINIO_EXIST_BUCKET, OBJ1));
+        Assertions.assertTrue(minioJefwOssService.ifObjExist(MINIO_EXIST_BUCKET, OBJ2));
+
+        // 获取对象
+        byte[] txt = minioJefwOssService.getObj(MINIO_EXIST_BUCKET, OBJ2);
+        Assertions.assertEquals("这是内容", new String(txt));
+
+        byte[] img = minioJefwOssService.getObj(MINIO_EXIST_BUCKET, OBJ1);
+        FileUtil.writeBytes(img, "F:\\download.jpg");
+
+        // 删除对象
+        minioJefwOssService.delObj(MINIO_EXIST_BUCKET, OBJ1);
+        minioJefwOssService.delObj(MINIO_EXIST_BUCKET, OBJ2);
+
+        // 对象不存在
+        Assertions.assertFalse(minioJefwOssService.ifObjExist(MINIO_EXIST_BUCKET, OBJ1));
+        Assertions.assertFalse(minioJefwOssService.ifObjExist(MINIO_EXIST_BUCKET, OBJ2));
+    }
+
+    @Test
     public void getPrivateUrl() {
         // 上传私有对象
         aliyunJefwOssService.putObj(ALIYUN_EXIST_BUCKET, OBJ2, "这是内容".getBytes(StandardCharsets.UTF_8), OssAccessPolicy.PRIVATE);
@@ -240,15 +287,6 @@ public class JefwOssServiceTest {
     }
 
     @Test
-    public void getDefaultService() {
-        System.out.println("阿里云实现类：" + aliyunJefwOssService);
-        System.out.println("腾讯云实现类：" + tencentJefwOssService);
-        System.out.println("七牛云实现类：" + qiniuJefwOssService);
-        System.out.println("默认的实现类：" + ossTemplate.getDefaultService());
-        System.out.println("默认渠道配置：" + ossTemplate.getDefaultConfig());
-    }
-
-    @Test
     public void listObj() {
         List<ObjectSummary> aliObjs = aliyunJefwOssService.listObj(ALIYUN_EXIST_BUCKET, null);
         System.out.println("阿里云对象总数：" + aliObjs.size());
@@ -256,6 +294,8 @@ public class JefwOssServiceTest {
         System.out.println("腾讯云对象总数：" + tencentObjs.size());
         List<ObjectSummary> qiniuObjs = qiniuJefwOssService.listObj(QINIU_EXIST_BUCKET, null);
         System.out.println("七牛云对象总数：" + qiniuObjs.size());
+        List<ObjectSummary> minioObjs = minioJefwOssService.listObj(MINIO_EXIST_BUCKET, null);
+        System.out.println("MinIO对象总数：" + minioObjs.size());
     }
 
 }

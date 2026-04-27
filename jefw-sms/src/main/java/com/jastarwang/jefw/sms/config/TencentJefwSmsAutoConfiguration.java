@@ -36,7 +36,7 @@ import org.springframework.core.annotation.Order;
 @ConditionalOnProperty(value = "jefw.sms.enabled", havingValue = "true")
 public class TencentJefwSmsAutoConfiguration {
 
-    @Order(200)
+    @Order(320)
     @Bean(initMethod = "init", destroyMethod = "destroy")
     @ConditionalOnMissingBean(name = "tencentJefwSmsService")
     public JefwSmsService tencentJefwSmsService(JefwSmsProperties jefwSmsProperties) {

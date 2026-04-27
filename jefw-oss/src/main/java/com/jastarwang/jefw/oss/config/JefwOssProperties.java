@@ -43,6 +43,10 @@ public class JefwOssProperties {
      * 七牛云KODO配置
      */
     private Qiniu qiniu;
+    /**
+     * MinIO配置
+     */
+    private Minio minio;
 
     public Boolean getEnabled() {
         return enabled;
@@ -84,6 +88,14 @@ public class JefwOssProperties {
         this.qiniu = qiniu;
     }
 
+    public Minio getMinio() {
+        return minio;
+    }
+
+    public void setMinio(Minio minio) {
+        this.minio = minio;
+    }
+
     @Override
     public String toString() {
         return "JefwOssProperties{" +
@@ -92,6 +104,7 @@ public class JefwOssProperties {
                 ", aliyun=" + aliyun +
                 ", tencent=" + tencent +
                 ", qiniu=" + qiniu +
+                ", minio=" + minio +
                 '}';
     }
 
@@ -177,7 +190,7 @@ public class JefwOssProperties {
             return "Aliyun{" +
                     "https=" + https +
                     ", accessKeyId='" + accessKeyId + '\'' +
-                    ", accessKeySecret='" + accessKeySecret + '\'' +
+                    ", accessKeySecret='" + mask(accessKeySecret) + '\'' +
                     ", bucketName='" + bucketName + '\'' +
                     ", urlPrefix='" + urlPrefix + '\'' +
                     ", endpoint='" + endpoint + '\'' +
@@ -204,7 +217,7 @@ public class JefwOssProperties {
             return "Tencent{" +
                     "https=" + https +
                     ", accessKeyId='" + accessKeyId + '\'' +
-                    ", accessKeySecret='" + accessKeySecret + '\'' +
+                    ", accessKeySecret='" + mask(accessKeySecret) + '\'' +
                     ", bucketName='" + bucketName + '\'' +
                     ", urlPrefix='" + urlPrefix + '\'' +
                     ", region='" + region + '\'' +
@@ -231,12 +244,49 @@ public class JefwOssProperties {
             return "Qiniu{" +
                     "https=" + https +
                     ", accessKeyId='" + accessKeyId + '\'' +
-                    ", accessKeySecret='" + accessKeySecret + '\'' +
+                    ", accessKeySecret='" + mask(accessKeySecret) + '\'' +
                     ", bucketName='" + bucketName + '\'' +
                     ", urlPrefix='" + urlPrefix + '\'' +
                     ", region='" + region + '\'' +
                     '}';
         }
+    }
+
+    public static class Minio extends Base {
+        /**
+         * 非空，访问站点（如：127.0.0.1:9000 或 https://minio.xxx.com）
+         */
+        private String endpoint;
+
+        public String getEndpoint() {
+            return endpoint;
+        }
+
+        public void setEndpoint(String endpoint) {
+            this.endpoint = endpoint;
+        }
+
+        @Override
+        public String toString() {
+            return "Minio{" +
+                    "https=" + https +
+                    ", accessKeyId='" + accessKeyId + '\'' +
+                    ", accessKeySecret='" + mask(accessKeySecret) + '\'' +
+                    ", bucketName='" + bucketName + '\'' +
+                    ", urlPrefix='" + urlPrefix + '\'' +
+                    ", endpoint='" + endpoint + '\'' +
+                    '}';
+        }
+    }
+
+    private static String mask(String value) {
+        if (value == null || value.isEmpty()) {
+            return value;
+        }
+        if (value.length() <= 4) {
+            return "*".repeat(value.length());
+        }
+        return value.substring(0, 2) + "***" + value.substring(value.length() - 2);
     }
 
 }

@@ -36,11 +36,11 @@ public enum OssChannel {
      */
     QINIU,
     /**
-     * 又拍云
-     */
-    UPYUN,
-    /**
      * MinIO
      */
-    MINIO
+    MINIO,
+    /**
+     * 又拍云
+     */
+    UPYUN
 }

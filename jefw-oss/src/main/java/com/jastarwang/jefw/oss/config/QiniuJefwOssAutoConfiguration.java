@@ -45,7 +45,7 @@ public class QiniuJefwOssAutoConfiguration {
         return new QiniuOssClient(auth, region);
     }
 
-    @Order(400)
+    @Order(240)
     @Bean(initMethod = "init", destroyMethod = "destroy")
     @ConditionalOnMissingBean(name = "qiniuJefwOssService")
     public JefwOssService qiniuJefwOssService(QiniuOssClient qiniuOssClient, JefwOssProperties jefwOssProperties) {
