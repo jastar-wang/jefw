@@ -31,7 +31,7 @@ import org.springframework.core.annotation.Order;
 @ConditionalOnProperty(prefix = "jefw.sms.dh3tong", name = "api-url")
 public class Dh3TongJefwSmsAutoConfiguration {
 
-    @Order(300)
+    @Order(330)
     @Bean(initMethod = "init", destroyMethod = "destroy")
     @ConditionalOnMissingBean(name = "dh3tongJefwSmsService")
     public JefwSmsService dh3tongJefwSmsService(JefwSmsProperties jefwSmsProperties) {
