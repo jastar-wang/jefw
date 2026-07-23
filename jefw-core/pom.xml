@@ -6,7 +6,7 @@
     <packaging>jar</packaging>
     <parent>
         <artifactId>jefw</artifactId>
-        <groupId>com.jastarwang</groupId>
+        <groupId>com.jastar-wang</groupId>
         <version>2.3.0</version>
     </parent>
     <artifactId>jefw-core</artifactId>

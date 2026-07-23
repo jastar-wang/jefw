@@ -7,7 +7,7 @@
 
     <parent>
         <artifactId>jefw</artifactId>
-        <groupId>com.jastarwang</groupId>
+        <groupId>com.jastar-wang</groupId>
         <version>2.3.0</version>
     </parent>
     <artifactId>jefw-all</artifactId>
@@ -17,32 +17,32 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.jastarwang</groupId>
+            <groupId>com.jastar-wang</groupId>
             <artifactId>jefw-core</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.jastarwang</groupId>
+            <groupId>com.jastar-wang</groupId>
             <artifactId>jefw-oss</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.jastarwang</groupId>
+            <groupId>com.jastar-wang</groupId>
             <artifactId>jefw-redis</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.jastarwang</groupId>
+            <groupId>com.jastar-wang</groupId>
             <artifactId>jefw-sms</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.jastarwang</groupId>
+            <groupId>com.jastar-wang</groupId>
             <artifactId>jefw-util</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.jastarwang</groupId>
+            <groupId>com.jastar-wang</groupId>
             <artifactId>jefw-weixin</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
