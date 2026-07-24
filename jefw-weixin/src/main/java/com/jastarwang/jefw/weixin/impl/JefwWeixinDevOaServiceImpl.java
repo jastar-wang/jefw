@@ -47,7 +47,7 @@ public class JefwWeixinDevOaServiceImpl extends JefwWeixinDevServiceImpl impleme
         try {
             String resBody = HttpUtil.get(url);
             return JSONUtil.toBean(resBody, OAuth2AccessTokenResponse.class);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             OAuth2AccessTokenResponse response = new OAuth2AccessTokenResponse();
             response.setErrcode(INTERNAL_ERROR_CODE);
             response.setErrmsg("请求获取网页授权access_token异常：" + e.getMessage());
@@ -62,7 +62,7 @@ public class JefwWeixinDevOaServiceImpl extends JefwWeixinDevServiceImpl impleme
         try {
             String resBody = HttpUtil.get(url);
             return JSONUtil.toBean(resBody, UserInfoResponse.class);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             UserInfoResponse response = new UserInfoResponse();
             response.setErrcode(INTERNAL_ERROR_CODE);
             response.setErrmsg("请求获取用户信息异常：" + e.getMessage());
@@ -97,7 +97,7 @@ public class JefwWeixinDevOaServiceImpl extends JefwWeixinDevServiceImpl impleme
         try {
             String resBody = HttpUtil.post(url, reqBody.toString());
             return JSONUtil.toBean(resBody, BaseResponse.class);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             BaseResponse response = new BaseResponse();
             response.setErrcode(INTERNAL_ERROR_CODE);
             response.setErrmsg("发送一次性订阅消息时异常：" + e.getMessage());

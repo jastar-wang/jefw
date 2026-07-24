@@ -22,8 +22,8 @@ import com.jastarwang.jefw.weixin.JefwWeixinPayMpService;
 import com.jastarwang.jefw.weixin.config.JefwWeixinProperties;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -31,18 +31,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
- * 微信服务单元测试
+ * 微信服务集成测试
  *
  * @author Jastar Wang
  * @date 2025/7/4
  * @since 2.2.0
  */
-@Disabled
+@EnabledIfEnvironmentVariable(named = "JEFW_WEIXIN_IT", matches = "true")
 @ExtendWith(SpringExtension.class)
 @EnableAutoConfiguration
 @SpringBootTest
 @SpringBootConfiguration
-public class JefwWeixinServiceTest {
+public class JefwWeixinServiceIT {
 
     @Resource
     private JefwWeixinProperties properties;

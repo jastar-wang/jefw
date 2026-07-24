@@ -40,7 +40,7 @@ public abstract class JefwWeixinDevServiceImpl implements JefwWeixinDevService {
         try {
             String resBody = HttpUtil.get(url);
             return JSONUtil.toBean(resBody, AccessTokenResponse.class);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             AccessTokenResponse response = new AccessTokenResponse();
             response.setErrcode(INTERNAL_ERROR_CODE);
             response.setErrmsg("请求获取access_token异常：" + e.getMessage());
@@ -61,7 +61,7 @@ public abstract class JefwWeixinDevServiceImpl implements JefwWeixinDevService {
         try {
             String resBody = HttpUtil.post(url, reqBody.toString());
             return JSONUtil.toBean(resBody, AccessTokenResponse.class);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             AccessTokenResponse response = new AccessTokenResponse();
             response.setErrcode(INTERNAL_ERROR_CODE);
             response.setErrmsg("请求获取稳定access_token异常：" + e.getMessage());

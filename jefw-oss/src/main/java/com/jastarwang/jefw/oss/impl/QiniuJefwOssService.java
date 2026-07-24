@@ -102,7 +102,7 @@ public class QiniuJefwOssService implements JefwOssService {
                 }
             }
             return false;
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new JefwOssException(e);
         }
     }
@@ -113,7 +113,7 @@ public class QiniuJefwOssService implements JefwOssService {
             BucketManager bucketManager = client.getBucketManager();
             FileInfo fileInfo = bucketManager.stat(bucketName, key);
             return fileInfo != null;
-        } catch (Throwable e) {
+        } catch (Exception e) {
             if (e instanceof QiniuException ex && ex.code() == 612) {
                 return false;
             }
@@ -131,7 +131,7 @@ public class QiniuJefwOssService implements JefwOssService {
         try {
             BucketManager bucketManager = client.getBucketManager();
             bucketManager.delete(bucketName, key);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             if (e instanceof QiniuException ex && ex.code() == 612) {
                 return;
             }
@@ -145,7 +145,7 @@ public class QiniuJefwOssService implements JefwOssService {
             String token = getUploadToken(bucketName, key, true);
             UploadManager uploadManager = client.getUploadManager();
             uploadManager.put(bytes, key, token);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new JefwOssException(e);
         }
     }
@@ -156,7 +156,7 @@ public class QiniuJefwOssService implements JefwOssService {
             String token = getUploadToken(bucketName, key, true);
             UploadManager uploadManager = client.getUploadManager();
             uploadManager.put(file, key, token);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new JefwOssException(e);
         }
     }
@@ -214,7 +214,7 @@ public class QiniuJefwOssService implements JefwOssService {
                 objectList.add(convertToObjectSummary(bucketName, fileInfo));
             }
             return objectList;
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new JefwOssException(e);
         }
     }

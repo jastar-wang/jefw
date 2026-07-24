@@ -7,10 +7,33 @@
 
     <groupId>com.jastar-wang</groupId>
     <artifactId>jefw</artifactId>
-    <version>2.3.0</version>
+    <version>2.5.0-SNAPSHOT</version>
     <name>jefw</name>
     <description>JastarWang Easy Framework</description>
-    <url>https://gitee.com/jastar-wang/jefw</url>
+    <url>https://github.com/jastar-wang/jefw</url>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Jastar Wang</name>
+            <email>info@jastar-wang.com</email>
+            <url>https://github.com/jastar-wang</url>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:https://github.com/jastar-wang/jefw.git</connection>
+        <developerConnection>scm:git:git@github.com:jastar-wang/jefw.git</developerConnection>
+        <url>https://github.com/jastar-wang/jefw</url>
+        <tag>HEAD</tag>
+    </scm>
 
     <modules>
         <module>jefw-all</module>
@@ -76,6 +99,18 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>${maven.multiModuleProjectDirectory}</directory>
+                <targetPath>META-INF</targetPath>
+                <includes>
+                    <include>LICENSE</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -127,5 +162,28 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>integration-tests</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>3.5.2</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

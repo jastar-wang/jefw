@@ -28,7 +28,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 
 /**
- * 分布式锁单元测试
+ * 分布式锁集成测试
  *
  * @author Jastar Wang
  * @date 2020/10/22
@@ -39,7 +39,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @SpringBootTest
 @SpringBootConfiguration
 @Import(DemoConfig.class)
-public class DistributedLockTest {
+public class DistributedLockIT {
 
     @Resource
     private DistributedLock distributedLock;

@@ -33,7 +33,7 @@ import java.util.*;
 import static com.jastarwang.jefw.redis.RedisUtil.*;
 
 /**
- * RedisUtil单元测试
+ * RedisUtil集成测试
  *
  * @author Jastar Wang
  * @date 2020/09/22
@@ -43,7 +43,7 @@ import static com.jastarwang.jefw.redis.RedisUtil.*;
 @EnableAutoConfiguration(exclude = DistributedLockAutoConfiguration.class) // 排除该自动配置，因为其依赖需在外部配置的Bean
 @SpringBootTest
 @SpringBootConfiguration // 必须加此注解单元测试才不报错
-public class RedisUtilTest {
+public class RedisUtilIT {
 
     private final Student zhangsan = new Student("张三", 28L);
     private final Student lisi = new Student("李四", 19L);

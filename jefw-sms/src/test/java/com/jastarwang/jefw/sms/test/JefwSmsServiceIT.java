@@ -21,8 +21,8 @@ import com.jastarwang.jefw.sms.SmsChannel;
 import com.jastarwang.jefw.sms.config.JefwSmsProperties;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringBootConfiguration;
@@ -33,18 +33,18 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.LinkedHashMap;
 
 /**
- * 短信服务单元测试
+ * 短信服务集成测试
  *
  * @author Jastar Wang
  * @date 2023/4/5
  * @since 1.3.0
  */
-@Disabled
+@EnabledIfEnvironmentVariable(named = "JEFW_SMS_IT", matches = "true")
 @ExtendWith(SpringExtension.class)
 @EnableAutoConfiguration
 @SpringBootTest
 @SpringBootConfiguration
-public class JefwSmsServiceTest {
+public class JefwSmsServiceIT {
 
     @Resource
     private JefwSmsProperties properties;
@@ -77,9 +77,9 @@ public class JefwSmsServiceTest {
 
     @Test
     public void send() {
-        String phones = "xxx";
-        String template = "您的验证码为：{code}，{time}分钟内有效，若非本人操作请忽略！";
-        String templateId = "xxx";
+        String phones = System.getenv("JEFW_SMS_PHONES");
+        String template = System.getenv("JEFW_SMS_DH3TONG_TEMPLATE");
+        String templateId = System.getenv("JEFW_SMS_TENCENT_TEMPLATE_ID");
         // 为了短信内容直观区分，构建不同的参数
         LinkedHashMap<String, Object> params1 = new LinkedHashMap<>();
         params1.put("code", "123456");
@@ -87,15 +87,11 @@ public class JefwSmsServiceTest {
         LinkedHashMap<String, Object> params2 = new LinkedHashMap<>();
         params2.put("code", "789012");
         params2.put("time", 5);
-        try {
-            // 腾讯云：使用模板id发送
-            smsTemplate.send(phones, templateId, params1);
+        // 腾讯云：使用模板id发送
+        smsTemplate.send(phones, templateId, params1);
 
-            // 大汉三通：使用模板内容发送；注意：可能会发送失败，因为对方设置了IP鉴权
-            smsTemplate.getService(SmsChannel.DH3TONG).send(phones, template, params2);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // 大汉三通：使用模板内容发送；注意：可能会发送失败，因为对方设置了IP鉴权
+        smsTemplate.getService(SmsChannel.DH3TONG).send(phones, template, params2);
     }
 
 }

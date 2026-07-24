@@ -96,7 +96,7 @@ public class MinioJefwOssService implements JefwOssService {
     public boolean ifBucketExist(String bucketName) {
         try {
             return client.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new JefwOssException(e);
         }
     }
@@ -106,7 +106,7 @@ public class MinioJefwOssService implements JefwOssService {
         try {
             client.statObject(StatObjectArgs.builder().bucket(bucketName).object(key).build());
             return true;
-        } catch (Throwable e) {
+        } catch (Exception e) {
             if (e instanceof ErrorResponseException ex) {
                 if (ex.response() != null && ex.response().code() == 404) {
                     return false;
@@ -125,7 +125,7 @@ public class MinioJefwOssService implements JefwOssService {
     public void delObj(String bucketName, String key) {
         try {
             client.removeObject(RemoveObjectArgs.builder().bucket(bucketName).object(key).build());
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new JefwOssException(e);
         }
     }
@@ -138,7 +138,7 @@ public class MinioJefwOssService implements JefwOssService {
                     .object(key)
                     .stream(new ByteArrayInputStream(bytes), bytes.length, -1)
                     .build());
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new JefwOssException(e);
         }
     }
@@ -151,7 +151,7 @@ public class MinioJefwOssService implements JefwOssService {
                     .object(key)
                     .filename(file.getAbsolutePath())
                     .build());
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new JefwOssException(e);
         }
     }
@@ -172,7 +172,7 @@ public class MinioJefwOssService implements JefwOssService {
         try {
             objectContent = client.getObject(GetObjectArgs.builder().bucket(bucketName).object(key).build());
             return IoUtil.readBytes(objectContent);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new JefwOssException(e);
         } finally {
             IoUtil.close(objectContent);
@@ -205,7 +205,7 @@ public class MinioJefwOssService implements JefwOssService {
                 return StrUtil.removeSuffix(config.getUrlPrefix(), "/") + URLUtil.url(url).getFile();
             }
             return url;
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new JefwOssException(e);
         }
     }
@@ -229,7 +229,7 @@ public class MinioJefwOssService implements JefwOssService {
                 objectList.add(convertToObjectSummary(bucketName, item));
             }
             return objectList;
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new JefwOssException(e);
         }
     }

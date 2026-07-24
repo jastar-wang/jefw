@@ -51,7 +51,7 @@ public class JefwWeixinDevMpServiceImpl extends JefwWeixinDevServiceImpl impleme
         try {
             String resBody = HttpUtil.get(url);
             return JSONUtil.toBean(resBody, Code2SessionResponse.class);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             Code2SessionResponse response = new Code2SessionResponse();
             response.setErrcode(INTERNAL_ERROR_CODE);
             response.setErrmsg("请求获取小程序会话异常：" + e.getMessage());
@@ -78,7 +78,7 @@ public class JefwWeixinDevMpServiceImpl extends JefwWeixinDevServiceImpl impleme
             if (resJson.containsKey("errmsg")) {
                 response.setErrmsg(resJson.getStr("errmsg"));
             }
-        } catch (Throwable e) {
+        } catch (Exception e) {
             response.setErrcode(INTERNAL_ERROR_CODE);
             response.setErrmsg("请求获取用户手机号异常：" + e.getMessage());
         }
@@ -121,7 +121,7 @@ public class JefwWeixinDevMpServiceImpl extends JefwWeixinDevServiceImpl impleme
             reqBody.set("data", data);
             String resBody = HttpUtil.post(url, reqBody.toString());
             return JSONUtil.toBean(resBody, BaseResponse.class);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             BaseResponse response = new BaseResponse();
             response.setErrcode(INTERNAL_ERROR_CODE);
             response.setErrmsg("发送订阅消息时异常：" + e.getMessage());

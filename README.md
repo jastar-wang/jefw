@@ -1,12 +1,11 @@
 <h1 align="center" style="font-family:fantasy;">Jefw</h1>
 <p align="center" style="color:darkgray;">让 天 下 没 有 难 写 的 代 码</p>
 <p align="center">
-  <a target="_blank"><img src="https://img.shields.io/badge/release-2.3.0-orange.svg" alt="release" /></a>
+  <a target="_blank"><img src="https://img.shields.io/badge/release-2.5.0-orange.svg" alt="release" /></a>
   <a target="_blank"><img src="https://img.shields.io/maven-central/v/com.jastar-wang/jefw-all.svg" alt="maven-central" /></a>
   <a target="_blank"><img src="https://img.shields.io/badge/jdk-17+-green.svg" alt="jdk" /></a>
   <a target="_blank"><img src="https://img.shields.io/badge/license-Apache%202.0-blue" alt="license" /></a>
-  <a target="_blank"><img src="https://img.shields.io/badge/process-release-success.svg" alt="process" /></a>
-  <a target="_blank"><img src="https://img.shields.io/badge/build-passing-inactive.svg" alt="build" /></a>
+  <a href="https://github.com/jastar-wang/jefw/actions/workflows/ci.yml"><img src="https://github.com/jastar-wang/jefw/actions/workflows/ci.yml/badge.svg" alt="GitHub Actions" /></a>
 </p>
 
 -----------------------------------------------
@@ -40,6 +39,8 @@
 ## 项目介绍
 
 `jefw` 采用多模块设计，模块之间尽量保持独立，部分模块仅依赖 `core`。项目只保留必要的第三方依赖，尽可能保持轻量、清晰，避免依赖列表长得像购物清单。
+
+项目以 [GitHub](https://github.com/jastar-wang/jefw) 作为开发、发布和 Maven Central 部署的唯一上游仓库，并同步到 [Gitee](https://gitee.com/jastar-wang/jefw) 作为只读镜像。两个仓库的代码、分支和标签内容一致，可按网络情况任选其一下载。
 
 ```
 com.jastarwang.jefw（根包）
@@ -84,7 +85,7 @@ com.jastarwang.jefw（根包）
 
 ### 使用
 
-详细使用方式请参阅项目 [Wiki](https://gitee.com/jastar-wang/jefw/wikis)。
+详细使用方式请参阅项目 [Gitee Wiki](https://gitee.com/jastar-wang/jefw/wikis)。
 
 ## 参与贡献
 
@@ -102,8 +103,22 @@ com.jastarwang.jefw（根包）
 3. 切换到 `develop` 分支。
 4. 完成代码修改并进行必要的验证。
 5. 提交（`Commit`）修改并推送（`Push`）到你的远程仓库。
-6. 在 `Gitee` 或 `GitHub` 发起 `Pull Request`，并说明修改内容与原因。
+6. 在 `GitHub` 发起 `Pull Request`，并说明修改内容与原因。
 7. 搬好板凳，备好西瓜，等待 `Review`；如果收到修改建议，再优雅地补两刀。
+
+### 测试
+
+默认构建只运行不依赖外部服务的单元测试：
+
+```bash
+mvn verify
+```
+
+需要运行依赖 `Redis` 等外部服务的集成测试时，请先准备好对应服务和测试配置，再启用 `integration-tests`：
+
+```bash
+mvn -Pintegration-tests verify
+```
 
 ### 代码规范
 
@@ -192,7 +207,7 @@ fix(util): 修复XXX的问题
 
 ## 反馈建议
 
-如果你在使用过程中遇到问题，或有更好的建议与想法，欢迎通过 [Issue](https://gitee.com/jastar-wang/jefw/issues) 反馈。问题尽管提，建议更欢迎。
+如果你在使用过程中遇到问题，或有更好的建议与想法，欢迎通过 [GitHub Issue](https://github.com/jastar-wang/jefw/issues) 反馈。Gitee 仅同步代码，不单独接收 `PR` 或发布版本。问题尽管提，建议更欢迎。
 
 ## 许可证
 
@@ -200,4 +215,4 @@ fix(util): 修复XXX的问题
 
 ---
 
-既然都看到这了，愣着干嘛？点个 `star` 啊！！！
+既然都看到这了，那还愣着干嘛？点个 `star` 啊！！！

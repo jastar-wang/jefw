@@ -83,7 +83,7 @@ public class Dh3TongJefwSmsService implements JefwSmsService {
             if (!"0".equals(response.getResult())) {
                 throw new JefwSmsException("发送短信后对方响应异常", params, body, StrUtil.split(response.getFailPhones(), ","));
             }
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new JefwSmsException("发送短信出错", e, params);
         }
     }

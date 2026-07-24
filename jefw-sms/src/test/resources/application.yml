@@ -1,15 +1,15 @@
 jefw:
   sms:
     enabled: true
-    default-channel:
+    default-channel: ${JEFW_SMS_DEFAULT_CHANNEL:tencent}
     tencent:
-      app-id: 1234567890
-      secret-id: xxxxxx
-      secret-key: xxxxxx
-      endpoint: sms.tencentcloudapi.com
-      region: ap-beijing
-      sign-name: xxxxxx
+      app-id: ${JEFW_SMS_TENCENT_APP_ID:}
+      secret-id: ${JEFW_SMS_TENCENT_SECRET_ID:}
+      secret-key: ${JEFW_SMS_TENCENT_SECRET_KEY:}
+      endpoint: ${JEFW_SMS_TENCENT_ENDPOINT:sms.tencentcloudapi.com}
+      region: ${JEFW_SMS_TENCENT_REGION:ap-beijing}
+      sign-name: ${JEFW_SMS_TENCENT_SIGN_NAME:}
     dh3tong:
-      account: xxxxxx
-      pwd: xxxxxx
-      api-url: https://www.dh3t.com/json/sms/Submit
+      account: ${JEFW_SMS_DH3TONG_ACCOUNT:}
+      pwd: ${JEFW_SMS_DH3TONG_PASSWORD:}
+      api-url: ${JEFW_SMS_DH3TONG_API_URL:https://www.dh3t.com/json/sms/Submit}
