@@ -1,13 +1,17 @@
 /*
- * Copyright (c) 2020 Jastar Wang
- * jefw is licensed under Mulan PSL v2.
- * You can use this software according to the terms and conditions of the Mulan PSL v2.
- * You may obtain a copy of Mulan PSL v2 at:
- *          http://license.coscl.org.cn/MulanPSL2
- * THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND,
- * EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,
- * MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
- * See the Mulan PSL v2 for more details.
+ * Copyright 2020 Jastar Wang
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.jastarwang.jefw.oss.test;
 
@@ -20,9 +24,10 @@ import com.jastarwang.jefw.oss.model.ObjectSummary;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.io.TempDir;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,21 +35,22 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * OSS对象存储单元测试
+ * OSS对象存储集成测试
  *
  * @author Jastar Wang
  * @date 2021/09/14
  * @since 1.2.0
  */
-@Disabled
+@EnabledIfEnvironmentVariable(named = "JEFW_OSS_IT", matches = "true")
 @ExtendWith(SpringExtension.class)
 @EnableAutoConfiguration
 @SpringBootTest
-public class JefwOssServiceTest {
+public class JefwOssServiceIT {
 
     private static final String UN_EXIST_BUCKET = "adsfdasfdfdallllmkjd";
     private static final String OBJ1 = "test/demo.jpg";
@@ -53,6 +59,9 @@ public class JefwOssServiceTest {
     private String TENCENT_EXIST_BUCKET;
     private String QINIU_EXIST_BUCKET;
     private String MINIO_EXIST_BUCKET;
+
+    @TempDir
+    Path tempDir;
 
     @Resource
     private JefwOssProperties properties;
@@ -114,7 +123,7 @@ public class JefwOssServiceTest {
         Assertions.assertFalse(aliyunJefwOssService.ifObjExist(ALIYUN_EXIST_BUCKET, OBJ2));
 
         // 上传对象
-        File file = new File("F:\\upload.jpg");
+        File file = uploadFile();
         aliyunJefwOssService.putObj(ALIYUN_EXIST_BUCKET, OBJ1, file);
         aliyunJefwOssService.putObj(ALIYUN_EXIST_BUCKET, OBJ2, "这是内容".getBytes(StandardCharsets.UTF_8));
 
@@ -130,7 +139,7 @@ public class JefwOssServiceTest {
         Assertions.assertEquals("这是内容", new String(txt));
 
         byte[] img = aliyunJefwOssService.getObj(ALIYUN_EXIST_BUCKET, OBJ1);
-        FileUtil.writeBytes(img, "F:\\download.jpg");
+        FileUtil.writeBytes(img, tempDir.resolve("download.jpg").toFile());
 
         // 删除对象
         aliyunJefwOssService.delObj(ALIYUN_EXIST_BUCKET, OBJ1);
@@ -141,7 +150,7 @@ public class JefwOssServiceTest {
         Assertions.assertFalse(aliyunJefwOssService.ifObjExist(ALIYUN_EXIST_BUCKET, OBJ2));
 
         // 上传对象
-        aliyunJefwOssService.putObj(ALIYUN_EXIST_BUCKET, OBJ1, new File("F:\\upload.jpg"), OssAccessPolicy.PUBLIC_READ);
+        aliyunJefwOssService.putObj(ALIYUN_EXIST_BUCKET, OBJ1, uploadFile(), OssAccessPolicy.PUBLIC_READ);
         aliyunJefwOssService.putObj(ALIYUN_EXIST_BUCKET, OBJ2, "这是自定义权限的内容".getBytes(StandardCharsets.UTF_8), OssAccessPolicy.PUBLIC_READ);
 
         // 删除对象
@@ -160,7 +169,7 @@ public class JefwOssServiceTest {
         Assertions.assertFalse(tencentJefwOssService.ifObjExist(TENCENT_EXIST_BUCKET, OBJ2));
 
         // 上传对象
-        File file = new File("F:\\upload.jpg");
+        File file = uploadFile();
         tencentJefwOssService.putObj(TENCENT_EXIST_BUCKET, OBJ1, file);
         tencentJefwOssService.putObj(TENCENT_EXIST_BUCKET, OBJ2, "这是内容".getBytes(StandardCharsets.UTF_8));
 
@@ -176,7 +185,7 @@ public class JefwOssServiceTest {
         Assertions.assertEquals("这是内容", new String(txt));
 
         byte[] img = tencentJefwOssService.getObj(TENCENT_EXIST_BUCKET, OBJ1);
-        FileUtil.writeBytes(img, "F:\\download.jpg");
+        FileUtil.writeBytes(img, tempDir.resolve("download.jpg").toFile());
 
         // 删除对象
         tencentJefwOssService.delObj(TENCENT_EXIST_BUCKET, OBJ1);
@@ -187,7 +196,7 @@ public class JefwOssServiceTest {
         Assertions.assertFalse(tencentJefwOssService.ifObjExist(TENCENT_EXIST_BUCKET, OBJ2));
 
         // 上传对象
-        tencentJefwOssService.putObj(TENCENT_EXIST_BUCKET, OBJ1, new File("F:\\upload.jpg"), OssAccessPolicy.PUBLIC_READ);
+        tencentJefwOssService.putObj(TENCENT_EXIST_BUCKET, OBJ1, uploadFile(), OssAccessPolicy.PUBLIC_READ);
         tencentJefwOssService.putObj(TENCENT_EXIST_BUCKET, OBJ2, "这是自定义权限的内容".getBytes(StandardCharsets.UTF_8), OssAccessPolicy.PUBLIC_READ);
 
         // 删除对象
@@ -206,7 +215,7 @@ public class JefwOssServiceTest {
         Assertions.assertFalse(qiniuJefwOssService.ifObjExist(QINIU_EXIST_BUCKET, OBJ2));
 
         // 上传对象
-        File file = new File("F:\\upload.jpg");
+        File file = uploadFile();
         qiniuJefwOssService.putObj(QINIU_EXIST_BUCKET, OBJ1, file);
         qiniuJefwOssService.putObj(QINIU_EXIST_BUCKET, OBJ2, "这是内容".getBytes(StandardCharsets.UTF_8));
 
@@ -219,7 +228,7 @@ public class JefwOssServiceTest {
         Assertions.assertEquals("这是内容", new String(txt));
 
         byte[] img = qiniuJefwOssService.getObj(QINIU_EXIST_BUCKET, OBJ1);
-        FileUtil.writeBytes(img, "F:\\download.jpg");
+        FileUtil.writeBytes(img, tempDir.resolve("download.jpg").toFile());
 
         // 删除对象
         qiniuJefwOssService.delObj(QINIU_EXIST_BUCKET, OBJ1);
@@ -237,7 +246,7 @@ public class JefwOssServiceTest {
         Assertions.assertFalse(minioJefwOssService.ifObjExist(MINIO_EXIST_BUCKET, OBJ2));
 
         // 上传对象
-        File file = new File("F:\\upload.jpg");
+        File file = uploadFile();
         minioJefwOssService.putObj(MINIO_EXIST_BUCKET, OBJ1, file);
         minioJefwOssService.putObj(MINIO_EXIST_BUCKET, OBJ2, "这是内容".getBytes(StandardCharsets.UTF_8));
 
@@ -250,7 +259,7 @@ public class JefwOssServiceTest {
         Assertions.assertEquals("这是内容", new String(txt));
 
         byte[] img = minioJefwOssService.getObj(MINIO_EXIST_BUCKET, OBJ1);
-        FileUtil.writeBytes(img, "F:\\download.jpg");
+        FileUtil.writeBytes(img, tempDir.resolve("download.jpg").toFile());
 
         // 删除对象
         minioJefwOssService.delObj(MINIO_EXIST_BUCKET, OBJ1);
@@ -296,6 +305,10 @@ public class JefwOssServiceTest {
         System.out.println("七牛云对象总数：" + qiniuObjs.size());
         List<ObjectSummary> minioObjs = minioJefwOssService.listObj(MINIO_EXIST_BUCKET, null);
         System.out.println("MinIO对象总数：" + minioObjs.size());
+    }
+
+    private File uploadFile() {
+        return FileUtil.writeUtf8String("jefw integration test", tempDir.resolve("upload.jpg").toFile());
     }
 
 }

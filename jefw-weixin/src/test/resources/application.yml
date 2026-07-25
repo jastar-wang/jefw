@@ -2,13 +2,13 @@ jefw:
   weixin:
     enabled: true
     mp:
-      app-id: xxxxxx
-      app-secret: xxxxxx
+      app-id: ${JEFW_WEIXIN_MP_APP_ID:}
+      app-secret: ${JEFW_WEIXIN_MP_APP_SECRET:}
     oa:
-      app-id: xxxxxx
-      app-secret: xxxxxx
+      app-id: ${JEFW_WEIXIN_OA_APP_ID:}
+      app-secret: ${JEFW_WEIXIN_OA_APP_SECRET:}
     pay:
-      mch-id: 1234567890
-      mch-serial-no: xxxxxx
-      api-v3-key: xxxxxx
-      private-key-path: wx_pay_apiclient_key.pem
+      mch-id: ${JEFW_WEIXIN_PAY_MCH_ID:}
+      mch-serial-no: ${JEFW_WEIXIN_PAY_MCH_SERIAL_NO:}
+      api-v3-key: ${JEFW_WEIXIN_PAY_API_V3_KEY:}
+      private-key-path: ${JEFW_WEIXIN_PAY_PRIVATE_KEY_PATH:}

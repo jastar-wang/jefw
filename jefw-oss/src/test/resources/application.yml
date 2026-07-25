@@ -1,29 +1,29 @@
 jefw:
   oss:
     enabled: true
-    default-channel: tencent
+    default-channel: ${JEFW_OSS_DEFAULT_CHANNEL:tencent}
     aliyun:
-      access-key-id: xxxxxx
-      access-key-secret: xxxxxx
-      bucket-name: xxxxxx
-      url-prefix: https://oss.xxx.com/
-      endpoint: oss-cn-chengdu.aliyuncs.com
+      access-key-id: ${JEFW_OSS_ALIYUN_ACCESS_KEY_ID:}
+      access-key-secret: ${JEFW_OSS_ALIYUN_ACCESS_KEY_SECRET:}
+      bucket-name: ${JEFW_OSS_ALIYUN_BUCKET_NAME:}
+      url-prefix: ${JEFW_OSS_ALIYUN_URL_PREFIX:}
+      endpoint: ${JEFW_OSS_ALIYUN_ENDPOINT:}
     tencent:
-      access-key-id: xxxxxx
-      access-key-secret: xxxxxx
-      bucket-name: xxxxxx-123456789
-      url-prefix: https://oss.xxx.com/
-      region: ap-chengdu
+      access-key-id: ${JEFW_OSS_TENCENT_ACCESS_KEY_ID:}
+      access-key-secret: ${JEFW_OSS_TENCENT_ACCESS_KEY_SECRET:}
+      bucket-name: ${JEFW_OSS_TENCENT_BUCKET_NAME:}
+      url-prefix: ${JEFW_OSS_TENCENT_URL_PREFIX:}
+      region: ${JEFW_OSS_TENCENT_REGION:}
     qiniu:
-      access-key-id: xxxxxx
-      access-key-secret: xxxxxx
-      bucket-name: xxxxxx
-      url-prefix: https://oss.xxx.com/
-      region: z0
+      access-key-id: ${JEFW_OSS_QINIU_ACCESS_KEY_ID:}
+      access-key-secret: ${JEFW_OSS_QINIU_ACCESS_KEY_SECRET:}
+      bucket-name: ${JEFW_OSS_QINIU_BUCKET_NAME:}
+      url-prefix: ${JEFW_OSS_QINIU_URL_PREFIX:}
+      region: ${JEFW_OSS_QINIU_REGION:z0}
     minio:
-      https: false
-      access-key-id: xxxxxx
-      access-key-secret: xxxxxx
-      bucket-name: xxxxxx
-      url-prefix: http://oss.xxx.com/
-      endpoint: 127.0.0.1:9000
+      https: ${JEFW_OSS_MINIO_HTTPS:false}
+      access-key-id: ${JEFW_OSS_MINIO_ACCESS_KEY_ID:}
+      access-key-secret: ${JEFW_OSS_MINIO_ACCESS_KEY_SECRET:}
+      bucket-name: ${JEFW_OSS_MINIO_BUCKET_NAME:}
+      url-prefix: ${JEFW_OSS_MINIO_URL_PREFIX:}
+      endpoint: ${JEFW_OSS_MINIO_ENDPOINT:127.0.0.1:9000}

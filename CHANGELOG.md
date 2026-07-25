@@ -1,5 +1,35 @@
 # 更新日志
 
+## 2.5.0 - 2026-07-25（Maven正式版）
+
+> 重要：Maven `groupId` 由 `com.jastarwang` 调整为 `com.jastar-wang`，升级时需要同步修改依赖坐标。
+
+### 特性
+
+- 【all】新增：Maven Central 发布所需的项目元数据、源码包、Javadoc 包和签名发布配置
+- 【all】新增：GitHub Actions 持续集成，使用 JDK 17 执行构建与单元测试
+- 【oss/sms/weixin】新增：由 Spring Boot 配置处理器自动生成配置元数据
+
+### 优化
+
+- 【all】优化：统一 Apache License 2.0 许可证声明，并将许可证文件打包至各模块 JAR
+- 【all】优化：外部服务集成测试与普通单元测试分离，默认构建不再访问真实第三方服务
+- 【oss/sms/weixin】优化：供应商实现仅捕获 `Exception`，不再拦截 JVM `Error`
+
+### 删除
+
+- 【util】删除：`SerializeUtil` 及相关测试
+- 【util】删除：`IpUtil`、`IpInfo` 及相关测试
+
+### 依赖
+
+- 升级`hutool`版本（`5.8.44` => `5.8.47`）
+- 升级`jackson`版本（`2.20.0` => `2.21.4`）
+- 升级`spring-boot`版本（`3.5.3` => `3.5.16`）
+- 升级`tencent.cos`版本（`5.6.269` => `5.6.273`）
+
+---
+
 ## 2.3.0 - 2026-04-27
 
 ### 特性

@@ -1,13 +1,17 @@
 /*
- * Copyright (c) 2020 Jastar Wang
- * jefw is licensed under Mulan PSL v2.
- * You can use this software according to the terms and conditions of the Mulan PSL v2.
- * You may obtain a copy of Mulan PSL v2 at:
- *          http://license.coscl.org.cn/MulanPSL2
- * THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND,
- * EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,
- * MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
- * See the Mulan PSL v2 for more details.
+ * Copyright 2020 Jastar Wang
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.jastarwang.jefw.sms.test;
 
@@ -17,8 +21,8 @@ import com.jastarwang.jefw.sms.SmsChannel;
 import com.jastarwang.jefw.sms.config.JefwSmsProperties;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringBootConfiguration;
@@ -29,18 +33,18 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.LinkedHashMap;
 
 /**
- * 短信服务单元测试
+ * 短信服务集成测试
  *
  * @author Jastar Wang
  * @date 2023/4/5
  * @since 1.3.0
  */
-@Disabled
+@EnabledIfEnvironmentVariable(named = "JEFW_SMS_IT", matches = "true")
 @ExtendWith(SpringExtension.class)
 @EnableAutoConfiguration
 @SpringBootTest
 @SpringBootConfiguration
-public class JefwSmsServiceTest {
+public class JefwSmsServiceIT {
 
     @Resource
     private JefwSmsProperties properties;
@@ -73,9 +77,9 @@ public class JefwSmsServiceTest {
 
     @Test
     public void send() {
-        String phones = "xxx";
-        String template = "您的验证码为：{code}，{time}分钟内有效，若非本人操作请忽略！";
-        String templateId = "xxx";
+        String phones = System.getenv("JEFW_SMS_PHONES");
+        String template = System.getenv("JEFW_SMS_DH3TONG_TEMPLATE");
+        String templateId = System.getenv("JEFW_SMS_TENCENT_TEMPLATE_ID");
         // 为了短信内容直观区分，构建不同的参数
         LinkedHashMap<String, Object> params1 = new LinkedHashMap<>();
         params1.put("code", "123456");
@@ -83,15 +87,11 @@ public class JefwSmsServiceTest {
         LinkedHashMap<String, Object> params2 = new LinkedHashMap<>();
         params2.put("code", "789012");
         params2.put("time", 5);
-        try {
-            // 腾讯云：使用模板id发送
-            smsTemplate.send(phones, templateId, params1);
+        // 腾讯云：使用模板id发送
+        smsTemplate.send(phones, templateId, params1);
 
-            // 大汉三通：使用模板内容发送；注意：可能会发送失败，因为对方设置了IP鉴权
-            smsTemplate.getService(SmsChannel.DH3TONG).send(phones, template, params2);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // 大汉三通：使用模板内容发送；注意：可能会发送失败，因为对方设置了IP鉴权
+        smsTemplate.getService(SmsChannel.DH3TONG).send(phones, template, params2);
     }
 
 }

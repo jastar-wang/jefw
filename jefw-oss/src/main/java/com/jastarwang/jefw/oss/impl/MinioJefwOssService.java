@@ -1,13 +1,17 @@
 /*
- * Copyright (c) 2020 Jastar Wang
- * jefw is licensed under Mulan PSL v2.
- * You can use this software according to the terms and conditions of the Mulan PSL v2.
- * You may obtain a copy of Mulan PSL v2 at:
- *          http://license.coscl.org.cn/MulanPSL2
- * THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND,
- * EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,
- * MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
- * See the Mulan PSL v2 for more details.
+ * Copyright 2020 Jastar Wang
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.jastarwang.jefw.oss.impl;
 
@@ -92,7 +96,7 @@ public class MinioJefwOssService implements JefwOssService {
     public boolean ifBucketExist(String bucketName) {
         try {
             return client.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new JefwOssException(e);
         }
     }
@@ -102,7 +106,7 @@ public class MinioJefwOssService implements JefwOssService {
         try {
             client.statObject(StatObjectArgs.builder().bucket(bucketName).object(key).build());
             return true;
-        } catch (Throwable e) {
+        } catch (Exception e) {
             if (e instanceof ErrorResponseException ex) {
                 if (ex.response() != null && ex.response().code() == 404) {
                     return false;
@@ -121,7 +125,7 @@ public class MinioJefwOssService implements JefwOssService {
     public void delObj(String bucketName, String key) {
         try {
             client.removeObject(RemoveObjectArgs.builder().bucket(bucketName).object(key).build());
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new JefwOssException(e);
         }
     }
@@ -134,7 +138,7 @@ public class MinioJefwOssService implements JefwOssService {
                     .object(key)
                     .stream(new ByteArrayInputStream(bytes), bytes.length, -1)
                     .build());
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new JefwOssException(e);
         }
     }
@@ -147,7 +151,7 @@ public class MinioJefwOssService implements JefwOssService {
                     .object(key)
                     .filename(file.getAbsolutePath())
                     .build());
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new JefwOssException(e);
         }
     }
@@ -168,7 +172,7 @@ public class MinioJefwOssService implements JefwOssService {
         try {
             objectContent = client.getObject(GetObjectArgs.builder().bucket(bucketName).object(key).build());
             return IoUtil.readBytes(objectContent);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new JefwOssException(e);
         } finally {
             IoUtil.close(objectContent);
@@ -201,7 +205,7 @@ public class MinioJefwOssService implements JefwOssService {
                 return StrUtil.removeSuffix(config.getUrlPrefix(), "/") + URLUtil.url(url).getFile();
             }
             return url;
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new JefwOssException(e);
         }
     }
@@ -225,7 +229,7 @@ public class MinioJefwOssService implements JefwOssService {
                 objectList.add(convertToObjectSummary(bucketName, item));
             }
             return objectList;
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new JefwOssException(e);
         }
     }

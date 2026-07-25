@@ -6,8 +6,8 @@
     <packaging>jar</packaging>
     <parent>
         <artifactId>jefw</artifactId>
-        <groupId>com.jastarwang</groupId>
-        <version>2.3.0</version>
+        <groupId>com.jastar-wang</groupId>
+        <version>2.5.0</version>
     </parent>
     <artifactId>jefw-redis</artifactId>
     <name>${project.artifactId}</name>
@@ -17,7 +17,7 @@
 
         <!-- jefw core -->
         <dependency>
-            <groupId>com.jastarwang</groupId>
+            <groupId>com.jastar-wang</groupId>
             <artifactId>jefw-core</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
