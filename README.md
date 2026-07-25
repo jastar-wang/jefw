@@ -85,7 +85,7 @@ com.jastarwang.jefw（根包）
 
 ### 使用
 
-详细使用方式请参阅项目 [Gitee Wiki](https://gitee.com/jastar-wang/jefw/wikis)。
+详细使用方式请参阅项目 [GitHub Wiki](https://github.com/jastar-wang/jefw/wiki)。
 
 ## 参与贡献
 

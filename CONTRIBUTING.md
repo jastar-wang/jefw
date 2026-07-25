@@ -1,19 +1,19 @@
 # 参与贡献
 
-感谢你愿意为 `jefw` 添砖加瓦。GitHub 是本项目唯一的开发与发布上游，Gitee 仅作为只读镜像。
+感谢你愿意为 `jefw` 添砖加瓦。`GitHub` 是本项目唯一的开发与发布上游，`Gitee` 仅作为只读镜像。
 
 ## 开发流程
 
 1. Fork [GitHub 仓库](https://github.com/jastar-wang/jefw)。
 2. 从 `develop` 分支创建功能分支。
 3. 完成修改，并执行 `mvn verify`。
-4. 向 GitHub 的 `develop` 分支提交 Pull Request。
+4. 向 `GitHub` 的 `develop` 分支提交 `Pull Request`。
 
-请保持改动聚焦，并在 Pull Request 中说明修改原因、影响范围和验证方式。提交信息遵循 README 中约定的格式。
+请保持改动聚焦，并在 `Pull Request` 中说明修改原因、影响范围和验证方式。提交信息遵循 `README` 中约定的格式。
 
 ## 测试
 
-默认验证不访问 Redis 或第三方供应商：
+默认验证不访问 `Redis` 或第三方供应商：
 
 ```bash
 mvn verify
@@ -29,4 +29,4 @@ mvn -Pintegration-tests verify
 
 ## 许可证
 
-提交代码即表示你有权提供这些内容，并同意其按照项目的 Apache License 2.0 许可证发布。
+提交代码即表示你有权提供这些内容，并同意其按照项目的 `Apache License 2.0` 许可证发布。

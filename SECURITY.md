@@ -6,7 +6,7 @@
 
 ## 报告漏洞
 
-请将安全问题发送至 `info@jastar-wang.com`，不要在公开 Issue、Pull Request 或讨论区披露尚未修复的漏洞。
+请将安全问题发送至 `info@jastar-wang.com`，不要在公开 `Issue`、`Pull Request` 或讨论区披露尚未修复的漏洞。
 
 报告中请尽量包含：
 

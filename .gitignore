@@ -47,6 +47,9 @@ gen/
 ### VS Code files ###
 .vscode/
 
+### Agent files ###
+.agents/
+
 ### Maven Build files ###
 *dependency-reduced-pom.xml
 
