@@ -40,6 +40,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * 微信支付通用接口实现基类
@@ -134,7 +135,7 @@ public abstract class JefwWeixinPayServiceImpl implements JefwWeixinPayService {
      * <p>见 hutool 的 JakartaServletUtil#getHeaderMap()方法</p>
      */
     protected Map<String, String> getHeaderMap(HttpServletRequest request) {
-        final Map<String, String> headerMap = new HashMap<>();
+        final Map<String, String> headerMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         final Enumeration<String> names = request.getHeaderNames();
         String name;
         while (names.hasMoreElements()) {

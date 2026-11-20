@@ -16,7 +16,6 @@
 package com.jastarwang.jefw.weixin.impl;
 
 import cn.hutool.core.io.IoUtil;
-import cn.hutool.core.math.Money;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.jastarwang.jefw.weixin.JefwWeixinException;
@@ -153,8 +152,15 @@ public class JefwWeixinPayJsapiServiceImpl extends JefwWeixinPayServiceImpl impl
     }
 
     private Amount getAmount(BigDecimal amountYuan) {
+        if (amountYuan == null || amountYuan.signum() <= 0) {
+            throw new IllegalArgumentException("预支付金额必须大于零");
+        }
         Amount amount = new Amount();
-        amount.setTotal((int) new Money(amountYuan).getCent());
+        try {
+            amount.setTotal(amountYuan.scaleByPowerOfTen(2).intValueExact());
+        } catch (ArithmeticException e) {
+            throw new IllegalArgumentException("预支付金额必须为整数分，且不能超过 2147483647 分", e);
+        }
         return amount;
     }
 
