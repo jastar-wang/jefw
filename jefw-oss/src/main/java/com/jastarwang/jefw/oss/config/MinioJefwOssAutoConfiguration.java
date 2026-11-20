@@ -15,10 +15,11 @@
  */
 package com.jastarwang.jefw.oss.config;
 
-import cn.hutool.core.util.StrUtil;
 import com.jastarwang.jefw.oss.JefwOssService;
 import com.jastarwang.jefw.oss.impl.MinioJefwOssService;
+import io.minio.MinioAsyncClient;
 import io.minio.MinioClient;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -42,12 +43,8 @@ public class MinioJefwOssAutoConfiguration {
     @ConditionalOnMissingBean(MinioClient.class)
     public MinioClient minioOssClient(JefwOssProperties jefwOssProperties) {
         JefwOssProperties.Minio config = jefwOssProperties.getMinio();
-        String endpoint = config.getEndpoint();
-        if (!StrUtil.startWithAnyIgnoreCase(endpoint, "http://", "https://")) {
-            endpoint = (config.getHttps() ? "https://" : "http://") + endpoint;
-        }
         return MinioClient.builder()
-                .endpoint(endpoint)
+                .endpoint(config.endpointUrl())
                 .credentials(config.getAccessKeyId(), config.getAccessKeySecret())
                 .build();
     }
@@ -55,8 +52,9 @@ public class MinioJefwOssAutoConfiguration {
     @Order(250)
     @Bean(initMethod = "init", destroyMethod = "destroy")
     @ConditionalOnMissingBean(name = "minioJefwOssService")
-    public JefwOssService minioJefwOssService(MinioClient minioOssClient, JefwOssProperties jefwOssProperties) {
-        return new MinioJefwOssService(minioOssClient, jefwOssProperties.getMinio());
+    public JefwOssService minioJefwOssService(MinioClient minioOssClient, JefwOssProperties jefwOssProperties,
+                                              ObjectProvider<MinioAsyncClient> listingClient) {
+        return new MinioJefwOssService(minioOssClient, jefwOssProperties.getMinio(), listingClient.getIfAvailable());
     }
 
 }

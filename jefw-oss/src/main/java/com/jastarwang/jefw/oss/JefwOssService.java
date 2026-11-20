@@ -16,11 +16,10 @@
 package com.jastarwang.jefw.oss;
 
 import com.jastarwang.jefw.oss.config.JefwOssProperties;
-import com.jastarwang.jefw.oss.model.ObjectSummary;
+import com.jastarwang.jefw.oss.model.ObjectPage;
 
 import java.io.File;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * 对象存储服务接口
@@ -176,12 +175,14 @@ public interface JefwOssService {
     String getPrivateUrl(String bucketName, String key, LocalDateTime expiration, boolean useCustomDomain);
 
     /**
-     * 根据前缀查询object列表
+     * 根据前缀查询一页object列表
      *
-     * @param bucketName 非空，bucket名称
-     * @param prefix     可空，路径前缀（根目录请传NULL或空字符串，不要传“/”）
-     * @return object对象
-     * @since 1.3.1
+     * @param bucketName        非空，bucket名称
+     * @param prefix            可空，对象键前缀，null 或空字符串表示整个桶
+     * @param maxKeys           非空，单页上限，范围为 1 到 1000
+     * @param continuationToken 可空，首页传 null，翻页时原样传回同一渠道、桶和前缀上次返回的令牌
+     * @return 本页对象和下一页令牌。即使本页为空，也应以令牌为 null 判断是否结束
+     * @since 2.5.1
      */
-    List<ObjectSummary> listObj(String bucketName, String prefix);
+    ObjectPage listObjPage(String bucketName, String prefix, int maxKeys, String continuationToken);
 }

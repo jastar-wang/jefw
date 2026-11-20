@@ -23,6 +23,7 @@ import com.jastarwang.jefw.oss.JefwOssService;
 import com.jastarwang.jefw.oss.OssAccessPolicy;
 import com.jastarwang.jefw.oss.OssChannel;
 import com.jastarwang.jefw.oss.config.JefwOssProperties;
+import com.jastarwang.jefw.oss.model.ObjectPage;
 import com.jastarwang.jefw.oss.model.ObjectSummary;
 import com.jastarwang.jefw.oss.model.QiniuOssClient;
 import com.qiniu.common.QiniuException;
@@ -202,18 +203,17 @@ public class QiniuJefwOssService implements JefwOssService {
     }
 
     @Override
-    public List<ObjectSummary> listObj(String bucketName, String prefix) {
+    public ObjectPage listObjPage(String bucketName, String prefix, int maxKeys, String continuationToken) {
+        ObjectPage.validateMaxKeys(maxKeys);
         try {
-            BucketManager bucketManager = client.getBucketManager();
-            FileListing fileListing = bucketManager.listFiles(bucketName, prefix, null, Integer.MAX_VALUE, null);
-            if (fileListing == null || fileListing.items == null || fileListing.items.length == 0) {
-                return List.of();
+            FileListing result = client.getBucketManager().listFiles(bucketName, prefix, continuationToken, maxKeys, null);
+            List<ObjectSummary> items = new ArrayList<>();
+            if (result.items != null) {
+                for (FileInfo info : result.items) {
+                    items.add(convertToObjectSummary(bucketName, info));
+                }
             }
-            List<ObjectSummary> objectList = new ArrayList<>(fileListing.items.length);
-            for (FileInfo fileInfo : fileListing.items) {
-                objectList.add(convertToObjectSummary(bucketName, fileInfo));
-            }
-            return objectList;
+            return new ObjectPage(items, result.isEOF() ? null : result.marker);
         } catch (Exception e) {
             throw new JefwOssException(e);
         }

@@ -2,10 +2,19 @@
 
 ## 2.5.1 - 未发布
 
+### 特性
+
+- 【oss】新增：对象分页查询方法 `listObjPage`。每页可请求 1～1000 个对象，首页传 `null`，下一页在相同渠道、桶和前缀下原样传入上一页的 `nextContinuationToken()`，令牌为 `null` 时结束
+- 【oss】MinIO 分页查询使用 `MinioAsyncClient`，默认按现有配置创建并复用。自行配置了 MinIO 端点、凭据提供器或 HTTP 客户端的应用，需提供配置一致的 `MinioAsyncClient` Bean
+
 ### 修复
 
 - 【weixin】修复：微信支付和退款回调在签名请求头大小写变化时验签失败的问题
 - 【weixin】修复：公众号、小程序预支付金额转为整数分时可能被舍入或溢出。金额必须大于零、可精确换算为整数分且不超过 `21474836.47` 元，否则在发起预支付请求前抛出 `IllegalArgumentException`
+
+### 删除
+
+- 【oss】删除：`JefwOssService` 和 `JefwOssTemplate` 的 `listObj` 方法（不兼容）。调用方需改用 `listObjPage` 逐页处理，自定义 `JefwOssService` 实现也需实现新方法
 
 ### 依赖
 
@@ -13,6 +22,8 @@
 - 升级`jackson`版本（`2.21.4` => `2.21.8`），通过`jackson-bom`统一管理 Jackson 2 各模块版本
 - 升级`tencent.cos`版本（`5.6.273` => `5.6.283`）
 - 升级`tencent.sms`版本（`3.1.1451` => `3.2.18`）
+- 升级`minio`版本（`8.6.0` => `9.0.3`）
+- 升级`okhttp`版本（`4.12.0` => `5.3.2`），使用 MinIO 的 Maven 应用需在运行时提供 JVM 构件 `com.squareup.okhttp3:okhttp-jvm:5.3.2`
 
 ---
 

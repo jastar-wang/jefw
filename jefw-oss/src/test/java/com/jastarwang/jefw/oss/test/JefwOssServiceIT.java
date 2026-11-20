@@ -20,7 +20,6 @@ import com.jastarwang.jefw.oss.JefwOssService;
 import com.jastarwang.jefw.oss.JefwOssTemplate;
 import com.jastarwang.jefw.oss.OssAccessPolicy;
 import com.jastarwang.jefw.oss.config.JefwOssProperties;
-import com.jastarwang.jefw.oss.model.ObjectSummary;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Assertions;
@@ -37,7 +36,6 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * OSS对象存储集成测试
@@ -296,15 +294,11 @@ public class JefwOssServiceIT {
     }
 
     @Test
-    public void listObj() {
-        List<ObjectSummary> aliObjs = aliyunJefwOssService.listObj(ALIYUN_EXIST_BUCKET, null);
-        System.out.println("阿里云对象总数：" + aliObjs.size());
-        List<ObjectSummary> tencentObjs = tencentJefwOssService.listObj(TENCENT_EXIST_BUCKET, null);
-        System.out.println("腾讯云对象总数：" + tencentObjs.size());
-        List<ObjectSummary> qiniuObjs = qiniuJefwOssService.listObj(QINIU_EXIST_BUCKET, null);
-        System.out.println("七牛云对象总数：" + qiniuObjs.size());
-        List<ObjectSummary> minioObjs = minioJefwOssService.listObj(MINIO_EXIST_BUCKET, null);
-        System.out.println("MinIO对象总数：" + minioObjs.size());
+    public void listObjPage() {
+        Assertions.assertTrue(aliyunJefwOssService.listObjPage(ALIYUN_EXIST_BUCKET, null, 2, null).items().size() <= 2);
+        Assertions.assertTrue(tencentJefwOssService.listObjPage(TENCENT_EXIST_BUCKET, null, 2, null).items().size() <= 2);
+        Assertions.assertTrue(qiniuJefwOssService.listObjPage(QINIU_EXIST_BUCKET, null, 2, null).items().size() <= 2);
+        Assertions.assertTrue(minioJefwOssService.listObjPage(MINIO_EXIST_BUCKET, null, 2, null).items().size() <= 2);
     }
 
     private File uploadFile() {

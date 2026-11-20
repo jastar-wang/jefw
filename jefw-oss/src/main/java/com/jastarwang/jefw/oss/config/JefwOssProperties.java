@@ -15,6 +15,7 @@
  */
 package com.jastarwang.jefw.oss.config;
 
+import cn.hutool.core.util.StrUtil;
 import com.jastarwang.jefw.oss.OssChannel;
 
 /**
@@ -268,6 +269,16 @@ public class JefwOssProperties {
 
         public void setEndpoint(String endpoint) {
             this.endpoint = endpoint;
+        }
+
+        /**
+         * 返回带协议的 MinIO 端点。
+         */
+        public String endpointUrl() {
+            if (StrUtil.startWithAnyIgnoreCase(endpoint, "http://", "https://")) {
+                return endpoint;
+            }
+            return (getHttps() ? "https://" : "http://") + endpoint;
         }
 
         @Override
