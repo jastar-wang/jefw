@@ -31,13 +31,7 @@ import com.qcloud.cos.model.ObjectListing;
 import com.qiniu.storage.BucketManager;
 import com.qiniu.storage.model.FileListing;
 import io.minio.MinioAsyncClient;
-import okhttp3.HttpUrl;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Protocol;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
+import okhttp3.*;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
@@ -47,6 +41,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * 验证各对象存储渠道的单页请求、续页令牌及页大小限制。
+ *
+ * @author Jastar Wang
+ * @date 2026/11/20
+ * @since 2.5.1
+ */
 class ObjectListingPageTest {
     private static final String BUCKET = "test-bucket";
     private static final String PREFIX = "images/";

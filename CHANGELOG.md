@@ -7,6 +7,10 @@
 - 【oss】新增：对象分页查询方法 `listObjPage`。每页可请求 1～1000 个对象，首页传 `null`，下一页在相同渠道、桶和前缀下原样传入上一页的 `nextContinuationToken()`，令牌为 `null` 时结束
 - 【oss】MinIO 分页查询使用 `MinioAsyncClient`，默认按现有配置创建并复用。自行配置了 MinIO 端点、凭据提供器或 HTTP 客户端的应用，需提供配置一致的 `MinioAsyncClient` Bean
 
+### 优化
+
+- 【redis/oss/sms/weixin】优化：外部服务集成测试按服务和渠道启用。Redis 需设置 `JEFW_REDIS_IT=true`，OSS 写入和真实短信发送分别使用独立开关。已有联调脚本请按[集成测试指南](CONTRIBUTING.md#测试)调整环境变量
+
 ### 修复
 
 - 【weixin】修复：微信支付和退款回调在签名请求头大小写变化时验签失败的问题

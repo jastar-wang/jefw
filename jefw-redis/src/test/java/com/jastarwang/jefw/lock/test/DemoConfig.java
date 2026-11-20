@@ -20,6 +20,7 @@ import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.util.StringUtils;
 
 /**
  * Redisson 客户端配置
@@ -31,13 +32,17 @@ import org.springframework.context.annotation.Bean;
  */
 public class DemoConfig {
 
-    @Bean
+    /**
+     * 按测试连接参数创建客户端，随 Spring 上下文关闭连接。
+     */
+    @Bean(destroyMethod = "shutdown")
     public RedissonClient redissonClient(RedisProperties redisProperties) {
         Config config = new Config();
         config.useSingleServer()
                 .setAddress("redis://" + redisProperties.getHost() + ":" + redisProperties.getPort())
                 .setDatabase(redisProperties.getDatabase())
-                .setPassword(redisProperties.getPassword());
+                .setPassword(StringUtils.hasLength(redisProperties.getPassword())
+                        ? redisProperties.getPassword() : null);
         return Redisson.create(config);
     }
 
