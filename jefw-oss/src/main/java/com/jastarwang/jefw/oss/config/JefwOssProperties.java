@@ -18,6 +18,8 @@ package com.jastarwang.jefw.oss.config;
 import cn.hutool.core.util.StrUtil;
 import com.jastarwang.jefw.oss.OssChannel;
 
+import java.util.Set;
+
 /**
  * 对象存储服务的参数配置
  *
@@ -36,6 +38,10 @@ public class JefwOssProperties {
      * <li>若有多个存储服务，则取第一个服务（根据枚举的顺序）</li>
      */
     private OssChannel defaultChannel;
+    /**
+     * 可空，启用的存储渠道。省略时按类路径中的 SDK 自动装配，显式配置时至少选择一个渠道。
+     */
+    private Set<OssChannel> enabledChannels;
     /**
      * 阿里云OSS配置
      */
@@ -67,6 +73,30 @@ public class JefwOssProperties {
 
     public void setDefaultChannel(OssChannel defaultChannel) {
         this.defaultChannel = defaultChannel;
+    }
+
+    public Set<OssChannel> getEnabledChannels() {
+        return enabledChannels;
+    }
+
+    public void setEnabledChannels(Set<OssChannel> enabledChannels) {
+        this.enabledChannels = enabledChannels;
+    }
+
+    /**
+     * 校验渠道名单和默认渠道的配置。
+     */
+    public void validate() {
+        if (enabledChannels == null) {
+            return;
+        }
+        if (enabledChannels.isEmpty()) {
+            throw new IllegalStateException("jefw.oss.enabled-channels must contain at least one channel. To disable OSS, set jefw.oss.enabled=false.");
+        }
+        if (defaultChannel != null && !enabledChannels.contains(defaultChannel)) {
+            throw new IllegalStateException("jefw.oss.default-channel=" + defaultChannel +
+                    " must be included in jefw.oss.enabled-channels=" + enabledChannels);
+        }
     }
 
     public Aliyun getAliyun() {
@@ -106,6 +136,7 @@ public class JefwOssProperties {
         return "JefwOssProperties{" +
                 "enabled=" + enabled +
                 ", defaultChannel=" + defaultChannel +
+                ", enabledChannels=" + enabledChannels +
                 ", aliyun=" + aliyun +
                 ", tencent=" + tencent +
                 ", qiniu=" + qiniu +

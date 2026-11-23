@@ -2,6 +2,7 @@ jefw:
   oss:
     enabled: ${JEFW_OSS_IT:false}
     default-channel: ${JEFW_OSS_DEFAULT_CHANNEL:}
+    enabled-channels: ${JEFW_OSS_DEFAULT_CHANNEL:}
     aliyun:
       access-key-id: ${JEFW_OSS_ALIYUN_ACCESS_KEY_ID:}
       access-key-secret: ${JEFW_OSS_ALIYUN_ACCESS_KEY_SECRET:}

@@ -16,6 +16,7 @@
 package com.jastarwang.jefw.oss.config;
 
 import com.jastarwang.jefw.oss.JefwOssService;
+import com.jastarwang.jefw.oss.OssChannel;
 import com.jastarwang.jefw.oss.impl.TencentJefwOssService;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
@@ -38,6 +39,7 @@ import org.springframework.core.annotation.Order;
  * @since 1.2.4
  */
 @Configuration
+@ConditionalOnOssChannel(OssChannel.TENCENT)
 @ConditionalOnClass(COSClient.class)
 @ConditionalOnProperty(value = "jefw.oss.enabled", havingValue = "true")
 public class TencentJefwOssAutoConfiguration {

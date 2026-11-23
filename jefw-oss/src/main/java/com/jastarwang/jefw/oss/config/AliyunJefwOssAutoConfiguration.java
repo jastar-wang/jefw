@@ -18,6 +18,7 @@ package com.jastarwang.jefw.oss.config;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.jastarwang.jefw.oss.JefwOssService;
+import com.jastarwang.jefw.oss.OssChannel;
 import com.jastarwang.jefw.oss.impl.AliyunJefwOssService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -34,6 +35,7 @@ import org.springframework.core.annotation.Order;
  * @since 1.2.0
  */
 @Configuration
+@ConditionalOnOssChannel(OssChannel.ALIYUN)
 @ConditionalOnClass(OSS.class)
 @ConditionalOnProperty(value = "jefw.oss.enabled", havingValue = "true")
 public class AliyunJefwOssAutoConfiguration {

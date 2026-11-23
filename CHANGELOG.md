@@ -4,9 +4,10 @@
 
 ### 特性
 
-- 【weixin】新增 `jefw.weixin.pay.enabled=false`，允许在启用公众号和小程序时关闭支付自动装配，无需配置商户私钥。已有应用升级无需修改配置，省略此项时仍按微信模块总开关和支付 `SDK` 是否存在决定装配
+- 【weixin】新增：微信支付开关 `jefw.weixin.pay.enabled`。设为 `false` 时，仅使用公众号或小程序的应用无需配置商户私钥。省略此项时沿用原有规则，微信模块已启用且存在支付 `SDK` 时自动装配支付服务
+- 【oss】新增：可选渠道名单 `jefw.oss.enabled-channels`。例如设为 `minio,qiniu` 时，仅装配这两个渠道，可通过 `jefw.oss.default-channel` 指定其中一个作为默认渠道。省略名单时沿用原有 `SDK` 探测规则。启用模块后，若名单为空、默认渠道不在名单内，或所选渠道既缺少 `SDK` 又无自定义服务，应用会在启动时报错
 - 【oss】新增：对象分页查询方法 `listObjPage`。每页可请求 1～1000 个对象，首页传 `null`，下一页在相同渠道、桶和前缀下原样传入上一页的 `nextContinuationToken()`，令牌为 `null` 时结束
-- 【oss】MinIO 分页查询使用 `MinioAsyncClient`，默认按现有配置创建并复用。自行配置了 MinIO 端点、凭据提供器或 HTTP 客户端的应用，需提供配置一致的 `MinioAsyncClient` Bean
+- 【oss】新增：MinIO 分页查询支持复用应用提供的 `MinioAsyncClient`，默认按现有配置创建并复用。自行配置了 MinIO 端点、凭据提供器或 HTTP 客户端的应用，需提供配置一致的 `MinioAsyncClient` Bean
 
 ### 优化
 

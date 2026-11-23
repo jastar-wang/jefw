@@ -16,6 +16,7 @@
 package com.jastarwang.jefw.oss.config;
 
 import com.jastarwang.jefw.oss.JefwOssService;
+import com.jastarwang.jefw.oss.OssChannel;
 import com.jastarwang.jefw.oss.impl.MinioJefwOssService;
 import io.minio.MinioAsyncClient;
 import io.minio.MinioClient;
@@ -35,6 +36,7 @@ import org.springframework.core.annotation.Order;
  * @since 2.3.0
  */
 @Configuration
+@ConditionalOnOssChannel(OssChannel.MINIO)
 @ConditionalOnClass(MinioClient.class)
 @ConditionalOnProperty(value = "jefw.oss.enabled", havingValue = "true")
 public class MinioJefwOssAutoConfiguration {

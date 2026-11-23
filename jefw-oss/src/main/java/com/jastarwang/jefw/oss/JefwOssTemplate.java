@@ -24,6 +24,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 对象存储操作模板类
@@ -108,11 +109,18 @@ public class JefwOssTemplate implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        if (jefwOssServices.isEmpty()) {
-            throw new IllegalStateException("jefw.oss.enabled=true but no available JefwOssService implementation was found. Please add a provider dependency or disable the OSS module.");
+        Set<OssChannel> enabledChannels = jefwOssProperties.getEnabledChannels();
+        List<JefwOssService> services = enabledChannels == null ? jefwOssServices : jefwOssServices.stream()
+                .filter(service -> enabledChannels.contains(service.getChannel())).toList();
+        for (JefwOssService service : services) {
+            serviceRegistry.put(service.getChannel(), service);
         }
-        for (JefwOssService jefwOssService : jefwOssServices) {
-            serviceRegistry.put(jefwOssService.getChannel(), jefwOssService);
+        if (services.isEmpty()) {
+            if (enabledChannels != null) {
+                throw new IllegalStateException("No available JefwOssService for jefw.oss.enabled-channels=" +
+                        enabledChannels + ". Add a provider SDK or supply a service for the selected channels.");
+            }
+            throw new IllegalStateException("jefw.oss.enabled=true but no available JefwOssService implementation was found. Please add a provider dependency or disable the OSS module.");
         }
         if (jefwOssProperties.getDefaultChannel() != null) {
             defaultService = serviceRegistry.get(jefwOssProperties.getDefaultChannel());
@@ -121,7 +129,7 @@ public class JefwOssTemplate implements InitializingBean {
                         " is not available. Current channels: " + serviceRegistry.keySet());
             }
         } else {
-            defaultService = jefwOssServices.get(0);
+            defaultService = services.get(0);
         }
         defaultChannel = defaultService.getChannel();
     }

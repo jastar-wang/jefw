@@ -16,6 +16,7 @@
 package com.jastarwang.jefw.oss.config;
 
 import com.jastarwang.jefw.oss.JefwOssService;
+import com.jastarwang.jefw.oss.OssChannel;
 import com.jastarwang.jefw.oss.impl.QiniuJefwOssService;
 import com.jastarwang.jefw.oss.model.QiniuOssClient;
 import com.qiniu.storage.BucketManager;
@@ -36,6 +37,7 @@ import org.springframework.core.annotation.Order;
  * @since 2.1.0
  */
 @Configuration
+@ConditionalOnOssChannel(OssChannel.QINIU)
 @ConditionalOnClass(BucketManager.class)
 @ConditionalOnProperty(value = "jefw.oss.enabled", havingValue = "true")
 public class QiniuJefwOssAutoConfiguration {
