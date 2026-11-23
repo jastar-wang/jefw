@@ -10,9 +10,10 @@ spring:
   config:
     activate:
       on-profile: "oa | mp"
-  # 开发接口使用独立凭据，无需装配支付 SDK，也不会触发平台证书下载。
-  autoconfigure:
-    exclude: com.jastarwang.jefw.weixin.config.JefwWeixinPayAutoConfiguration
+jefw:
+  weixin:
+    pay:
+      enabled: false
 
 ---
 spring:

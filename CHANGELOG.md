@@ -4,6 +4,7 @@
 
 ### 特性
 
+- 【weixin】新增 `jefw.weixin.pay.enabled=false`，允许在启用公众号和小程序时关闭支付自动装配，无需配置商户私钥。已有应用升级无需修改配置，省略此项时仍按微信模块总开关和支付 `SDK` 是否存在决定装配
 - 【oss】新增：对象分页查询方法 `listObjPage`。每页可请求 1～1000 个对象，首页传 `null`，下一页在相同渠道、桶和前缀下原样传入上一页的 `nextContinuationToken()`，令牌为 `null` 时结束
 - 【oss】MinIO 分页查询使用 `MinioAsyncClient`，默认按现有配置创建并复用。自行配置了 MinIO 端点、凭据提供器或 HTTP 客户端的应用，需提供配置一致的 `MinioAsyncClient` Bean
 
