@@ -18,6 +18,7 @@ package com.jastarwang.jefw.oss.config;
 import cn.hutool.core.util.StrUtil;
 import com.jastarwang.jefw.oss.OssChannel;
 
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -92,6 +93,9 @@ public class JefwOssProperties {
         }
         if (enabledChannels.isEmpty()) {
             throw new IllegalStateException("jefw.oss.enabled-channels must contain at least one channel. To disable OSS, set jefw.oss.enabled=false.");
+        }
+        if (enabledChannels.stream().anyMatch(Objects::isNull)) {
+            throw new IllegalStateException("jefw.oss.enabled-channels contains an empty entry. Specify a channel for each item.");
         }
         if (defaultChannel != null && !enabledChannels.contains(defaultChannel)) {
             throw new IllegalStateException("jefw.oss.default-channel=" + defaultChannel +

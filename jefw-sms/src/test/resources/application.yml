@@ -5,14 +5,13 @@ jefw:
   sms:
     enabled: true
     default-channel: ${JEFW_SMS_DEFAULT_CHANNEL:}
+    enabled-channels: ${JEFW_SMS_DEFAULT_CHANNEL:}
 
 ---
 spring:
   config:
     activate:
       on-profile: tencent
-  autoconfigure:
-    exclude: com.jastarwang.jefw.sms.config.Dh3TongJefwSmsAutoConfiguration
 jefw:
   sms:
     tencent:
@@ -28,9 +27,6 @@ spring:
   config:
     activate:
       on-profile: dh3tong
-  # 腾讯 SDK 在测试类路径上，测试大汉三通时须显式排除其自动配置。
-  autoconfigure:
-    exclude: com.jastarwang.jefw.sms.config.TencentJefwSmsAutoConfiguration
 jefw:
   sms:
     dh3tong:

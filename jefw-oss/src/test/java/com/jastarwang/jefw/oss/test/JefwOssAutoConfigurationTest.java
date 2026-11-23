@@ -88,6 +88,13 @@ class JefwOssAutoConfigurationTest {
     }
 
     @Test
+    void rejectsEmptyEntryInChannelList() {
+        withMinioCredentials.withPropertyValues("jefw.oss.enabled-channels=minio,").run(context ->
+                assertThat(context.getStartupFailure()).rootCause().isInstanceOf(IllegalStateException.class)
+                        .hasMessageContaining("jefw.oss.enabled-channels").hasMessageContaining("empty entry"));
+    }
+
+    @Test
     void rejectsDefaultOutsideSelection() {
         runner.withPropertyValues("jefw.oss.enabled-channels=minio", "jefw.oss.default-channel=tencent").run(context ->
                 assertThat(context.getStartupFailure()).rootCause().hasMessageContaining("default-channel=TENCENT")
@@ -140,6 +147,19 @@ class JefwOssAutoConfigurationTest {
                     throw new AssertionError("查询 List Bean 时不应创建渠道服务");
                 }, definition -> definition.setScope("prototype"))
                 .run(context -> assertThat(context.getBeansOfType(List.class)).isEmpty());
+    }
+
+    @Test
+    void fallbackToAnotherChannelDoesNotSatisfySelection() {
+        JefwOssService fallback = mock(JefwOssService.class);
+        when(fallback.getChannel()).thenReturn(OssChannel.QINIU);
+        JefwOssTemplate template = mock(JefwOssTemplate.class);
+        when(template.getService(OssChannel.MINIO)).thenReturn(fallback);
+        runner.withClassLoader(new FilteredClassLoader("io.minio"))
+                .withBean(JefwOssTemplate.class, () -> template)
+                .withBean(JefwOssService.class, () -> fallback)
+                .withPropertyValues("jefw.oss.enabled-channels=minio").run(context ->
+                        assertThat(context.getStartupFailure()).rootCause().hasMessageContaining("enabled-channels includes MINIO"));
     }
 
     @Test

@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 短信服务操作模板类
@@ -137,11 +138,18 @@ public class JefwSmsTemplate implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        if (jefwSmsServices.isEmpty()) {
-            throw new IllegalStateException("jefw.sms.enabled=true but no available JefwSmsService implementation was found. Please add a provider dependency or disable the SMS module.");
+        Set<SmsChannel> enabledChannels = jefwSmsProperties.getEnabledChannels();
+        List<JefwSmsService> services = enabledChannels == null ? jefwSmsServices : jefwSmsServices.stream()
+                .filter(service -> enabledChannels.contains(service.getChannel())).toList();
+        for (JefwSmsService service : services) {
+            serviceRegistry.put(service.getChannel(), service);
         }
-        for (JefwSmsService jefwSmsService : jefwSmsServices) {
-            serviceRegistry.put(jefwSmsService.getChannel(), jefwSmsService);
+        if (services.isEmpty()) {
+            if (enabledChannels != null) {
+                throw new IllegalStateException("No available JefwSmsService for jefw.sms.enabled-channels=" +
+                        enabledChannels + ". Check the Tencent SMS SDK or jefw.sms.dh3tong.api-url, or supply a service for the selected channels.");
+            }
+            throw new IllegalStateException("jefw.sms.enabled=true but no available JefwSmsService implementation was found. Please add a provider dependency or disable the SMS module.");
         }
         if (jefwSmsProperties.getDefaultChannel() != null) {
             defaultService = serviceRegistry.get(jefwSmsProperties.getDefaultChannel());
@@ -150,7 +158,7 @@ public class JefwSmsTemplate implements InitializingBean {
                         " is not available. Current channels: " + serviceRegistry.keySet());
             }
         } else {
-            defaultService = jefwSmsServices.get(0);
+            defaultService = services.get(0);
         }
         defaultChannel = defaultService.getChannel();
     }

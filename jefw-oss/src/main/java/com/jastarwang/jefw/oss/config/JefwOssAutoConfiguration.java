@@ -60,9 +60,14 @@ public class JefwOssAutoConfiguration {
             }
             Set<OssChannel> missing = EnumSet.copyOf(selected);
             // 模板已完成初始化，直接检查其路由可复用已注入的服务实例。
-            templates.forEach(template -> missing.removeIf(channel -> template.getService(channel) != null));
-            if (missing.isEmpty()) {
-                return;
+            for (JefwOssTemplate template : templates) {
+                missing.removeIf(channel -> {
+                    JefwOssService service = template.getService(channel);
+                    return service != null && service.getChannel() == channel;
+                });
+                if (missing.isEmpty()) {
+                    return;
+                }
             }
             // 自定义模板可以自行管理路由；它未公开的渠道仍可由应用注册的服务提供。
             for (JefwOssService service : services) {

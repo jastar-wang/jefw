@@ -17,6 +17,9 @@ package com.jastarwang.jefw.sms.config;
 
 import com.jastarwang.jefw.sms.SmsChannel;
 
+import java.util.Objects;
+import java.util.Set;
+
 /**
  * 短信服务的参数配置
  *
@@ -35,6 +38,10 @@ public class JefwSmsProperties {
      * <li>若有多个短信服务，则取第一个服务（根据枚举的顺序）</li>
      */
     private SmsChannel defaultChannel;
+    /**
+     * 可空，启用的短信渠道。省略时按腾讯云 SDK 和大汉三通 api-url 的原有条件装配。
+     */
+    private Set<SmsChannel> enabledChannels;
     /**
      * 腾讯云
      */
@@ -60,6 +67,33 @@ public class JefwSmsProperties {
         this.defaultChannel = defaultChannel;
     }
 
+    public Set<SmsChannel> getEnabledChannels() {
+        return enabledChannels;
+    }
+
+    public void setEnabledChannels(Set<SmsChannel> enabledChannels) {
+        this.enabledChannels = enabledChannels;
+    }
+
+    /**
+     * 校验渠道名单和默认渠道的配置。
+     */
+    public void validate() {
+        if (enabledChannels == null) {
+            return;
+        }
+        if (enabledChannels.isEmpty()) {
+            throw new IllegalStateException("jefw.sms.enabled-channels must contain at least one channel. To disable SMS, set jefw.sms.enabled=false.");
+        }
+        if (enabledChannels.stream().anyMatch(Objects::isNull)) {
+            throw new IllegalStateException("jefw.sms.enabled-channels contains an empty entry. Specify a channel for each item.");
+        }
+        if (defaultChannel != null && !enabledChannels.contains(defaultChannel)) {
+            throw new IllegalStateException("jefw.sms.default-channel=" + defaultChannel +
+                    " must be included in jefw.sms.enabled-channels=" + enabledChannels);
+        }
+    }
+
     public Tencent getTencent() {
         return tencent;
     }
@@ -81,6 +115,7 @@ public class JefwSmsProperties {
         return "JefwSmsProperties{" +
                 "enabled=" + enabled +
                 ", defaultChannel=" + defaultChannel +
+                ", enabledChannels=" + enabledChannels +
                 ", tencent=" + tencent +
                 ", dh3tong=" + dh3tong +
                 '}';
