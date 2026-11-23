@@ -9,11 +9,11 @@
 3. 完成修改，并执行 `mvn verify`。
 4. 向 `GitHub` 的 `develop` 分支提交 `Pull Request`。
 
-请保持改动聚焦，并在 `Pull Request` 中说明修改原因、影响范围和验证方式。提交信息遵循 `README` 中约定的格式。
+请保持改动聚焦，并在 `Pull Request` 中说明修改原因、影响范围和验证方式。`main` 用于发布版本。提交信息格式见下文的 [Git 提交规范](#git-提交规范)。
 
 ## 测试
 
-默认验证不访问 `Redis` 或第三方供应商：
+默认验证不访问 `Redis` 或第三方服务：
 
 ```bash
 mvn verify
@@ -50,6 +50,91 @@ mvn -pl jefw-weixin -am -Pintegration-tests "-Dmaven.test.additionalClasspath=D:
 ```
 
 验证其他服务时，将命令中的 `jefw-oss` 替换为对应模块。Maven 的 `integration-tests` Profile 负责发现 `*IT`，环境变量决定实际执行哪些用例。联调后查看模块的 `target/failsafe-reports`，确认目标用例已执行。`Skipped` 表示该用例跳过。发布前可对受影响的渠道分别运行并记录结果。
+
+## 代码规范
+
+1. 推荐使用 `IntelliJ IDEA` 进行开发。
+2. 在 `IDEA` 中配置版权模板，新建类时将以下声明添加到文件顶部（位于 `package` 之前）：
+
+```
+Copyright 2020 Jastar Wang
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
+
+3. 为类添加文档注释：
+
+```
+/**
+ * TODO
+ *
+ * @author [your name]
+ * @date ${DATE}
+ * @since [current version]
+ */
+```
+
+4. 统一使用 4 个空格缩进。
+5. 单行注释的 `//` 与正文之间保留一个空格。
+6. 其他规范参考最新版《阿里巴巴 Java 开发手册》。
+
+> 小声说一句：规矩看着不少，其实都是为了少在深夜排查问题。代码洁癖不是病，格式乱了才要命。[狗头]
+
+## Git 提交规范
+
+> 统一的编码、协作和提交规范，可以减少沟通成本，也能让问题追溯更高效。多花几秒写清楚提交信息，往往能让未来的自己少翻半小时日志。相关说明见：[为什么要规范 Git Commit](https://mp.weixin.qq.com/s/vzgST0ko-HZVkFFiSZ2xGg)。
+
+### `Commit Message` 格式
+
+```
+<type>(<scope>):<subject>
+```
+
+### `type`（必填）
+
+`type` 用于说明本次提交的类别，可使用以下标识：
+
+- `feat`：新增功能
+- `fix`：修复 `Bug`，可用于一次提交直接解决问题
+- `to`：阶段性修改，问题尚未完全解决；最终修复时应使用 `fix`
+- `docs`：文档（documentation）
+- `style`：格式调整，不影响代码逻辑
+- `refactor`：重构，既不新增功能，也不修复 `Bug`
+- `perf`：性能或体验优化
+- `test`：新增或调整测试
+- `chore`：构建流程或辅助工具变动
+- `revert`：回滚已有提交
+- `merge`：代码合并
+- `sync`：同步主线或其他分支的修改
+
+### `scope`（可选）
+
+`scope` 用于说明本次提交影响的范围，例如数据层、控制层或具体模块，可根据实际情况填写。
+
+在本项目中，可以使用 `core`、`util`、`redis`、`oss` 等模块名。修改影响多个 `scope` 时，可以使用 `*`。
+
+### `subject`（必填）
+
+`subject` 是对本次提交目的的简短描述，建议不超过 50 个字符。
+
+- 建议使用中文，表达清楚比堆砌术语更重要。
+- 结尾不加句号或其他标点符号。
+
+### 示例
+
+```
+fix(util): 修复XXX的问题
+```
 
 ## 许可证
 

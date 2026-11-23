@@ -33,7 +33,7 @@
 
 ## 2.5.0 - 2026-07-25（Maven正式版）
 
-> 重要：Maven `groupId` 由 `com.jastarwang` 调整为 `com.jastar-wang`，升级时需要同步修改依赖坐标。
+📢这是 Maven Central 的首个正式版本，各模块的 `groupId` 为 `com.jastar-wang`。
 
 ### 特性
 

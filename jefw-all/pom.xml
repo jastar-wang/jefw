@@ -12,7 +12,7 @@
     </parent>
     <artifactId>jefw-all</artifactId>
     <name>${project.artifactId}</name>
-    <description>JastarWang Easy Framework</description>
+    <description>Jastar Easy Framework</description>
 
     <dependencies>
         <dependency>
