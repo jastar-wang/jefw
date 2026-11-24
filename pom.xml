@@ -7,7 +7,7 @@
 
     <groupId>com.jastar-wang</groupId>
     <artifactId>jefw</artifactId>
-    <version>2.5.0</version>
+    <version>2.5.1</version>
     <name>jefw</name>
     <description>Jastar Easy Framework</description>
     <url>https://github.com/jastar-wang/jefw</url>

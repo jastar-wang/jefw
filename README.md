@@ -1,7 +1,7 @@
 <h1 align="center" style="font-family:fantasy;">Jefw</h1>
 <p align="center" style="color:darkgray;">让 天 下 没 有 难 写 的 代 码</p>
 <p align="center">
-  <a href="https://github.com/jastar-wang/jefw/releases"><img src="https://img.shields.io/badge/release-2.5.0-orange.svg" alt="release" /></a>
+  <a href="https://github.com/jastar-wang/jefw/releases"><img src="https://img.shields.io/badge/release-2.5.1-orange.svg" alt="release" /></a>
   <a href="https://central.sonatype.com/artifact/com.jastar-wang/jefw-all"><img src="https://img.shields.io/maven-central/v/com.jastar-wang/jefw-all.svg" alt="maven-central" /></a>
   <img src="https://img.shields.io/badge/jdk-17+-green.svg" alt="jdk" />
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue" alt="license" /></a>
@@ -41,7 +41,7 @@
 <dependency>
     <groupId>com.jastar-wang</groupId>
     <artifactId>jefw-all</artifactId>
-    <version>2.5.0</version>
+    <version>2.5.1</version>
 </dependency>
 ```
 
