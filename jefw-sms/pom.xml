@@ -46,6 +46,14 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- aliyun sms -->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>dysmsapi20170525</artifactId>
+            <version>${aliyun.sms.version}</version>
+            <optional>true</optional>
+        </dependency>
+
         <!-- tencent cloud sms -->
         <dependency>
             <groupId>com.tencentcloudapi</groupId>

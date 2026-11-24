@@ -26,6 +26,7 @@ import org.springframework.boot.test.context.FilteredClassLoader;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.MapPropertySource;
+import org.springframework.core.env.StandardEnvironment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,8 @@ import static org.mockito.Mockito.when;
  */
 class JefwSmsAutoConfigurationTest {
     private final ApplicationContextRunner runner = new ApplicationContextRunner()
+            .withInitializer(context -> context.getEnvironment().getPropertySources()
+                    .remove(StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME))
             .withUserConfiguration(JefwSmsServiceIT.Application.class)
             .withPropertyValues("jefw.sms.enabled=true");
 
@@ -55,6 +58,55 @@ class JefwSmsAutoConfigurationTest {
     private final ApplicationContextRunner withBoth = withDh3Tong.withPropertyValues(
             "jefw.sms.tencent.secret-id=test-id", "jefw.sms.tencent.secret-key=test-key",
             "jefw.sms.tencent.region=ap-beijing", "jefw.sms.tencent.endpoint=localhost");
+
+    @Test
+    void selectsAliyunWithoutOtherProviderCredentials() {
+        runner.withPropertyValues("jefw.sms.enabled-channels=aliyun", "jefw.sms.aliyun.access-key-id=test-id",
+                "jefw.sms.aliyun.access-key-secret=test-secret", "jefw.sms.aliyun.sign-name=test-sign").run(context -> {
+            assertThat(context.getBeansOfType(JefwSmsService.class)).containsOnlyKeys("aliyunJefwSmsService");
+            assertThat(context.getBean(JefwSmsTemplate.class).getDefaultChannel()).isEqualTo(SmsChannel.ALIYUN);
+        });
+    }
+
+    @Test
+    void ignoresBlankAliyunKeyDuringAutomaticChannelSelection() {
+        withBoth.withPropertyValues("jefw.sms.aliyun.access-key-id=${JEFW_TEST_MISSING_ALIYUN_ID:}")
+                .run(context -> {
+                    assertThat(context).doesNotHaveBean("aliyunJefwSmsService");
+                    assertThat(context.getBean(JefwSmsTemplate.class).getDefaultChannel()).isEqualTo(SmsChannel.TENCENT);
+                });
+    }
+
+    @Test
+    void defaultsToAliyunWhenAllThreeProvidersAreConfigured() {
+        withBoth.withPropertyValues("jefw.sms.aliyun.access-key-id=test-id",
+                "jefw.sms.aliyun.access-key-secret=test-secret", "jefw.sms.aliyun.sign-name=test-sign").run(context -> {
+            JefwSmsTemplate template = context.getBean(JefwSmsTemplate.class);
+            assertThat(template.getDefaultChannel()).isEqualTo(SmsChannel.ALIYUN);
+            assertThat(template.getService(SmsChannel.ALIYUN)).isSameAs(context.getBean("aliyunJefwSmsService"));
+            assertThat(template.getService(SmsChannel.TENCENT)).isSameAs(context.getBean("tencentJefwSmsService"));
+            assertThat(template.getService(SmsChannel.DH3TONG)).isSameAs(context.getBean("dh3tongJefwSmsService"));
+        });
+    }
+
+    @Test
+    void validatesSecretOnlyWhenCreatingBuiltinAliyunService() {
+        ApplicationContextRunner selected = runner.withPropertyValues("jefw.sms.enabled-channels=aliyun",
+                "jefw.sms.aliyun.access-key-id=test-id");
+        selected.run(context -> assertThat(context.getStartupFailure()).rootCause()
+                .hasMessageContaining("jefw.sms.aliyun.access-key-secret"));
+        JefwSmsService custom = mock(JefwSmsService.class);
+        when(custom.getChannel()).thenReturn(SmsChannel.ALIYUN);
+        selected.withBean("aliyunJefwSmsService", JefwSmsService.class, () -> custom)
+                .run(context -> assertThat(context.getBean(JefwSmsTemplate.class).getDefaultService()).isSameAs(custom));
+    }
+
+    @Test
+    void selectedAliyunRequiresSdkOrCustomService() {
+        withDh3Tong.withClassLoader(new FilteredClassLoader("com.aliyun.dysmsapi20170525"))
+                .withPropertyValues("jefw.sms.enabled-channels=dh3tong,aliyun", "jefw.sms.aliyun.access-key-id=test")
+                .run(context -> assertThat(context.getStartupFailure()).rootCause().hasMessageContaining("ALIYUN"));
+    }
 
     @Test
     void selectsDh3TongWithTencentSdkPresentAndNoTencentCredentials() {

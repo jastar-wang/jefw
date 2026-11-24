@@ -15,6 +15,7 @@
  */
 package com.jastarwang.jefw.sms.test;
 
+import com.aliyun.dysmsapi20170525.Client;
 import com.jastarwang.jefw.sms.JefwSmsException;
 import com.jastarwang.jefw.sms.JefwSmsService;
 import com.jastarwang.jefw.sms.JefwSmsTemplate;
@@ -67,6 +68,12 @@ class JefwSmsServiceIT {
     @BeforeAll
     static void selectChannel() {
         channel = switch (required("JEFW_SMS_DEFAULT_CHANNEL")) {
+            case "aliyun" -> {
+                required("JEFW_SMS_ALIYUN_ACCESS_KEY_ID");
+                required("JEFW_SMS_ALIYUN_ACCESS_KEY_SECRET");
+                required("JEFW_SMS_ALIYUN_SIGN_NAME");
+                yield SmsChannel.ALIYUN;
+            }
             case "tencent" -> {
                 required("JEFW_SMS_TENCENT_APP_ID");
                 required("JEFW_SMS_TENCENT_SECRET_ID");
@@ -79,7 +86,7 @@ class JefwSmsServiceIT {
                 required("JEFW_SMS_DH3TONG_PASSWORD");
                 yield SmsChannel.DH3TONG;
             }
-            default -> throw new IllegalArgumentException("JEFW_SMS_DEFAULT_CHANNEL 须为 tencent 或 dh3tong");
+            default -> throw new IllegalArgumentException("JEFW_SMS_DEFAULT_CHANNEL 须为 aliyun、tencent 或 dh3tong");
         };
     }
 
@@ -90,7 +97,9 @@ class JefwSmsServiceIT {
         assertEquals(channel, template.getDefaultChannel());
         assertSame(services.get(0), template.getDefaultService());
         assertSame(services.get(0), template.getService(channel));
-        if (channel == SmsChannel.TENCENT) {
+        if (channel == SmsChannel.ALIYUN) {
+            assertInstanceOf(Client.class, services.get(0).prototype());
+        } else if (channel == SmsChannel.TENCENT) {
             assertInstanceOf(SmsClient.class, services.get(0).prototype());
         }
     }
@@ -100,10 +109,13 @@ class JefwSmsServiceIT {
     void sendsOneTestMessage() {
         String phone = required("JEFW_SMS_PHONES");
         assertFalse(phone.contains(","), "真实发送仅接受一个测试手机号");
-        String message = required(channel == SmsChannel.TENCENT
-                ? "JEFW_SMS_TENCENT_TEMPLATE_ID" : "JEFW_SMS_DH3TONG_TEMPLATE");
+        String message = required(switch (channel) {
+            case ALIYUN -> "JEFW_SMS_ALIYUN_TEMPLATE_CODE";
+            case TENCENT -> "JEFW_SMS_TENCENT_TEMPLATE_ID";
+            case DH3TONG -> "JEFW_SMS_DH3TONG_TEMPLATE";
+        });
 
-        // 腾讯云按顺序读取参数，大汉三通按模板中的 {code}、{time} 替换。
+        // 腾讯云按顺序读取参数，阿里云和大汉三通按名称匹配参数。
         LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
         parameters.put("code", "123456");
         parameters.put("time", 3);

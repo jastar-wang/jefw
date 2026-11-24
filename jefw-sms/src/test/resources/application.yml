@@ -11,6 +11,18 @@ jefw:
 spring:
   config:
     activate:
+      on-profile: aliyun
+jefw:
+  sms:
+    aliyun:
+      access-key-id: ${JEFW_SMS_ALIYUN_ACCESS_KEY_ID}
+      access-key-secret: ${JEFW_SMS_ALIYUN_ACCESS_KEY_SECRET}
+      sign-name: ${JEFW_SMS_ALIYUN_SIGN_NAME}
+
+---
+spring:
+  config:
+    activate:
       on-profile: tencent
 jefw:
   sms:

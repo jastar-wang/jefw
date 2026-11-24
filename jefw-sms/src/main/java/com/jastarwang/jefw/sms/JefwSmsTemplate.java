@@ -157,7 +157,8 @@ public class JefwSmsTemplate implements InitializingBean {
         if (services.isEmpty()) {
             if (enabledChannels != null) {
                 throw new IllegalStateException("No available JefwSmsService for jefw.sms.enabled-channels=" +
-                        enabledChannels + ". Check the Tencent SMS SDK or jefw.sms.dh3tong.api-url, or supply a service for the selected channels.");
+                        enabledChannels + ". Check the provider SDK and configuration (jefw.sms.aliyun.access-key-id or " +
+                        "jefw.sms.dh3tong.api-url), or supply a service for the selected channels.");
             }
             throw new IllegalStateException("jefw.sms.enabled=true but no available JefwSmsService implementation was found. Please add a provider dependency or disable the SMS module.");
         }

@@ -42,7 +42,8 @@ class SmsChannelCondition implements Condition {
         Set<SmsChannel> selected = Binder.get(environment)
                 .bind("jefw.sms.enabled-channels", Bindable.setOf(SmsChannel.class)).orElse(null);
         MergedAnnotation<ConditionalOnSmsChannel> condition = metadata.getAnnotations().get(ConditionalOnSmsChannel.class);
-        if (selected != null && !selected.contains(condition.getEnum("value", SmsChannel.class))) {
+        SmsChannel channel = condition.getEnum("value", SmsChannel.class);
+        if (selected != null && !selected.contains(channel)) {
             return false;
         }
         String requiredProperty = condition.getString("requiredProperty");
@@ -50,8 +51,9 @@ class SmsChannelCondition implements Condition {
             return true;
         }
         String value = environment.getProperty(requiredProperty);
-        // 旧配置沿用 ConditionalOnProperty 的规则：属性存在且不为 false。
-        return value != null && !"false".equalsIgnoreCase(value) && (selected == null || StringUtils.hasText(value));
+        // 大汉三通省略名单时，保留旧版按属性存在性装配的行为。
+        boolean requireText = selected != null || channel == SmsChannel.ALIYUN;
+        return value != null && !"false".equalsIgnoreCase(value) && (!requireText || StringUtils.hasText(value));
     }
 
 }

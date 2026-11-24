@@ -77,7 +77,8 @@ public class JefwSmsAutoConfiguration {
                 }
             }
             throw new IllegalStateException("jefw.sms.enabled-channels includes " + missing.iterator().next() +
-                    " but no service is available. Check the Tencent SMS SDK or jefw.sms.dh3tong.api-url, or supply a JefwSmsService for this channel.");
+                    " but no service is available. Check the provider SDK and configuration " +
+                    "(jefw.sms.aliyun.access-key-id or jefw.sms.dh3tong.api-url), or supply a JefwSmsService for this channel.");
         };
     }
 

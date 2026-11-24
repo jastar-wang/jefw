@@ -38,9 +38,13 @@ public class JefwSmsProperties {
      */
     private SmsChannel defaultChannel;
     /**
-     * 可空，启用的短信渠道。省略时按腾讯云 SDK 和大汉三通 api-url 的原有条件装配。
+     * 可空，启用的短信渠道。省略时按厂商 SDK 和渠道配置装配。
      */
     private Set<SmsChannel> enabledChannels;
+    /**
+     * 阿里云
+     */
+    private Aliyun aliyun;
     /**
      * 腾讯云
      */
@@ -93,6 +97,14 @@ public class JefwSmsProperties {
         }
     }
 
+    public Aliyun getAliyun() {
+        return aliyun;
+    }
+
+    public void setAliyun(Aliyun aliyun) {
+        this.aliyun = aliyun;
+    }
+
     public Tencent getTencent() {
         return tencent;
     }
@@ -115,9 +127,78 @@ public class JefwSmsProperties {
                 "enabled=" + enabled +
                 ", defaultChannel=" + defaultChannel +
                 ", enabledChannels=" + enabledChannels +
+                ", aliyun=" + aliyun +
                 ", tencent=" + tencent +
                 ", dh3tong=" + dh3tong +
                 '}';
+    }
+
+    /**
+     * 阿里云短信服务配置。
+     *
+     * @author Jastar Wang
+     * @date 2026/11/24
+     * @since 2.5.1
+     */
+    public static class Aliyun {
+        /**
+         * 非空，访问密钥 ID。
+         */
+        private String accessKeyId;
+        /**
+         * 非空，访问密钥 Secret。
+         */
+        private String accessKeySecret;
+        /**
+         * 非空，已审核通过的短信签名。
+         */
+        private String signName;
+        /**
+         * 可空，短信服务接入域名，默认使用公共端点。
+         */
+        private String endpoint = "dysmsapi.aliyuncs.com";
+
+        public String getAccessKeyId() {
+            return accessKeyId;
+        }
+
+        public void setAccessKeyId(String accessKeyId) {
+            this.accessKeyId = accessKeyId;
+        }
+
+        public String getAccessKeySecret() {
+            return accessKeySecret;
+        }
+
+        public void setAccessKeySecret(String accessKeySecret) {
+            this.accessKeySecret = accessKeySecret;
+        }
+
+        public String getSignName() {
+            return signName;
+        }
+
+        public void setSignName(String signName) {
+            this.signName = signName;
+        }
+
+        public String getEndpoint() {
+            return endpoint;
+        }
+
+        public void setEndpoint(String endpoint) {
+            this.endpoint = endpoint;
+        }
+
+        @Override
+        public String toString() {
+            return "Aliyun{" +
+                    "accessKeyId='" + mask(accessKeyId) + '\'' +
+                    ", accessKeySecret='" + mask(accessKeySecret) + '\'' +
+                    ", signName='" + signName + '\'' +
+                    ", endpoint='" + endpoint + '\'' +
+                    '}';
+        }
     }
 
     public static class Tencent {
