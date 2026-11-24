@@ -16,6 +16,7 @@
 package com.jastarwang.jefw.sms.config;
 
 import com.jastarwang.jefw.sms.JefwSmsService;
+import com.jastarwang.jefw.sms.SmsChannel;
 import com.jastarwang.jefw.sms.impl.TencentJefwSmsService;
 import com.tencentcloudapi.common.Credential;
 import com.tencentcloudapi.common.profile.ClientProfile;
@@ -36,6 +37,7 @@ import org.springframework.core.annotation.Order;
  * @since 1.3.0
  */
 @Configuration
+@ConditionalOnSmsChannel(SmsChannel.TENCENT)
 @ConditionalOnClass(SmsClient.class)
 @ConditionalOnProperty(value = "jefw.sms.enabled", havingValue = "true")
 public class TencentJefwSmsAutoConfiguration {

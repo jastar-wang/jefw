@@ -1,15 +1,47 @@
+spring:
+  profiles:
+    active: ${JEFW_SMS_DEFAULT_CHANNEL:unselected}
 jefw:
   sms:
     enabled: true
-    default-channel: ${JEFW_SMS_DEFAULT_CHANNEL:tencent}
+    default-channel: ${JEFW_SMS_DEFAULT_CHANNEL:}
+    enabled-channels: ${JEFW_SMS_DEFAULT_CHANNEL:}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: aliyun
+jefw:
+  sms:
+    aliyun:
+      access-key-id: ${JEFW_SMS_ALIYUN_ACCESS_KEY_ID}
+      access-key-secret: ${JEFW_SMS_ALIYUN_ACCESS_KEY_SECRET}
+      sign-name: ${JEFW_SMS_ALIYUN_SIGN_NAME}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: tencent
+jefw:
+  sms:
     tencent:
-      app-id: ${JEFW_SMS_TENCENT_APP_ID:}
-      secret-id: ${JEFW_SMS_TENCENT_SECRET_ID:}
-      secret-key: ${JEFW_SMS_TENCENT_SECRET_KEY:}
+      app-id: ${JEFW_SMS_TENCENT_APP_ID}
+      secret-id: ${JEFW_SMS_TENCENT_SECRET_ID}
+      secret-key: ${JEFW_SMS_TENCENT_SECRET_KEY}
       endpoint: ${JEFW_SMS_TENCENT_ENDPOINT:sms.tencentcloudapi.com}
       region: ${JEFW_SMS_TENCENT_REGION:ap-beijing}
-      sign-name: ${JEFW_SMS_TENCENT_SIGN_NAME:}
+      sign-name: ${JEFW_SMS_TENCENT_SIGN_NAME}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dh3tong
+jefw:
+  sms:
     dh3tong:
-      account: ${JEFW_SMS_DH3TONG_ACCOUNT:}
-      pwd: ${JEFW_SMS_DH3TONG_PASSWORD:}
+      account: ${JEFW_SMS_DH3TONG_ACCOUNT}
+      pwd: ${JEFW_SMS_DH3TONG_PASSWORD}
       api-url: ${JEFW_SMS_DH3TONG_API_URL:https://www.dh3t.com/json/sms/Submit}

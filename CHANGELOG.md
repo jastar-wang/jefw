@@ -1,8 +1,52 @@
 # 更新日志
 
+## 2.5.1 - 2026-11-24
+
+### 从 2.5.0 升级
+
+- **OSS 对象列举接口不兼容。** `JefwOssTemplate` 和 `JefwOssService` 已移除 `listObj`。调用方请改用 `listObjPage`，自定义 `JefwOssService` 实现也需实现该方法。每页可请求 1～1000 个对象，首页令牌传 `null`。后续请求须沿用同一渠道、桶和前缀，原样传回 `nextContinuationToken()`。即使本页为空，也要等令牌为 `null` 才结束。
+- **MinIO 运行时依赖和客户端。** 使用 MinIO 的 Maven 应用需在运行时提供 `com.squareup.okhttp3:okhttp-jvm:5.3.2`。分页使用 `MinioAsyncClient`，默认按现有配置创建并复用。若应用为同步客户端自定义了端点、凭据提供器或 HTTP 客户端，请提供配置一致的 `MinioAsyncClient` Bean。直接调用或覆写 `MinioJefwOssAutoConfiguration.minioJefwOssService` 的代码还需适配新增的第三个参数 `ObjectProvider<MinioAsyncClient>`，常规自动装配由 Spring 注入。
+- **OSS 和短信的重复渠道会导致启动失败。** 框架模板现在会在初始化时指出冲突渠道，避免默认调用与按渠道调用选中不同服务。请为每个启用渠道保留一个服务。替换内置实现时，可给自定义 Bean 使用对应的内置名称，如 `minioJefwOssService` 或 `dh3tongJefwSmsService`。
+
+### 特性
+
+- 【oss/sms】可用 `jefw.oss.enabled-channels` 和 `jefw.sms.enabled-channels` 分别选择渠道，只需配置所选厂商。例如，OSS 可设为 `minio,qiniu` 并用 `jefw.oss.default-channel=qiniu` 指定默认路由。短信可设为 `dh3tong`，或用 `tencent,dh3tong` 同时启用两者。省略渠道名单时，OSS 沿用原有 SDK 探测规则。省略 `default-channel` 时，默认使用 Spring 注入顺序中的第一个已启用服务。模块启用后，渠道名单为空或含空项、默认渠道不在名单内、所选渠道缺少服务，都会在启动时报错。
+- 【sms】新增阿里云短信。引入可选依赖 `com.aliyun:dysmsapi20170525:4.6.0`，设置 `jefw.sms.enabled=true` 和 `jefw.sms.enabled-channels=aliyun`，并在 `jefw.sms.aliyun` 下配置 `access-key-id`、`access-key-secret` 和 `sign-name`。调用 `send` 时传入模板 CODE 和按名称填写的变量，非空变量值会转换成文本。省略渠道名单时，阿里云按短信 SDK 和非空白的 `access-key-id` 装配，腾讯云按 SDK 装配，大汉三通按 `api-url` 装配。阿里云与其他内置渠道同时启用且未指定默认渠道时，优先使用阿里云。
+- 【redis】可用 `jefw.redis.cache.enabled=false` 关闭 jefw 的 `redisTemplate` 和 `RedisUtil`，用 `jefw.redis.lock.enabled=false` 独立关闭默认分布式锁。两项均默认开启。默认锁要求容器中已有 `RedissonClient` 且尚未注册 `DistributedLock`。Spring Boot 自身的 Redis 配置仍按原有条件生效。
+- 【weixin】新增 `jefw.weixin.pay.enabled=false`。仅使用公众号或小程序的应用可关闭微信支付，省去商户私钥配置。省略此项时，微信模块已启用且支付 SDK 在场就会自动装配支付服务。
+
+### 修复
+
+- 【sms】按渠道发送短信时，若渠道不可用，抛出 `IllegalArgumentException` 并列出请求渠道及当前可用渠道。
+- 【redis】多个 Spring 上下文共用 `RedisUtil` 时，使用最近初始化且仍存活的模板。关闭子上下文后可继续使用父上下文的模板，关闭最后一个上下文时释放引用。
+- 【redis】第三方自动配置稍晚注册 `RedissonClient` 时也可获得默认锁。若下游配置依赖 `@ConditionalOnBean(DistributedLock.class)`，建议客户端提供方通过 `@AutoConfiguration(before = DistributedLockAutoConfiguration.class)` 提前注册。第三方提供自定义锁时，也可通过相同方式提前注册，或关闭 jefw 默认锁以避免两个锁并存。
+- 【weixin】支付和退款回调验签时忽略签名请求头名称的大小写。
+- 【weixin】公众号、小程序预支付金额必须大于零、可精确换算为整数分，且不超过 `21474836.47` 元。金额不符合条件时，在发起预支付请求前抛出 `IllegalArgumentException`。
+
+### 依赖
+
+- `jefw-oss` 传递 `hutool-core`，`jefw-sms` 传递 `hutool-core`、`hutool-http` 和 `hutool-json`。应用无需再为这两个模块单独补充 Hutool。
+- `jefw-redis` 传递默认缓存序列化所需的 `jackson-databind`、`jackson-datatype-jsr310`、`jackson-datatype-jdk8` 和 `jackson-module-parameter-names`。这些依赖也随 `jefw-all` 引入。使用 Redis 缓存时仍需提供 Spring Data Redis，使用默认分布式锁时仍需提供 Redisson 和 `RedissonClient`。
+
+| 依赖 | 2.5.0 | 2.5.1 |
+| --- | --- | --- |
+| Hutool | `5.8.47` | `5.8.48` |
+| Jackson（通过 `jackson-bom` 统一管理 Jackson 2 各模块） | `2.21.4` | `2.21.8` |
+| 腾讯云 COS SDK | `5.6.273` | `5.6.283` |
+| 腾讯云短信 SDK | `3.1.1451` | `3.2.18` |
+| 阿里云短信 SDK（可选） | — | `4.6.0` |
+| MinIO | `8.6.0` | `9.0.3` |
+| OkHttp | `4.12.0` | `5.3.2` |
+
+### 测试
+
+- 外部服务集成测试改为按服务和渠道启用。Redis 使用 `JEFW_REDIS_IT=true`，OSS 写入和真实短信发送分别使用独立开关。已有联调脚本的环境变量见[贡献指南](CONTRIBUTING.md#测试)。
+
+---
+
 ## 2.5.0 - 2026-07-25（Maven正式版）
 
-> 重要：Maven `groupId` 由 `com.jastarwang` 调整为 `com.jastar-wang`，升级时需要同步修改依赖坐标。
+📢这是 Maven Central 的首个正式版本，各模块的 `groupId` 为 `com.jastar-wang`。
 
 ### 特性
 

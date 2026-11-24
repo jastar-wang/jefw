@@ -100,6 +100,10 @@ public class JefwWeixinProperties {
 
     public static class Pay {
         /**
+         * 微信模块已启用且存在支付 SDK 时，是否自动配置微信支付。
+         */
+        private boolean enabled = true;
+        /**
          * 微信支付：商户号
          */
         private String mchId;
@@ -115,6 +119,14 @@ public class JefwWeixinProperties {
          * 微信支付：商户API私钥路径（放在resource目录下，无需带classpath）
          */
         private String privateKeyPath;
+
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+        public void setEnabled(boolean enabled) {
+            this.enabled = enabled;
+        }
 
         public String getMchId() {
             return mchId;
@@ -151,7 +163,8 @@ public class JefwWeixinProperties {
         @Override
         public String toString() {
             return "Pay{" +
-                    "mchId='" + mchId + '\'' +
+                    "enabled=" + enabled +
+                    ", mchId='" + mchId + '\'' +
                     ", mchSerialNo='" + mchSerialNo + '\'' +
                     ", apiV3Key='" + mask(apiV3Key) + '\'' +
                     ", privateKeyPath='" + privateKeyPath + '\'' +

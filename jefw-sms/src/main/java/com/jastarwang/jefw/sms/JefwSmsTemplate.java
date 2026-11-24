@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 短信服务操作模板类
@@ -34,7 +35,7 @@ public class JefwSmsTemplate implements InitializingBean {
     /**
      * 服务顶级容器
      */
-    private final Map<SmsChannel, JefwSmsService> serviceRegistry = new HashMap<>();
+    private Map<SmsChannel, JefwSmsService> serviceRegistry = new HashMap<>();
     /**
      * 短信服务配置
      */
@@ -132,26 +133,43 @@ public class JefwSmsTemplate implements InitializingBean {
      *                     <b>注意：为了兼容部分渠道(如腾讯云)要求参数顺序一致的问题，此处强制使用有序Map</b>
      */
     public void send(SmsChannel channel, String phones, String templateOrId, LinkedHashMap<String, Object> params) {
-        serviceRegistry.get(channel).send(phones, templateOrId, params);
+        JefwSmsService service = serviceRegistry.get(channel);
+        if (service == null) {
+            throw new IllegalArgumentException("SMS channel " + channel + " is not available. Available channels: " +
+                    serviceRegistry.keySet());
+        }
+        service.send(phones, templateOrId, params);
     }
 
     @Override
     public void afterPropertiesSet() {
-        if (jefwSmsServices.isEmpty()) {
+        Set<SmsChannel> enabledChannels = jefwSmsProperties.getEnabledChannels();
+        List<JefwSmsService> services = enabledChannels == null ? jefwSmsServices : jefwSmsServices.stream()
+                .filter(service -> enabledChannels.contains(service.getChannel())).toList();
+        Map<SmsChannel, JefwSmsService> servicesByChannel = new HashMap<>();
+        for (JefwSmsService service : services) {
+            SmsChannel channel = service.getChannel();
+            if (servicesByChannel.putIfAbsent(channel, service) != null) {
+                throw new IllegalStateException("Multiple JefwSmsService beans for channel " + channel +
+                        ". Register only one service per channel.");
+            }
+        }
+        if (services.isEmpty()) {
+            if (enabledChannels != null) {
+                throw new IllegalStateException("No available JefwSmsService for jefw.sms.enabled-channels=" +
+                        enabledChannels + ". Check the provider SDK and configuration (jefw.sms.aliyun.access-key-id or " +
+                        "jefw.sms.dh3tong.api-url), or supply a service for the selected channels.");
+            }
             throw new IllegalStateException("jefw.sms.enabled=true but no available JefwSmsService implementation was found. Please add a provider dependency or disable the SMS module.");
         }
-        for (JefwSmsService jefwSmsService : jefwSmsServices) {
-            serviceRegistry.put(jefwSmsService.getChannel(), jefwSmsService);
+        SmsChannel configuredDefault = jefwSmsProperties.getDefaultChannel();
+        JefwSmsService selected = configuredDefault == null ? services.get(0) : servicesByChannel.get(configuredDefault);
+        if (selected == null) {
+            throw new IllegalStateException("jefw.sms.default-channel=" + configuredDefault +
+                    " is not available. Current channels: " + servicesByChannel.keySet());
         }
-        if (jefwSmsProperties.getDefaultChannel() != null) {
-            defaultService = serviceRegistry.get(jefwSmsProperties.getDefaultChannel());
-            if (defaultService == null) {
-                throw new IllegalStateException("jefw.sms.default-channel=" + jefwSmsProperties.getDefaultChannel() +
-                        " is not available. Current channels: " + serviceRegistry.keySet());
-            }
-        } else {
-            defaultService = jefwSmsServices.get(0);
-        }
-        defaultChannel = defaultService.getChannel();
+        defaultChannel = selected.getChannel();
+        defaultService = selected;
+        serviceRegistry = servicesByChannel;
     }
 }

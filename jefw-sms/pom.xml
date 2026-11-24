@@ -7,7 +7,7 @@
     <parent>
         <artifactId>jefw</artifactId>
         <groupId>com.jastar-wang</groupId>
-        <version>2.5.0</version>
+        <version>2.5.1</version>
     </parent>
     <artifactId>jefw-sms</artifactId>
     <name>${project.artifactId}</name>
@@ -23,19 +23,21 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- hutool http -->
+        <!-- 内置短信渠道使用的工具、HTTP 和 JSON 组件 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-http</artifactId>
             <version>${hutool.version}</version>
-            <scope>provided</scope>
         </dependency>
-        <!-- hutool json -->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-json</artifactId>
             <version>${hutool.version}</version>
-            <scope>provided</scope>
         </dependency>
 
         <!-- 元数据提示 -->
@@ -43,6 +45,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <version>${spring-boot.version}</version>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- aliyun sms -->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>dysmsapi20170525</artifactId>
+            <version>${aliyun.sms.version}</version>
             <optional>true</optional>
         </dependency>
 

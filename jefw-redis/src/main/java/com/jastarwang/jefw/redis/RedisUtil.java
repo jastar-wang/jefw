@@ -16,6 +16,7 @@
 package com.jastarwang.jefw.redis;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -26,6 +27,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -47,7 +49,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class RedisUtil {
 
-    private static RedisTemplate<String, Object> template;
+    // 最近初始化且尚未销毁的实例提供静态调用使用的模板。
+    private static final Deque<RedisUtil> owners = new ConcurrentLinkedDeque<>();
 
     private static final String INCREMENT_AND_EXPIRE_SCRIPT = """
             local current = redis.call('INCR', KEYS[1])
@@ -61,32 +64,38 @@ public class RedisUtil {
     private RedisTemplate<String, Object> redisTemplate;
 
     @PostConstruct
-    private synchronized void init() {
-        RedisUtil.template = redisTemplate;
+    private void init() {
+        owners.addFirst(this);
+    }
+
+    @PreDestroy
+    private void clear() {
+        owners.removeIf(owner -> owner == this);
     }
 
     public static RedisTemplate<String, Object> template() {
-        return RedisUtil.template;
+        RedisUtil owner = owners.peekFirst();
+        return owner == null ? null : owner.redisTemplate;
     }
 
     public static ValueOperations<String, Object> v() {
-        return template.opsForValue();
+        return template().opsForValue();
     }
 
     public static ListOperations<String, Object> l() {
-        return template.opsForList();
+        return template().opsForList();
     }
 
     public static SetOperations<String, Object> s() {
-        return template.opsForSet();
+        return template().opsForSet();
     }
 
     public static ZSetOperations<String, Object> z() {
-        return template.opsForZSet();
+        return template().opsForZSet();
     }
 
     public static HashOperations<String, Object, Object> h() {
-        return template.opsForHash();
+        return template().opsForHash();
     }
 
 

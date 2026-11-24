@@ -41,6 +41,7 @@ import java.io.InputStream;
 @Configuration
 @ConditionalOnClass(Config.class)
 @ConditionalOnProperty(value = "jefw.weixin.enabled", havingValue = "true")
+@ConditionalOnProperty(value = "jefw.weixin.pay.enabled", havingValue = "true", matchIfMissing = true)
 public class JefwWeixinPayAutoConfiguration {
 
     @Bean(name = "weixinPayConfig")

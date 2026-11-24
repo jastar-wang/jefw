@@ -7,7 +7,7 @@
     <parent>
         <artifactId>jefw</artifactId>
         <groupId>com.jastar-wang</groupId>
-        <version>2.5.0</version>
+        <version>2.5.1</version>
     </parent>
     <artifactId>jefw-redis</artifactId>
     <name>${project.artifactId}</name>
@@ -38,36 +38,33 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- jackson-databind: 覆盖父类的test范围（自定义RedisTemplate时，可以不提供） -->
+        <!-- 默认 Redis 缓存序列化使用 Jackson，显式覆盖父 POM 对 databind 的 test 作用域 -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
-            <optional>true</optional>
+            <scope>compile</scope>
         </dependency>
 
-        <!-- jackson-databind: 支持Java8的时间反/序列化（自定义RedisTemplate时，可以不提供） -->
+        <!-- jackson-databind: 支持Java8的时间反/序列化 -->
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson.version}</version>
-            <optional>true</optional>
         </dependency>
 
-        <!-- jackson-databind: 支持Java8的新类型（自定义RedisTemplate时，可以不提供） -->
+        <!-- jackson-databind: 支持Java8的新类型 -->
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jdk8</artifactId>
             <version>${jackson.version}</version>
-            <optional>true</optional>
         </dependency>
 
-        <!-- jackson-databind: 支持访问构造函数和方法参数名称（自定义RedisTemplate时，可以不提供） -->
+        <!-- jackson-databind: 支持访问构造函数和方法参数名称 -->
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-parameter-names</artifactId>
             <version>${jackson.version}</version>
-            <optional>true</optional>
         </dependency>
 
     </dependencies>

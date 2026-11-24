@@ -17,10 +17,13 @@ package com.jastarwang.jefw.lock.test;
 
 import com.jastarwang.jefw.lock.DistributedLock;
 
-// ====以下为高并发场景下测试分布式锁是否正常的代码，在使用本类库的客户端调用即可==== //
-
-// @RestController
-// @RequestMapping("/")
+/**
+ * 演示并发扣减库存时分布式锁的使用方式。运行示例时由调用方配置控制器及锁实例。
+ *
+ * @author Jastar Wang
+ * @date 2023/2/19
+ * @since 1.2.3
+ */
 public class DemoController {
 
     // @Resource

@@ -23,11 +23,12 @@ import com.jastarwang.jefw.oss.JefwOssService;
 import com.jastarwang.jefw.oss.OssAccessPolicy;
 import com.jastarwang.jefw.oss.OssChannel;
 import com.jastarwang.jefw.oss.config.JefwOssProperties;
+import com.jastarwang.jefw.oss.model.ObjectPage;
 import com.jastarwang.jefw.oss.model.ObjectSummary;
 import com.jastarwang.jefw.oss.model.Owner;
 import io.minio.*;
+import io.minio.Http.Method;
 import io.minio.errors.ErrorResponseException;
-import io.minio.http.Method;
 import io.minio.messages.Item;
 
 import java.io.ByteArrayInputStream;
@@ -56,9 +57,27 @@ public class MinioJefwOssService implements JefwOssService {
     private final MinioClient client;
     private final JefwOssProperties.Minio config;
 
+    private MinioAsyncClient listingClient;
+    private final boolean ownsListingClient;
+
     public MinioJefwOssService(MinioClient client, JefwOssProperties.Minio config) {
+        this(client, config, null);
+    }
+
+    public MinioJefwOssService(MinioClient client, JefwOssProperties.Minio config, MinioAsyncClient listingClient) {
+        this.listingClient = listingClient;
+        this.ownsListingClient = listingClient == null;
         this.client = client;
         this.config = config;
+    }
+
+    // 同步客户端只提供自动翻页的迭代器，单页 V2 响应需要异步客户端。
+    private synchronized MinioAsyncClient listingClient() {
+        if (listingClient == null) {
+            listingClient = MinioAsyncClient.builder().endpoint(config.endpointUrl())
+                    .credentials(config.getAccessKeyId(), config.getAccessKeySecret()).build();
+        }
+        return listingClient;
     }
 
     @Override
@@ -67,13 +86,13 @@ public class MinioJefwOssService implements JefwOssService {
     }
 
     @Override
-    public void destroy() {
-        if (client != null) {
-            try {
+    public synchronized void destroy() {
+        try (MinioAsyncClient owned = ownsListingClient ? listingClient : null) {
+            if (client != null) {
                 client.close();
-            } catch (Exception e) {
-                throw new JefwOssException(e);
             }
+        } catch (Exception e) {
+            throw new JefwOssException(e);
         }
     }
 
@@ -136,7 +155,7 @@ public class MinioJefwOssService implements JefwOssService {
             client.putObject(PutObjectArgs.builder()
                     .bucket(bucketName)
                     .object(key)
-                    .stream(new ByteArrayInputStream(bytes), bytes.length, -1)
+                    .stream(new ByteArrayInputStream(bytes), (long) bytes.length, -1L)
                     .build());
         } catch (Exception e) {
             throw new JefwOssException(e);
@@ -211,24 +230,24 @@ public class MinioJefwOssService implements JefwOssService {
     }
 
     @Override
-    public List<ObjectSummary> listObj(String bucketName, String prefix) {
+    public ObjectPage listObjPage(String bucketName, String prefix, int maxKeys, String continuationToken) {
+        ObjectPage.validateMaxKeys(maxKeys);
         try {
-            ListObjectsArgs.Builder builder = ListObjectsArgs.builder()
-                    .bucket(bucketName)
-                    .recursive(true);
-            if (StrUtil.isNotEmpty(prefix)) {
-                builder.prefix(prefix);
-            }
-            Iterable<Result<Item>> results = client.listObjects(builder.build());
-            List<ObjectSummary> objectList = new ArrayList<>();
-            for (Result<Item> result : results) {
-                Item item = result.get();
-                if (item.isDir()) {
-                    continue;
+            ListObjectsV2Args args = ListObjectsV2Args.builder().bucket(bucketName)
+                    .prefix(prefix).maxKeys(maxKeys).continuationToken(continuationToken)
+                    .delimiter("").encodingType("url").build();
+            var result = listingClient().listObjectsV2(args).get().result();
+            List<ObjectSummary> items = new ArrayList<>();
+            for (Item item : result.contents()) {
+                item.setEncodingType(result.encodingType());
+                if (!item.isDir()) {
+                    items.add(convertToObjectSummary(bucketName, item));
                 }
-                objectList.add(convertToObjectSummary(bucketName, item));
             }
-            return objectList;
+            return new ObjectPage(items, result.isTruncated() ? result.nextContinuationToken() : null);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new JefwOssException(e);
         } catch (Exception e) {
             throw new JefwOssException(e);
         }

@@ -16,6 +16,7 @@
 package com.jastarwang.jefw.sms.config;
 
 import com.jastarwang.jefw.sms.JefwSmsService;
+import com.jastarwang.jefw.sms.SmsChannel;
 import com.jastarwang.jefw.sms.impl.Dh3TongJefwSmsService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -31,8 +32,8 @@ import org.springframework.core.annotation.Order;
  * @since 1.3.0
  */
 @Configuration
+@ConditionalOnSmsChannel(value = SmsChannel.DH3TONG, requiredProperty = "jefw.sms.dh3tong.api-url")
 @ConditionalOnProperty(value = "jefw.sms.enabled", havingValue = "true")
-@ConditionalOnProperty(prefix = "jefw.sms.dh3tong", name = "api-url")
 public class Dh3TongJefwSmsAutoConfiguration {
 
     @Order(330)

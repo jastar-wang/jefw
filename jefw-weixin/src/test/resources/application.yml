@@ -1,14 +1,52 @@
+spring:
+  profiles:
+    active: ${JEFW_WEIXIN_SCENARIO:unselected}
 jefw:
   weixin:
     enabled: true
-    mp:
-      app-id: ${JEFW_WEIXIN_MP_APP_ID:}
-      app-secret: ${JEFW_WEIXIN_MP_APP_SECRET:}
-    oa:
-      app-id: ${JEFW_WEIXIN_OA_APP_ID:}
-      app-secret: ${JEFW_WEIXIN_OA_APP_SECRET:}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: "oa | mp"
+jefw:
+  weixin:
     pay:
-      mch-id: ${JEFW_WEIXIN_PAY_MCH_ID:}
-      mch-serial-no: ${JEFW_WEIXIN_PAY_MCH_SERIAL_NO:}
-      api-v3-key: ${JEFW_WEIXIN_PAY_API_V3_KEY:}
-      private-key-path: ${JEFW_WEIXIN_PAY_PRIVATE_KEY_PATH:}
+      enabled: false
+
+---
+spring:
+  config:
+    activate:
+      on-profile: oa
+jefw:
+  weixin:
+    oa:
+      app-id: ${JEFW_WEIXIN_OA_APP_ID}
+      app-secret: ${JEFW_WEIXIN_OA_APP_SECRET}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: mp
+jefw:
+  weixin:
+    mp:
+      app-id: ${JEFW_WEIXIN_MP_APP_ID}
+      app-secret: ${JEFW_WEIXIN_MP_APP_SECRET}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: pay
+jefw:
+  weixin:
+    pay:
+      mch-id: ${JEFW_WEIXIN_PAY_MCH_ID}
+      mch-serial-no: ${JEFW_WEIXIN_PAY_MCH_SERIAL_NO}
+      api-v3-key: ${JEFW_WEIXIN_PAY_API_V3_KEY}
+      # 填写外部测试类路径中的资源名，例如 apiclient_key.pem。
+      private-key-path: ${JEFW_WEIXIN_PAY_PRIVATE_KEY_PATH}

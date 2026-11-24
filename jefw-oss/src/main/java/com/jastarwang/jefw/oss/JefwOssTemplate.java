@@ -16,7 +16,7 @@
 package com.jastarwang.jefw.oss;
 
 import com.jastarwang.jefw.oss.config.JefwOssProperties;
-import com.jastarwang.jefw.oss.model.ObjectSummary;
+import com.jastarwang.jefw.oss.model.ObjectPage;
 import org.springframework.beans.factory.InitializingBean;
 
 import java.io.File;
@@ -24,6 +24,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 对象存储操作模板类
@@ -36,7 +37,7 @@ public class JefwOssTemplate implements InitializingBean {
     /**
      * 服务顶级容器
      */
-    private final Map<OssChannel, JefwOssService> serviceRegistry = new HashMap<>();
+    private Map<OssChannel, JefwOssService> serviceRegistry = new HashMap<>();
     /**
      * 系统存储配置
      */
@@ -108,22 +109,33 @@ public class JefwOssTemplate implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        if (jefwOssServices.isEmpty()) {
+        Set<OssChannel> enabledChannels = jefwOssProperties.getEnabledChannels();
+        List<JefwOssService> services = enabledChannels == null ? jefwOssServices : jefwOssServices.stream()
+                .filter(service -> enabledChannels.contains(service.getChannel())).toList();
+        Map<OssChannel, JefwOssService> servicesByChannel = new HashMap<>();
+        for (JefwOssService service : services) {
+            OssChannel channel = service.getChannel();
+            if (servicesByChannel.putIfAbsent(channel, service) != null) {
+                throw new IllegalStateException("Multiple JefwOssService beans for channel " + channel +
+                        ". Register only one service per channel.");
+            }
+        }
+        if (services.isEmpty()) {
+            if (enabledChannels != null) {
+                throw new IllegalStateException("No available JefwOssService for jefw.oss.enabled-channels=" +
+                        enabledChannels + ". Add a provider SDK or supply a service for the selected channels.");
+            }
             throw new IllegalStateException("jefw.oss.enabled=true but no available JefwOssService implementation was found. Please add a provider dependency or disable the OSS module.");
         }
-        for (JefwOssService jefwOssService : jefwOssServices) {
-            serviceRegistry.put(jefwOssService.getChannel(), jefwOssService);
+        OssChannel configuredDefault = jefwOssProperties.getDefaultChannel();
+        JefwOssService selected = configuredDefault == null ? services.get(0) : servicesByChannel.get(configuredDefault);
+        if (selected == null) {
+            throw new IllegalStateException("jefw.oss.default-channel=" + configuredDefault +
+                    " is not available. Current channels: " + servicesByChannel.keySet());
         }
-        if (jefwOssProperties.getDefaultChannel() != null) {
-            defaultService = serviceRegistry.get(jefwOssProperties.getDefaultChannel());
-            if (defaultService == null) {
-                throw new IllegalStateException("jefw.oss.default-channel=" + jefwOssProperties.getDefaultChannel() +
-                        " is not available. Current channels: " + serviceRegistry.keySet());
-            }
-        } else {
-            defaultService = jefwOssServices.get(0);
-        }
-        defaultChannel = defaultService.getChannel();
+        defaultChannel = selected.getChannel();
+        defaultService = selected;
+        serviceRegistry = servicesByChannel;
     }
     // ==================================== 装饰方法区 ==================================== //
 
@@ -245,13 +257,15 @@ public class JefwOssTemplate implements InitializingBean {
     }
 
     /**
-     * 根据前缀查询object列表
+     * 根据前缀查询一页object列表
      *
-     * @param prefix 可空，路径前缀（根目录请传NULL或空字符串，不要传“/”）
-     * @return object对象
-     * @since 1.3.1
+     * @param prefix            可空，对象键前缀，null 或空字符串表示整个桶
+     * @param maxKeys           非空，单页上限，范围为 1 到 1000
+     * @param continuationToken 可空，首页传 null，翻页时原样传回同一渠道、桶和前缀上次返回的令牌
+     * @return 本页对象和下一页令牌。即使本页为空，也应以令牌为 null 判断是否结束
+     * @since 2.5.1
      */
-    public List<ObjectSummary> listObj(String prefix) {
-        return defaultService.listObj(defaultService.getConfig().getBucketName(), prefix);
+    public ObjectPage listObjPage(String prefix, int maxKeys, String continuationToken) {
+        return defaultService.listObjPage(defaultService.getConfig().getBucketName(), prefix, maxKeys, continuationToken);
     }
 }

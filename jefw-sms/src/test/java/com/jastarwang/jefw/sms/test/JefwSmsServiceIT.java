@@ -15,83 +15,121 @@
  */
 package com.jastarwang.jefw.sms.test;
 
+import com.aliyun.dysmsapi20170525.Client;
+import com.jastarwang.jefw.sms.JefwSmsException;
 import com.jastarwang.jefw.sms.JefwSmsService;
 import com.jastarwang.jefw.sms.JefwSmsTemplate;
 import com.jastarwang.jefw.sms.SmsChannel;
-import com.jastarwang.jefw.sms.config.JefwSmsProperties;
-import jakarta.annotation.Resource;
-import org.junit.jupiter.api.Assertions;
+import com.tencentcloudapi.sms.v20210111.SmsClient;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.LinkedHashMap;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * 短信服务集成测试
+ * 按选定的短信渠道验证自动配置，真实发送需要单独开启。
  *
  * @author Jastar Wang
  * @date 2023/4/5
  * @since 1.3.0
  */
 @EnabledIfEnvironmentVariable(named = "JEFW_SMS_IT", matches = "true")
-@ExtendWith(SpringExtension.class)
-@EnableAutoConfiguration
-@SpringBootTest
-@SpringBootConfiguration
-public class JefwSmsServiceIT {
+@SpringBootTest(classes = JefwSmsServiceIT.Application.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)
+class JefwSmsServiceIT {
 
-    @Resource
-    private JefwSmsProperties properties;
+    /**
+     * 启动短信测试所选渠道的自动配置。
+     *
+     * @author Jastar Wang
+     * @date 2026/11/20
+     * @since 2.5.1
+     */
+    @SpringBootConfiguration
+    @EnableAutoConfiguration
+    static class Application {
+    }
 
-    // =============== 方式1：自定义获取 =============== //
-    @Resource
-    @Qualifier("tencentJefwSmsService")
-    private JefwSmsService tencentJefwSmsService;
+    @Autowired
+    private JefwSmsTemplate template;
 
-    @Resource
-    @Qualifier("dh3tongJefwSmsService")
-    private JefwSmsService dh3tongJefwSmsService;
+    @Autowired
+    private List<JefwSmsService> services;
 
-    // =============== 方式2：统一模板类 =============== //
-    @Resource
-    private JefwSmsTemplate smsTemplate;
+    private static SmsChannel channel;
 
-    @Test
-    public void contextLoads() {
-        System.out.println(properties);
-        Assertions.assertNotNull(properties, "属性配置对象未正常注入");
+    @BeforeAll
+    static void selectChannel() {
+        channel = switch (required("JEFW_SMS_DEFAULT_CHANNEL")) {
+            case "aliyun" -> {
+                required("JEFW_SMS_ALIYUN_ACCESS_KEY_ID");
+                required("JEFW_SMS_ALIYUN_ACCESS_KEY_SECRET");
+                required("JEFW_SMS_ALIYUN_SIGN_NAME");
+                yield SmsChannel.ALIYUN;
+            }
+            case "tencent" -> {
+                required("JEFW_SMS_TENCENT_APP_ID");
+                required("JEFW_SMS_TENCENT_SECRET_ID");
+                required("JEFW_SMS_TENCENT_SECRET_KEY");
+                required("JEFW_SMS_TENCENT_SIGN_NAME");
+                yield SmsChannel.TENCENT;
+            }
+            case "dh3tong" -> {
+                required("JEFW_SMS_DH3TONG_ACCOUNT");
+                required("JEFW_SMS_DH3TONG_PASSWORD");
+                yield SmsChannel.DH3TONG;
+            }
+            default -> throw new IllegalArgumentException("JEFW_SMS_DEFAULT_CHANNEL 须为 aliyun、tencent 或 dh3tong");
+        };
     }
 
     @Test
-    public void getDefaultService() {
-        System.out.println("腾讯云实现类：" + tencentJefwSmsService);
-        System.out.println("大汉三通实现类：" + dh3tongJefwSmsService);
-        System.out.println("默认的实现类：" + smsTemplate.getDefaultService());
+    void routesOnlyToSelectedChannel() {
+        assertEquals(1, services.size(), "只应注册选中的短信服务");
+        assertEquals(channel, services.get(0).getChannel());
+        assertEquals(channel, template.getDefaultChannel());
+        assertSame(services.get(0), template.getDefaultService());
+        assertSame(services.get(0), template.getService(channel));
+        if (channel == SmsChannel.ALIYUN) {
+            assertInstanceOf(Client.class, services.get(0).prototype());
+        } else if (channel == SmsChannel.TENCENT) {
+            assertInstanceOf(SmsClient.class, services.get(0).prototype());
+        }
     }
 
     @Test
-    public void send() {
-        String phones = System.getenv("JEFW_SMS_PHONES");
-        String template = System.getenv("JEFW_SMS_DH3TONG_TEMPLATE");
-        String templateId = System.getenv("JEFW_SMS_TENCENT_TEMPLATE_ID");
-        // 为了短信内容直观区分，构建不同的参数
-        LinkedHashMap<String, Object> params1 = new LinkedHashMap<>();
-        params1.put("code", "123456");
-        params1.put("time", 3);
-        LinkedHashMap<String, Object> params2 = new LinkedHashMap<>();
-        params2.put("code", "789012");
-        params2.put("time", 5);
-        // 腾讯云：使用模板id发送
-        smsTemplate.send(phones, templateId, params1);
+    @EnabledIfEnvironmentVariable(named = "JEFW_SMS_SEND", matches = "true")
+    void sendsOneTestMessage() {
+        String phone = required("JEFW_SMS_PHONES");
+        assertFalse(phone.contains(","), "真实发送仅接受一个测试手机号");
+        String message = required(switch (channel) {
+            case ALIYUN -> "JEFW_SMS_ALIYUN_TEMPLATE_CODE";
+            case TENCENT -> "JEFW_SMS_TENCENT_TEMPLATE_ID";
+            case DH3TONG -> "JEFW_SMS_DH3TONG_TEMPLATE";
+        });
 
-        // 大汉三通：使用模板内容发送；注意：可能会发送失败，因为对方设置了IP鉴权
-        smsTemplate.getService(SmsChannel.DH3TONG).send(phones, template, params2);
+        // 腾讯云按顺序读取参数，阿里云和大汉三通按名称匹配参数。
+        LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
+        parameters.put("code", "123456");
+        parameters.put("time", 3);
+        try {
+            template.send(channel, phone, message, parameters);
+        } catch (JefwSmsException e) {
+            // 厂商的原始异常可能含有手机号及完整请求，避免写入测试报告。
+            fail("短信发送失败，请在所选服务商的控制台核对发送记录");
+        }
     }
 
+    private static String required(String name) {
+        String value = System.getenv(name);
+        assertTrue(value != null && !value.isBlank(), () -> "请设置环境变量 " + name);
+        return value;
+    }
 }

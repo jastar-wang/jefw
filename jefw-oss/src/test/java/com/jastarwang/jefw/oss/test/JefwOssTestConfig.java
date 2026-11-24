@@ -16,15 +16,16 @@
 package com.jastarwang.jefw.oss.test;
 
 import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 /**
- * 标识在单元测试中开启自动配置，只能有一个测试类加此注解
+ * 通过应用的自动配置入口加载对象存储测试上下文。
  *
  * @author Jastar Wang
  * @date 2025/4/22
  * @since 2.1.0
  */
 @SpringBootConfiguration
-public class JefwOssTestConfig {
-
+@EnableAutoConfiguration
+class JefwOssTestConfig {
 }

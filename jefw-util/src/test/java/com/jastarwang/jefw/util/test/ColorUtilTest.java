@@ -28,17 +28,17 @@ import java.awt.Color;
  * @date 2020/7/23
  * @since 1.0
  */
-public class ColorUtilTest {
+class ColorUtilTest {
 
     @Test
-    public void randomHex() {
+    void randomHex() {
         String color = ColorUtil.randomHex();
         Assertions.assertNotNull(color);
         System.out.println(color);
     }
 
     @Test
-    public void convertToHex() {
+    void convertToHex() {
         String hex = ColorUtil.convertToHex(Color.PINK);
         Assertions.assertNotNull(hex);
         System.out.println(hex);

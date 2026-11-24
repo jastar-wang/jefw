@@ -17,6 +17,9 @@ package com.jastarwang.jefw.sms.config;
 
 import com.jastarwang.jefw.sms.SmsChannel;
 
+import java.util.Objects;
+import java.util.Set;
+
 /**
  * 短信服务的参数配置
  *
@@ -30,11 +33,18 @@ public class JefwSmsProperties {
      */
     private Boolean enabled = false;
     /**
-     * 可空，默认短信渠道
-     * <li>若只检测到一个短信服务，则使用该服务</li>
-     * <li>若有多个短信服务，则取第一个服务（根据枚举的顺序）</li>
+     * 可空，默认短信渠道。省略时，按 Spring 注入顺序取第一个已启用的服务。
+     * 多渠道时建议显式指定，enabled-channels 的书写顺序不决定默认渠道。
      */
     private SmsChannel defaultChannel;
+    /**
+     * 可空，启用的短信渠道。省略时按厂商 SDK 和渠道配置装配。
+     */
+    private Set<SmsChannel> enabledChannels;
+    /**
+     * 阿里云
+     */
+    private Aliyun aliyun;
     /**
      * 腾讯云
      */
@@ -60,6 +70,41 @@ public class JefwSmsProperties {
         this.defaultChannel = defaultChannel;
     }
 
+    public Set<SmsChannel> getEnabledChannels() {
+        return enabledChannels;
+    }
+
+    public void setEnabledChannels(Set<SmsChannel> enabledChannels) {
+        this.enabledChannels = enabledChannels;
+    }
+
+    /**
+     * 校验渠道名单和默认渠道的配置。
+     */
+    public void validate() {
+        if (enabledChannels == null) {
+            return;
+        }
+        if (enabledChannels.isEmpty()) {
+            throw new IllegalStateException("jefw.sms.enabled-channels must contain at least one channel. To disable SMS, set jefw.sms.enabled=false.");
+        }
+        if (enabledChannels.stream().anyMatch(Objects::isNull)) {
+            throw new IllegalStateException("jefw.sms.enabled-channels contains an empty entry. Specify a channel for each item.");
+        }
+        if (defaultChannel != null && !enabledChannels.contains(defaultChannel)) {
+            throw new IllegalStateException("jefw.sms.default-channel=" + defaultChannel +
+                    " must be included in jefw.sms.enabled-channels=" + enabledChannels);
+        }
+    }
+
+    public Aliyun getAliyun() {
+        return aliyun;
+    }
+
+    public void setAliyun(Aliyun aliyun) {
+        this.aliyun = aliyun;
+    }
+
     public Tencent getTencent() {
         return tencent;
     }
@@ -81,9 +126,79 @@ public class JefwSmsProperties {
         return "JefwSmsProperties{" +
                 "enabled=" + enabled +
                 ", defaultChannel=" + defaultChannel +
+                ", enabledChannels=" + enabledChannels +
+                ", aliyun=" + aliyun +
                 ", tencent=" + tencent +
                 ", dh3tong=" + dh3tong +
                 '}';
+    }
+
+    /**
+     * 阿里云短信服务配置。
+     *
+     * @author Jastar Wang
+     * @date 2026/11/24
+     * @since 2.5.1
+     */
+    public static class Aliyun {
+        /**
+         * 非空，访问密钥 ID。
+         */
+        private String accessKeyId;
+        /**
+         * 非空，访问密钥 Secret。
+         */
+        private String accessKeySecret;
+        /**
+         * 非空，已审核通过的短信签名。
+         */
+        private String signName;
+        /**
+         * 可空，短信服务接入域名，默认使用公共端点。
+         */
+        private String endpoint = "dysmsapi.aliyuncs.com";
+
+        public String getAccessKeyId() {
+            return accessKeyId;
+        }
+
+        public void setAccessKeyId(String accessKeyId) {
+            this.accessKeyId = accessKeyId;
+        }
+
+        public String getAccessKeySecret() {
+            return accessKeySecret;
+        }
+
+        public void setAccessKeySecret(String accessKeySecret) {
+            this.accessKeySecret = accessKeySecret;
+        }
+
+        public String getSignName() {
+            return signName;
+        }
+
+        public void setSignName(String signName) {
+            this.signName = signName;
+        }
+
+        public String getEndpoint() {
+            return endpoint;
+        }
+
+        public void setEndpoint(String endpoint) {
+            this.endpoint = endpoint;
+        }
+
+        @Override
+        public String toString() {
+            return "Aliyun{" +
+                    "accessKeyId='" + mask(accessKeyId) + '\'' +
+                    ", accessKeySecret='" + mask(accessKeySecret) + '\'' +
+                    ", signName='" + signName + '\'' +
+                    ", endpoint='" + endpoint + '\'' +
+                    '}';
+        }
     }
 
     public static class Tencent {
