@@ -15,18 +15,21 @@
  */
 package com.jastarwang.jefw.lock.config;
 
+import com.jastarwang.jefw.lock.DistributedLock;
 import com.jastarwang.jefw.lock.impl.RedissonDistributedLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
  * 分布式锁自动配置类
  * <p>
- * 默认使用 Redisson 实现，且当系统依赖了 Redisson 的相关类库时，才会启用该配置
- * （这里用检测 {@link RedissonClient} 类来判断）
+ * 存在 {@link RedissonClient} Bean 时，默认提供基于 Redisson 的分布式锁。
  * </p>
  *
  * @author Jastar Wang
@@ -34,11 +37,15 @@ import org.springframework.context.annotation.Configuration;
  * @since 1.0
  */
 @Configuration
+@AutoConfigureAfter(name = {"org.redisson.spring.starter.RedissonAutoConfigurationV2",
+        "org.redisson.spring.starter.RedissonAutoConfiguration"})
 @ConditionalOnClass(RedissonClient.class)
+@ConditionalOnProperty(prefix = "jefw.redis.lock", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class DistributedLockAutoConfiguration {
 
     @Bean
-    @ConditionalOnMissingBean(name = "distributedLock")
+    @ConditionalOnBean(RedissonClient.class)
+    @ConditionalOnMissingBean(value = DistributedLock.class, name = "distributedLock")
     public RedissonDistributedLock distributedLock(RedissonClient redissonClient) {
         return new RedissonDistributedLock(redissonClient);
     }

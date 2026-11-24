@@ -1,0 +1,16 @@
+{
+  "properties": [
+    {
+      "name": "jefw.redis.cache.enabled",
+      "type": "java.lang.Boolean",
+      "description": "是否自动配置 jefw 的 RedisTemplate 和 RedisUtil。",
+      "defaultValue": true
+    },
+    {
+      "name": "jefw.redis.lock.enabled",
+      "type": "java.lang.Boolean",
+      "description": "存在 RedissonClient 时，是否自动配置 jefw 的默认分布式锁。",
+      "defaultValue": true
+    }
+  ]
+}

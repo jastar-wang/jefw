@@ -15,7 +15,6 @@
  */
 package com.jastarwang.jefw.redis.test;
 
-import com.jastarwang.jefw.lock.config.DistributedLockAutoConfiguration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
@@ -43,9 +42,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * @since 1.0
  */
 @EnabledIfEnvironmentVariable(named = "JEFW_REDIS_IT", matches = "true")
-@SpringBootTest(classes = RedisUtilIT.class)
+@SpringBootTest(classes = RedisUtilIT.class, properties = "jefw.redis.lock.enabled=false")
 @SpringBootConfiguration
-@EnableAutoConfiguration(exclude = DistributedLockAutoConfiguration.class)
+@EnableAutoConfiguration
 class RedisUtilIT {
 
     private final String prefix = "jefw:it:" + UUID.randomUUID() + ":";

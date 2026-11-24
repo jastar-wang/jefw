@@ -40,7 +40,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @since 1.0
  */
 @EnabledIfEnvironmentVariable(named = "JEFW_REDIS_IT", matches = "true")
-@SpringBootTest(classes = DistributedLockIT.class)
+@SpringBootTest(classes = DistributedLockIT.class, properties = "jefw.redis.cache.enabled=false")
 @SpringBootConfiguration
 @EnableAutoConfiguration
 @Import(DemoConfig.class)
