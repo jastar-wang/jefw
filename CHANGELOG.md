@@ -25,6 +25,9 @@
 
 ### 依赖
 
+- `jefw-oss` 传递 `hutool-core`，`jefw-sms` 传递 `hutool-core`、`hutool-http` 和 `hutool-json`。应用无需再为这两个模块单独补充 Hutool。
+- `jefw-redis` 传递默认缓存序列化所需的 `jackson-databind`、`jackson-datatype-jsr310`、`jackson-datatype-jdk8` 和 `jackson-module-parameter-names`。这些依赖也随 `jefw-all` 引入。使用 Redis 缓存时仍需提供 Spring Data Redis，使用默认分布式锁时仍需提供 Redisson 和 `RedissonClient`。
+
 | 依赖 | 2.5.0 | 2.5.1 |
 | --- | --- | --- |
 | Hutool | `5.8.47` | `5.8.48` |

@@ -45,7 +45,7 @@
 </dependency>
 ```
 
-`jefw-all` 会一键引入下表中的全部模块。如需按需引入，替换 `artifactId` 为对应模块名即可。
+`jefw-all` 会引入下表中的全部模块及其传递依赖。也可以按需替换 `artifactId`，例如只使用响应模型 `R` 时，引入 `jefw-core` 即可。
 
 > 💡提示：厂商 `SDK` 为可选依赖，框架不会自动传递。例如接入腾讯云 `COS` 时，还需要在应用中添加 `com.qcloud:cos_api` 的依赖并配置相关信息。
 

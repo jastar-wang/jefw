@@ -23,19 +23,21 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- hutool http -->
+        <!-- 内置短信渠道使用的工具、HTTP 和 JSON 组件 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-http</artifactId>
             <version>${hutool.version}</version>
-            <scope>provided</scope>
         </dependency>
-        <!-- hutool json -->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-json</artifactId>
             <version>${hutool.version}</version>
-            <scope>provided</scope>
         </dependency>
 
         <!-- 元数据提示 -->
