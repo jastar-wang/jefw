@@ -65,15 +65,15 @@ class GreetingService {
 
 ## 模块
 
- 模块            | 开发状态 | 描述
----------------|------|----------------------------------------------------------------------------------------
- `jefw-all`    | ✅️   | 一键引入所有模块
- `jefw-core`   | ✅️   | 【核心模块】提供响应数据模型、枚举扩展接口、函数式接口等基础能力
- `jefw-util`   | ✅️   | 【常用工具】专注补充，推荐搭配 `Hutool` 使用，效果更佳
- `jefw-redis`  | ✅️   | 【缓存模块】提供 `Redis` 数据访问和基于 `Redisson` 的分布式锁支持
- `jefw-oss`    | ✅️   | 【对象存储】整合主流厂商的对象存储服务，对外提供统一、便捷的 `API` <br>（当前支持：阿里云 `OSS`、腾讯云 `COS`、七牛云 `KODO`、`MinIO`）
- `jefw-sms`    | ✅️   | 【短信发送】整合主流厂商的短信服务，对外提供统一、便捷的 `API` <br>（当前支持：腾讯云、大汉三通）
- `jefw-weixin` | ✅️   | 【微信平台】集成微信平台相关服务，对外提供统一、便捷的 `API` <br>（当前支持：微信公众号、服务号、小程序及微信支付相关接口）
+| 模块 | 描述 | 默认行为 | 开关配置 |
+| --- | --- | --- | --- |
+| `jefw-all` | 一键引入所有模块 | 引入全部模块，各模块按自身默认配置生效 | 按模块分别配置 |
+| `jefw-core` | 【核心模块】提供响应数据模型、枚举扩展接口、函数式接口等基础能力 | 引入即可使用 | 无需配置 |
+| `jefw-util` | 【常用工具】专注补充，推荐搭配 `Hutool` 使用，效果更佳 | 引入即可使用 | 无需配置 |
+| `jefw-redis` | 【缓存模块】提供 `Redis` 数据访问和基于 `Redisson` 的分布式锁支持 | 缓存和分布式锁默认开启。默认锁需要 `RedissonClient` 实例 | `jefw.redis.cache.enabled=false` 关闭缓存支持<br>`jefw.redis.lock.enabled=false` 关闭默认分布式锁 |
+| `jefw-oss` | 【对象存储】整合主流厂商的对象存储服务，对外提供统一、便捷的 `API` <br>（当前支持：阿里云 `OSS`、腾讯云 `COS`、七牛云 `KODO`、`MinIO`） | 默认关闭。开启后按厂商 `SDK` 装配 | `jefw.oss.enabled=true` 开启模块<br>`jefw.oss.enabled-channels` 限定渠道 |
+| `jefw-sms` | 【短信发送】整合主流厂商的短信服务，对外提供统一、便捷的 `API` <br>（当前支持：腾讯云、大汉三通） | 默认关闭。开启后，腾讯云按 `SDK` 装配，大汉三通按 `jefw.sms.dh3tong.api-url` 装配 | `jefw.sms.enabled=true` 开启模块<br>`jefw.sms.enabled-channels` 限定渠道 |
+| `jefw-weixin` | 【微信平台】集成微信平台相关服务，对外提供统一、便捷的 `API` <br>（当前支持：微信公众号、服务号、小程序及微信支付相关接口） | 默认关闭。开启后提供公众号和小程序服务，有支付 `SDK` 时一并启用微信支付 | `jefw.weixin.enabled=true` 开启模块<br>`jefw.weixin.pay.enabled=false` 单独关闭微信支付 |
 
 各模块的详细用法请查阅 [GitHub Wiki](https://github.com/jastar-wang/jefw/wiki)。版本变更记录详见 [更新日志](CHANGELOG.md)。
 
