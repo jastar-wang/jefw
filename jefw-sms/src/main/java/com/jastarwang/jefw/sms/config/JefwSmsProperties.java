@@ -33,9 +33,8 @@ public class JefwSmsProperties {
      */
     private Boolean enabled = false;
     /**
-     * 可空，默认短信渠道
-     * <li>若只检测到一个短信服务，则使用该服务</li>
-     * <li>若有多个短信服务，则取第一个服务（根据枚举的顺序）</li>
+     * 可空，默认短信渠道。省略时，按 Spring 注入顺序取第一个已启用的服务。
+     * 多渠道时建议显式指定，enabled-channels 的书写顺序不决定默认渠道。
      */
     private SmsChannel defaultChannel;
     /**

@@ -37,7 +37,7 @@ public class JefwOssTemplate implements InitializingBean {
     /**
      * 服务顶级容器
      */
-    private final Map<OssChannel, JefwOssService> serviceRegistry = new HashMap<>();
+    private Map<OssChannel, JefwOssService> serviceRegistry = new HashMap<>();
     /**
      * 系统存储配置
      */
@@ -112,8 +112,13 @@ public class JefwOssTemplate implements InitializingBean {
         Set<OssChannel> enabledChannels = jefwOssProperties.getEnabledChannels();
         List<JefwOssService> services = enabledChannels == null ? jefwOssServices : jefwOssServices.stream()
                 .filter(service -> enabledChannels.contains(service.getChannel())).toList();
+        Map<OssChannel, JefwOssService> servicesByChannel = new HashMap<>();
         for (JefwOssService service : services) {
-            serviceRegistry.put(service.getChannel(), service);
+            OssChannel channel = service.getChannel();
+            if (servicesByChannel.putIfAbsent(channel, service) != null) {
+                throw new IllegalStateException("Multiple JefwOssService beans for channel " + channel +
+                        ". Register only one service per channel.");
+            }
         }
         if (services.isEmpty()) {
             if (enabledChannels != null) {
@@ -122,16 +127,15 @@ public class JefwOssTemplate implements InitializingBean {
             }
             throw new IllegalStateException("jefw.oss.enabled=true but no available JefwOssService implementation was found. Please add a provider dependency or disable the OSS module.");
         }
-        if (jefwOssProperties.getDefaultChannel() != null) {
-            defaultService = serviceRegistry.get(jefwOssProperties.getDefaultChannel());
-            if (defaultService == null) {
-                throw new IllegalStateException("jefw.oss.default-channel=" + jefwOssProperties.getDefaultChannel() +
-                        " is not available. Current channels: " + serviceRegistry.keySet());
-            }
-        } else {
-            defaultService = services.get(0);
+        OssChannel configuredDefault = jefwOssProperties.getDefaultChannel();
+        JefwOssService selected = configuredDefault == null ? services.get(0) : servicesByChannel.get(configuredDefault);
+        if (selected == null) {
+            throw new IllegalStateException("jefw.oss.default-channel=" + configuredDefault +
+                    " is not available. Current channels: " + servicesByChannel.keySet());
         }
-        defaultChannel = defaultService.getChannel();
+        defaultChannel = selected.getChannel();
+        defaultService = selected;
+        serviceRegistry = servicesByChannel;
     }
     // ==================================== 装饰方法区 ==================================== //
 

@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -61,6 +62,37 @@ class JefwSmsAutoConfigurationTest {
             assertThat(context.getBeansOfType(JefwSmsService.class)).containsOnlyKeys("dh3tongJefwSmsService");
             assertThat(context.getBean(JefwSmsTemplate.class).getDefaultChannel()).isEqualTo(SmsChannel.DH3TONG);
         });
+    }
+
+    @Test
+    void sendingThroughUnavailableChannelReportsAvailableChannels() {
+        withBoth.withPropertyValues("jefw.sms.enabled-channels=tencent").run(context -> {
+            JefwSmsTemplate template = context.getBean(JefwSmsTemplate.class);
+            assertThatIllegalArgumentException().isThrownBy(() -> template.send(SmsChannel.DH3TONG, "test", "test", null))
+                    .withMessageContaining("DH3TONG").withMessageContaining("[TENCENT]");
+        });
+    }
+
+    @Test
+    void reinitializingTemplateKeepsSingleChannelRoute() {
+        withDh3Tong.withPropertyValues("jefw.sms.enabled-channels=dh3tong").run(context -> {
+            JefwSmsTemplate template = context.getBean(JefwSmsTemplate.class);
+            JefwSmsService service = context.getBean(JefwSmsService.class);
+            template.afterPropertiesSet();
+            assertThat(template.getDefaultService()).isSameAs(service);
+            assertThat(template.getService(SmsChannel.DH3TONG)).isSameAs(service);
+        });
+    }
+
+    @Test
+    void rejectsDuplicateEnabledChannel() {
+        JefwSmsService service = mock(JefwSmsService.class);
+        when(service.getChannel()).thenReturn(SmsChannel.DH3TONG);
+        withDh3Tong.withPropertyValues("jefw.sms.enabled-channels=dh3tong")
+                .withBean("customDh3Tong", JefwSmsService.class, () -> service)
+                .run(context -> assertThat(context.getStartupFailure()).rootCause()
+                        .isInstanceOf(IllegalStateException.class).hasMessageContaining("Multiple JefwSmsService")
+                        .hasMessageContaining("DH3TONG"));
     }
 
     @Test

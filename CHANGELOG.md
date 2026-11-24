@@ -6,8 +6,8 @@
 
 - 【redis】新增：`jefw.redis.cache.enabled=false` 可关闭 jefw 的 `redisTemplate` 与 `RedisUtil` 自动配置；`jefw.redis.lock.enabled=false` 可独立关闭默认分布式锁。两项均默认开启。装配默认锁时需要已有 `RedissonClient` Bean，且容器中尚未注册 `DistributedLock`。若自定义锁由第三方自动配置提供，可用 `@AutoConfiguration(before = DistributedLockAutoConfiguration.class)` 提前注册；若无法调整第三方顺序，可设置 `jefw.redis.lock.enabled=false` 以避免出现两个锁。Spring Boot 自身的 Redis 配置仍按其原有条件生效
 - 【weixin】新增：微信支付开关 `jefw.weixin.pay.enabled`。设为 `false` 时，仅使用公众号或小程序的应用无需配置商户私钥。省略此项时沿用原有规则，微信模块已启用且存在支付 `SDK` 时自动装配支付服务
-- 【sms】新增：可选渠道名单 `jefw.sms.enabled-channels`。例如设为 `dh3tong` 时，只需配置大汉三通，即使存在腾讯云 `SDK` 也无需腾讯云凭据。设为 `tencent,dh3tong` 可同时启用两者，`jefw.sms.default-channel` 选择默认路由。省略名单时沿用腾讯云 `SDK` 与大汉三通 `api-url` 的原有装配条件。启用模块后，若名单为空或含空项、默认渠道不在名单中，或所选渠道缺少对应服务，应用会在启动时报错
-- 【oss】新增：可选渠道名单 `jefw.oss.enabled-channels`。例如设为 `minio,qiniu` 时，仅装配这两个渠道，可通过 `jefw.oss.default-channel` 指定其中一个作为默认渠道。省略名单时沿用原有 `SDK` 探测规则。启用模块后，若名单为空或含空项、默认渠道不在名单内，或所选渠道既缺少 `SDK` 又无自定义服务，应用会在启动时报错
+- 【sms】新增：可选渠道名单 `jefw.sms.enabled-channels`。例如设为 `dh3tong` 时，只需配置大汉三通，即使存在腾讯云 `SDK` 也无需腾讯云凭据。设为 `tencent,dh3tong` 可同时启用两者，例如用 `jefw.sms.default-channel=dh3tong` 指定默认走大汉三通。省略名单时沿用腾讯云 `SDK` 与大汉三通 `api-url` 的原有装配条件。启用模块后，若名单为空或含空项、默认渠道不在名单中，或所选渠道缺少对应服务，应用会在启动时报错
+- 【oss】新增：可选渠道名单 `jefw.oss.enabled-channels`。例如设为 `minio,qiniu` 时，仅装配这两个渠道。用 `jefw.oss.default-channel=qiniu` 指定默认走七牛云。省略名单时沿用原有 `SDK` 探测规则。启用模块后，若名单为空或含空项、默认渠道不在名单内，或所选渠道既缺少 `SDK` 又无自定义服务，应用会在启动时报错
 - 【oss】新增：对象分页查询方法 `listObjPage`。每页可请求 1～1000 个对象，首页传 `null`，下一页在相同渠道、桶和前缀下原样传入上一页的 `nextContinuationToken()`，令牌为 `null` 时结束
 - 【oss】新增：MinIO 分页查询支持复用应用提供的 `MinioAsyncClient`，默认按现有配置创建并复用。自行配置了 MinIO 端点、凭据提供器或 HTTP 客户端的应用，需提供配置一致的 `MinioAsyncClient` Bean
 
@@ -17,6 +17,8 @@
 
 ### 修复
 
+- 【oss/sms】修复：同一渠道的多个服务会相互覆盖，导致默认调用和按渠道调用可能选中不同实例。现在，同一框架模板收到同一启用渠道的多个服务时，模板初始化会失败，并指出冲突渠道。使用框架模板的应用升级时，请为每个启用渠道保留一个服务。如需替换内置实现，自定义 Bean 可使用对应的内置名称，例如 `minioJefwOssService` 或 `dh3tongJefwSmsService`。省略 `default-channel` 时仍按 Spring 注入顺序取第一个已启用的服务，渠道名单的书写顺序不影响默认路由
+- 【sms】修复：按渠道发送短信时，若所选渠道不可用，会抛出 `IllegalArgumentException` 并列出请求渠道及当前可用渠道
 - 【redis】修复：多个 Spring 上下文共用 `RedisUtil` 时，静态方法使用最近初始化且仍存活的模板。关闭子上下文后可继续使用父上下文的模板，最后一个上下文关闭时释放引用
 - 【redis】修复：第三方自动配置稍晚注册 `RedissonClient` 时也可获得默认分布式锁。若下游自动配置通过 `@ConditionalOnBean(DistributedLock.class)` 启用，建议客户端提供方声明 `@AutoConfiguration(before = DistributedLockAutoConfiguration.class)`，使锁在下游判断前可见
 - 【weixin】修复：微信支付和退款回调在签名请求头大小写变化时验签失败的问题

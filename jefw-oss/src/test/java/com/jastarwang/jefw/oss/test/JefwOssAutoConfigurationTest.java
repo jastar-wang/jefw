@@ -61,6 +61,28 @@ class JefwOssAutoConfigurationTest {
     }
 
     @Test
+    void reinitializingTemplateKeepsSingleChannelRoute() {
+        withMinioCredentials.withPropertyValues("jefw.oss.enabled-channels=minio").run(context -> {
+            JefwOssTemplate template = context.getBean(JefwOssTemplate.class);
+            JefwOssService service = context.getBean(JefwOssService.class);
+            template.afterPropertiesSet();
+            assertThat(template.getDefaultService()).isSameAs(service);
+            assertThat(template.getService(OssChannel.MINIO)).isSameAs(service);
+        });
+    }
+
+    @Test
+    void rejectsDuplicateEnabledChannel() {
+        JefwOssService service = mock(JefwOssService.class);
+        when(service.getChannel()).thenReturn(OssChannel.MINIO);
+        withMinioCredentials.withPropertyValues("jefw.oss.enabled-channels=minio")
+                .withBean("customMinio", JefwOssService.class, () -> service)
+                .run(context -> assertThat(context.getStartupFailure()).rootCause()
+                        .isInstanceOf(IllegalStateException.class).hasMessageContaining("Multiple JefwOssService")
+                        .hasMessageContaining("MINIO"));
+    }
+
+    @Test
     void indexedListEnablesBothServicesAndRoutesToExplicitDefault() {
         withMinioCredentials.withPropertyValues("jefw.oss.enabled-channels[0]=qiniu",
                 "jefw.oss.enabled-channels[1]=minio", "jefw.oss.default-channel=minio",

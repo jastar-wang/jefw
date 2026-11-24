@@ -34,9 +34,8 @@ public class JefwOssProperties {
      */
     private Boolean enabled = false;
     /**
-     * 可空，默认存储渠道
-     * <li>若只检测到一个存储服务，则使用该存储服务</li>
-     * <li>若有多个存储服务，则取第一个服务（根据枚举的顺序）</li>
+     * 可空，默认存储渠道。省略时，按 Spring 注入顺序取第一个已启用的服务。
+     * 多渠道时建议显式指定，enabled-channels 的书写顺序不决定默认渠道。
      */
     private OssChannel defaultChannel;
     /**
