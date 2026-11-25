@@ -42,6 +42,11 @@
         </dependency>
         <dependency>
             <groupId>com.jastar-wang</groupId>
+            <artifactId>jefw-webmvc</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jastar-wang</groupId>
             <artifactId>jefw-weixin</artifactId>
             <version>${project.parent.version}</version>
         </dependency>

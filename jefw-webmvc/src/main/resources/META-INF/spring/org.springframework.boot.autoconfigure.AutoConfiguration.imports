@@ -1,0 +1,2 @@
+com.jastarwang.jefw.webmvc.log.RequestLogAutoConfiguration
+com.jastarwang.jefw.webmvc.repeat.RequestRepeatAutoConfiguration

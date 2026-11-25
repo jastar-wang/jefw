@@ -1,5 +1,18 @@
 # 更新日志
 
+## 2.6.0-SNAPSHOT - 开发中
+
+### 特性
+
+- 【webmvc】新增 MVC 请求日志，默认关闭。设置 `jefw.webmvc.request-log.enabled=true` 后记录控制器的入参、响应和耗时，并在日志副本中遮盖敏感字段。请求参数、路径变量、multipart 分段和矩阵变量均按 MVC 绑定名匹配敏感字段。请求路径记录 MVC 路由模板；通过 `@RequestHeader`、`@CookieValue` 绑定的参数统一遮盖。`HttpEntity` 类型的入参和返回值只记录正文，业务异常只记录类型。可通过 `@RequestLog` 指定额外的入参脱敏路径或关闭单个接口的日志。
+- 【webmvc】新增 `@RequestRepeatLimit`。为控制器方法指定参与判重的参数并使用 `-parameters` 编译后，组件通过 Redis 在指定时间窗口内阻止重复提交。重复调用抛出 `DuplicateRequestException`，由应用决定响应；代理生效且缺少 `StringRedisTemplate` 时，调用会在业务方法执行前报错。关闭 Boot 自动代理（`spring.aop.auto=false`）且应用未自行配置代理时，请求日志和防重均不拦截。
+
+### 依赖
+
+- `jefw-all` 新增 `jefw-webmvc` 依赖，升级后会传递 `spring-boot-starter-aop` 和 Jackson。也可单独引入 `jefw-webmvc`。Servlet MVC 环境由应用提供。仅使用请求日志时无需引入 Redis；使用防重复提交时，应用需提供 Spring Data Redis 和 `StringRedisTemplate`。
+
+---
+
 ## 2.5.1 - 2026-11-24
 
 ### 从 2.5.0 升级

@@ -42,6 +42,7 @@
         <module>jefw-redis</module>
         <module>jefw-sms</module>
         <module>jefw-util</module>
+        <module>jefw-webmvc</module>
         <module>jefw-weixin</module>
     </modules>
 

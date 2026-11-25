@@ -1,0 +1,10 @@
+{
+  "properties": [
+    {
+      "name": "jefw.webmvc.request-log.enabled",
+      "type": "java.lang.Boolean",
+      "description": "是否开启打印 Spring MVC 控制器的请求参数、响应及耗时",
+      "defaultValue": false
+    }
+  ]
+}
