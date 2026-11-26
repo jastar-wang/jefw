@@ -22,6 +22,11 @@
         </dependency>
         <dependency>
             <groupId>com.jastar-wang</groupId>
+            <artifactId>jefw-mail</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jastar-wang</groupId>
             <artifactId>jefw-oss</artifactId>
             <version>${project.parent.version}</version>
         </dependency>

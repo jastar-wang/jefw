@@ -38,6 +38,7 @@
     <modules>
         <module>jefw-all</module>
         <module>jefw-core</module>
+        <module>jefw-mail</module>
         <module>jefw-oss</module>
         <module>jefw-redis</module>
         <module>jefw-sms</module>
