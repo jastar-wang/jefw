@@ -11,6 +11,8 @@
 
 请保持改动聚焦，并在 `Pull Request` 中说明修改原因、影响范围和验证方式。`main` 用于发布版本。提交信息格式见下文的 [Git 提交规范](#git-提交规范)。
 
+新增功能模块时，在根 POM 的 `<modules>` 中登记，并将它加入 `jefw-all/pom.xml` 的依赖列表。这样应用既能单独引入新模块，也能通过 `jefw-all` 获取它。
+
 ## 测试
 
 默认验证不访问 `Redis` 或第三方服务：
@@ -18,6 +20,10 @@
 ```bash
 mvn verify
 ```
+
+MVC 请求日志、防重复提交、邮件发送和 Redis 键过期事件都有离线测试。在仓库根目录运行 `mvn -pl "jefw-webmvc,jefw-mail,jefw-redis" -am verify` 即可验证这些模块。
+
+调整传递依赖或自动配置时，用独立 Maven 应用分别引入受影响的模块和 `jefw-all`，检查运行时依赖并验证启动行为。例如，仅启用请求日志的 MVC 应用应能在缺少 Spring Data Redis 时正常处理请求。
 
 ### 用测试账号验证外部服务
 
@@ -96,8 +102,10 @@ limitations under the License.
 ### `Commit Message` 格式
 
 ```
-<type>(<scope>):<subject>
+<type>(<scope>): <subject>
 ```
+
+正式版本提交沿用 `:bookmark: <版本号>`，例如 `:bookmark: 2.6.0`。
 
 ### `type`（必填）
 

@@ -1,19 +1,18 @@
 # 更新日志
 
-## 2.6.0-SNAPSHOT - 开发中
+## 2.6.0 - 2026-11-27
 
 ### 特性
 
-- 【mail】新增文本和 HTML 邮件发送，发送时向调用方报告配置或投递错误。可通过 `jefw.mail.from` 单独指定发件地址。
-- 【redis】新增键过期事件订阅，默认关闭。启用时需在 Redis 服务端开启过期事件通知。
-- 【webmvc】新增 MVC 请求日志，默认关闭。启用后记录控制器的入参、响应和耗时，默认脱敏字段包括 `password`、`accessToken`、`refreshToken` 和 `sessionKey`，支持按接口关闭日志。
-- 【webmvc】新增 `@RequestRepeatLimit`，支持基于 Redis 的时间窗口防重复提交，重复请求的响应由应用决定。
+- 【webmvc】新增 MVC 请求日志，默认关闭，支持敏感字段脱敏和按接口关闭日志。
+- 【webmvc】新增 `@RequestRepeatLimit`，按方法启用 Redis 时间窗口防重，重复请求的响应由应用决定。
+- 【mail】新增文本和 HTML 邮件发送，配置或投递失败时向调用方报告错误。
+- 【redis】新增键过期事件订阅，默认关闭。
 
 ### 依赖
 
-- 【weixin】`jefw-weixin` 新增传递依赖 `hutool-http` 和 `hutool-json`，供默认微信服务发起 HTTP 请求和处理 JSON。已引入 `hutool-all` 的应用升级时请检查依赖树，避免聚合包与分包重复提供相同的类。
-- `jefw-all` 新增 `jefw-mail` 依赖，并传递 `spring-boot-starter-mail`。也可单独引入 `jefw-mail`。组件使用 Boot 配置的 SMTP 账号时，其专用发送器默认要求 STARTTLS 并校验服务器身份，SMTPS 默认校验服务器身份。自定义发送器和 JNDI 会话沿用宿主的传输设置。
-- `jefw-all` 新增 `jefw-webmvc` 依赖，并传递 `spring-boot-starter-aop`。也可单独引入 `jefw-webmvc`，仅使用请求日志时无需 Redis。
+- 【all】纳入 `jefw-webmvc` 和 `jefw-mail`，随之引入 Spring Boot 的 AOP 和 Mail Starter。
+- 【weixin】补齐 `hutool-http` 和 `hutool-json` 依赖。已引入 `hutool-all` 的应用应避免与分包重复引入。
 
 ---
 
