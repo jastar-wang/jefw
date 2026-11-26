@@ -6,7 +6,7 @@
 
 - 【mail】新增文本和 HTML 邮件发送，发送时向调用方报告配置或投递错误。可通过 `jefw.mail.from` 单独指定发件地址。
 - 【redis】新增键过期事件订阅，默认关闭。启用时需在 Redis 服务端开启过期事件通知。
-- 【webmvc】新增 MVC 请求日志，默认关闭。启用后记录控制器的入参、响应和耗时，支持敏感字段脱敏和按接口关闭。
+- 【webmvc】新增 MVC 请求日志，默认关闭。启用后记录控制器的入参、响应和耗时，默认脱敏字段包括 `password`、`accessToken`、`refreshToken` 和 `sessionKey`，支持按接口关闭日志。
 - 【webmvc】新增 `@RequestRepeatLimit`，支持基于 Redis 的时间窗口防重复提交，重复请求的响应由应用决定。
 
 ### 依赖

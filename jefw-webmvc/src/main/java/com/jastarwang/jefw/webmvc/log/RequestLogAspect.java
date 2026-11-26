@@ -84,7 +84,9 @@ public class RequestLogAspect extends StaticMethodMatcherPointcutAdvisor {
     private static final Logger log = LoggerFactory.getLogger(RequestLogAspect.class);
     private static final String SWAGGER_HIDDEN = "io.swagger.v3.oas.annotations.Hidden";
     private static final String MASK = "******";
-    private static final Set<String> HIDDEN_FIELDS = Set.of("password", "newpassword", "confirmpassword", "secretkey", "accesskey", "token");
+    private static final Set<String> HIDDEN_FIELDS = Set.of(
+            "password", "newpassword", "confirmpassword", "secretkey", "accesskey",
+            "token", "accesstoken", "refreshtoken", "sessionkey");
 
     private final ObjectMapper mapper;
 

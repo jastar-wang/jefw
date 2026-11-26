@@ -98,14 +98,19 @@ class RequestLogMvcTest {
     void masksCopiesAndPreservesControllerResponse(CapturedOutput output) {
         runner.withPropertyValues("jefw.webmvc.request-log.enabled=true").run(context -> {
             String body = mvc(context).perform(post("/users").contentType(APPLICATION_JSON)
-                            .content("{\"password\":\"original-secret\",\"name\":\"private-name\"}"))
+                            .content("""
+                                    {"password":"original-secret","name":"private-name","accessToken":"access-marker",
+                                     "refresh_token":"refresh-marker","Session-Key":"session-marker"}
+                                    """))
                     .andExpect(status().isOk())
                     .andExpect(header().string(HttpHeaders.SET_COOKIE, "session=private-cookie"))
                     .andReturn().getResponse().getContentAsString();
-            assertThat(body).contains("original-secret", "private-name");
+            assertThat(body).contains("original-secret", "private-name", "access-marker", "refresh-marker", "session-marker");
             assertThat(output.getOut()).contains("[/users]", "\"password\":\"******\"",
-                            "\"name\":\"******\"", "\"access_key\":\"******\"", "耗时")
-                    .doesNotContain("original-secret", "response-secret", "private-cookie");
+                            "\"name\":\"******\"", "\"access_key\":\"******\"", "\"accessToken\":\"******\"",
+                            "\"refresh_token\":\"******\"", "\"Session-Key\":\"******\"", "耗时")
+                    .doesNotContain("original-secret", "response-secret", "private-cookie",
+                            "access-marker", "refresh-marker", "session-marker");
             mvc(context).perform(get("/quiet")).andExpect(status().isOk());
             assertThat(output.getOut()).doesNotContain("[/quiet]");
             assertThat(context.getBean(Api.class).ping()).isEqualTo("ok");
