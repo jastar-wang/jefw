@@ -20,12 +20,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * The summary of an object stored in bucket.
+ * 存储桶中单个对象的摘要信息。对应的厂商模型包括
+ * {@link com.aliyun.oss.model.OSSObjectSummary} 和 {@link com.qcloud.cos.model.COSObjectSummary}。
  *
  * @author Jastar Wang
- * @date 2023/5/9
- * @see com.aliyun.oss.model.OSSObjectSummary
- * @see com.qcloud.cos.model.COSObjectSummary
  * @since 1.3.1
  */
 public class ObjectSummary implements Serializable {

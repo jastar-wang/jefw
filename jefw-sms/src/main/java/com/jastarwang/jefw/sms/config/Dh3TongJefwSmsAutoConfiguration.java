@@ -28,7 +28,6 @@ import org.springframework.core.annotation.Order;
  * 短信服务自动配置 - 大汉三通
  *
  * @author Jastar Wang
- * @date 2023/4/5
  * @since 1.3.0
  */
 @Configuration

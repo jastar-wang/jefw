@@ -50,7 +50,6 @@ import java.util.List;
  * <li><a href="https://developer.qiniu.com/kodo/3939/overview-of-the-api">API文档</a></li>
  *
  * @author Jastar Wang
- * @date 2025/4/21
  * @since 2.1.0
  */
 public class QiniuJefwOssService implements JefwOssService {

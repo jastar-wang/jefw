@@ -28,7 +28,6 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
  * Redis 序列化测试
  *
  * @author Jastar Wang
- * @date 2026/11/20
  * @since 2.5.1
  */
 class RedisSerializationTest {

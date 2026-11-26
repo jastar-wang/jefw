@@ -30,7 +30,11 @@ import com.wechat.pay.java.core.notification.NotificationParser;
 import com.wechat.pay.java.core.notification.RequestParam;
 import com.wechat.pay.java.service.payments.model.Transaction;
 import com.wechat.pay.java.service.refund.RefundService;
-import com.wechat.pay.java.service.refund.model.*;
+import com.wechat.pay.java.service.refund.model.AmountReq;
+import com.wechat.pay.java.service.refund.model.CreateRequest;
+import com.wechat.pay.java.service.refund.model.QueryByOutRefundNoRequest;
+import com.wechat.pay.java.service.refund.model.Refund;
+import com.wechat.pay.java.service.refund.model.RefundNotification;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.time.LocalDateTime;
@@ -46,7 +50,6 @@ import java.util.TreeMap;
  * 微信支付通用接口实现基类
  *
  * @author Jastar Wang
- * @date 2025/4/27
  * @since 2.2.0
  */
 public abstract class JefwWeixinPayServiceImpl implements JefwWeixinPayService {

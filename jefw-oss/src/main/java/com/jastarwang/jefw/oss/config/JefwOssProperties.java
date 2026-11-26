@@ -25,7 +25,6 @@ import java.util.Set;
  * 对象存储服务的参数配置
  *
  * @author Jastar Wang
- * @date 2023/2/19
  * @since 1.2.4
  */
 public class JefwOssProperties {
@@ -147,6 +146,12 @@ public class JefwOssProperties {
                 '}';
     }
 
+    /**
+     * 各对象存储渠道共用的连接与认证配置。
+     *
+     * @author Jastar Wang
+     * @since 1.3.0
+     */
     public static class Base {
         /**
          * 可空，是否是HTTPS，默认是
@@ -210,6 +215,12 @@ public class JefwOssProperties {
         }
     }
 
+    /**
+     * 阿里云 OSS 的访问配置。
+     *
+     * @author Jastar Wang
+     * @since 1.2.4
+     */
     public static class Aliyun extends Base {
         /**
          * 非空，访问站点（如：oss-cn-chengdu.aliyuncs.com）
@@ -237,6 +248,12 @@ public class JefwOssProperties {
         }
     }
 
+    /**
+     * 腾讯云 COS 的访问配置。
+     *
+     * @author Jastar Wang
+     * @since 1.2.4
+     */
     public static class Tencent extends Base {
         /**
          * 非空，地区（如：ap-chengdu）
@@ -264,6 +281,12 @@ public class JefwOssProperties {
         }
     }
 
+    /**
+     * 七牛云 Kodo 的访问配置。
+     *
+     * @author Jastar Wang
+     * @since 2.1.0
+     */
     public static class Qiniu extends Base {
         /**
          * 非空，地区（如：z0）
@@ -291,6 +314,12 @@ public class JefwOssProperties {
         }
     }
 
+    /**
+     * MinIO 的访问配置。
+     *
+     * @author Jastar Wang
+     * @since 2.3.0
+     */
     public static class Minio extends Base {
         /**
          * 非空，访问站点（如：127.0.0.1:9000 或 https://minio.xxx.com）

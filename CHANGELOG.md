@@ -1,5 +1,21 @@
 # 更新日志
 
+## 2.6.0 - 2026-11-27
+
+### 特性
+
+- 【webmvc】新增 MVC 请求日志，默认关闭，支持敏感字段脱敏和按接口关闭日志。
+- 【webmvc】新增 `@RequestRepeatLimit`，按方法启用 Redis 时间窗口防重，重复请求的响应由应用决定。
+- 【mail】新增文本和 HTML 邮件发送，配置或投递失败时向调用方报告错误。
+- 【redis】新增键过期事件订阅，默认关闭。
+
+### 依赖
+
+- 【all】纳入 `jefw-webmvc` 和 `jefw-mail`，随之引入 Spring Boot 的 AOP 和 Mail Starter。
+- 【weixin】补齐 `hutool-http` 和 `hutool-json` 依赖。已引入 `hutool-all` 的应用应避免与分包重复引入。
+
+---
+
 ## 2.5.1 - 2026-11-24
 
 ### 从 2.5.0 升级

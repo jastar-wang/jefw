@@ -23,7 +23,6 @@ import java.util.Objects;
  * 异步请求响应包装类
  *
  * @author Jastar Wang
- * @date 2026/04/25
  * @since 2.3.0
  */
 public class R<T> implements Serializable {

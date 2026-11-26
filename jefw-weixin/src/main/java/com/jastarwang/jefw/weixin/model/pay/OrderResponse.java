@@ -30,7 +30,6 @@ import java.time.format.DateTimeFormatter;
  * 支付订单请求响应
  *
  * @author Jastar Wang
- * @date 2022/12/28
  * @since 2.2.0
  */
 public class OrderResponse implements Serializable {
@@ -130,6 +129,12 @@ public class OrderResponse implements Serializable {
         this.originBodyResource = JSONUtil.toJsonStr(transaction);
     }
 
+    /**
+     * 微信支付订单的交易状态。
+     *
+     * @author Jastar Wang
+     * @since 2.2.0
+     */
     public enum TradeStateEnum {
         /**
          * 支付成功
@@ -163,6 +168,12 @@ public class OrderResponse implements Serializable {
         ACCEPT;
     }
 
+    /**
+     * 微信支付订单的交易类型。
+     *
+     * @author Jastar Wang
+     * @since 2.2.0
+     */
     public enum TradeTypeEnum {
         /**
          * 公众号支付、小程序支付

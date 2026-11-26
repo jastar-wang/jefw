@@ -20,31 +20,45 @@ import com.jastarwang.jefw.lock.config.DistributedLockAutoConfiguration;
 import com.jastarwang.jefw.lock.impl.RedissonDistributedLock;
 import com.jastarwang.jefw.redis.RedisUtil;
 import com.jastarwang.jefw.redis.config.RedisAutoConfiguration;
+import com.jastarwang.jefw.redis.event.RedisKeyExpiredEvent;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.redisson.api.RedissonClient;
 import org.redisson.spring.starter.RedissonAutoConfigurationV2;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.test.context.FilteredClassLoader;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.PayloadApplicationEvent;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.connection.DefaultMessage;
+import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.listener.PatternTopic;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockConstruction;
+import static org.mockito.Mockito.verify;
 
 /**
  * 离线验证缓存与分布式锁的自动配置条件。
  *
  * @author Jastar Wang
- * @date 2026/11/23
  * @since 2.5.1
  */
 class RedisAutoConfigurationTest {
@@ -52,7 +66,6 @@ class RedisAutoConfigurationTest {
      * 通过应用的自动配置入口加载 Redis 模块。
      *
      * @author Jastar Wang
-     * @date 2026/11/23
      * @since 2.5.1
      */
     @EnableAutoConfiguration
@@ -63,7 +76,6 @@ class RedisAutoConfigurationTest {
      * 模拟未指定与 jefw 的先后关系、按自身顺序注册客户端的第三方配置。
      *
      * @author Jastar Wang
-     * @date 2026/11/23
      * @since 2.5.1
      */
     @AutoConfiguration
@@ -80,7 +92,6 @@ class RedisAutoConfigurationTest {
      * 模拟在默认顺序之后按锁 Bean 启用的业务配置。
      *
      * @author Jastar Wang
-     * @date 2026/11/23
      * @since 2.5.1
      */
     @AutoConfiguration
@@ -97,11 +108,33 @@ class RedisAutoConfigurationTest {
     void sdkAloneKeepsCacheAndSkipsLock() {
         runner.run(context -> {
             assertThat(context).hasSingleBean(RedisUtil.class).doesNotHaveBean(DistributedLock.class);
+            assertThat(context).doesNotHaveBean("jefwRedisExpirationListenerContainer");
             RedisTemplate<?, ?> template = context.getBean("redisTemplate", RedisTemplate.class);
             assertThat(RedisUtil.template()).isSameAs(template);
             assertThat(template.getKeySerializer()).isInstanceOf(StringRedisSerializer.class);
             assertThat(template.getValueSerializer()).isInstanceOf(GenericJackson2JsonRedisSerializer.class);
         });
+    }
+
+    @Test
+    void expirationSubscriptionPublishesTheActualChannelAndUtf8KeyWithoutCache() {
+        try (var containers = mockConstruction(RedisMessageListenerContainer.class)) {
+            runner.withPropertyValues("jefw.redis.expiration.enabled=true", "jefw.redis.cache.enabled=false")
+                    .run(context -> {
+                        var container = context.getBean("jefwRedisExpirationListenerContainer",
+                                RedisMessageListenerContainer.class);
+                        var listener = ArgumentCaptor.forClass(MessageListener.class);
+                        verify(container).addMessageListener(listener.capture(), eq(new PatternTopic("__keyevent@*__:expired")));
+
+                        List<Object> events = new ArrayList<>();
+                        context.getSourceApplicationContext().addApplicationListener(
+                                (ApplicationListener<PayloadApplicationEvent<?>>) event -> events.add(event.getPayload()));
+                        byte[] channel = "__keyevent@3__:expired".getBytes(StandardCharsets.UTF_8);
+                        byte[] key = "订单:42".getBytes(StandardCharsets.UTF_8);
+                        listener.getValue().onMessage(new DefaultMessage(channel, key), null);
+                        assertThat(events).containsExactly(new RedisKeyExpiredEvent("订单:42", "__keyevent@3__:expired"));
+                    });
+        }
     }
 
     @Test

@@ -24,7 +24,6 @@ import java.util.function.Supplier;
  * 分布式锁接口
  *
  * @author Jastar Wang
- * @date 2020/10/20
  * @since 1.0
  */
 public interface DistributedLock {

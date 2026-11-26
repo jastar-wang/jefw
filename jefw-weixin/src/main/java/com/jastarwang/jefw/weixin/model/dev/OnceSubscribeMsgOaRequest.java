@@ -22,7 +22,6 @@ import java.io.Serializable;
  * 一次性订阅消息请求参数（公众平台：公众号+服务号）
  *
  * @author Jastar Wang
- * @date 2025/6/27
  * @since 2.2.0
  */
 public class OnceSubscribeMsgOaRequest implements Serializable {

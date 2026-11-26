@@ -26,7 +26,6 @@ import java.time.LocalDateTime;
  * <p><b>注意：对象完整名称不能以斜杠“/”开头</b></p>
  *
  * @author Jastar Wang
- * @date 2023/2/19
  * @since 1.2.4
  */
 public interface JefwOssService {

@@ -32,7 +32,6 @@ import java.time.format.DateTimeFormatter;
  * 退款请求响应
  *
  * @author Jastar Wang
- * @date 2022/12/28
  * @since 2.2.0
  */
 public class RefundResponse implements Serializable {
@@ -222,6 +221,12 @@ public class RefundResponse implements Serializable {
         this.originBodyResource = JSONUtil.toJsonStr(refund);
     }
 
+    /**
+     * 微信支付退款渠道。
+     *
+     * @author Jastar Wang
+     * @since 2.2.0
+     */
     public enum Channel {
         /**
          * 原路退款
@@ -241,6 +246,12 @@ public class RefundResponse implements Serializable {
         OTHER_BANKCARD;
     }
 
+    /**
+     * 微信支付退款状态。
+     *
+     * @author Jastar Wang
+     * @since 2.2.0
+     */
     public enum Status {
         /**
          * 退款成功

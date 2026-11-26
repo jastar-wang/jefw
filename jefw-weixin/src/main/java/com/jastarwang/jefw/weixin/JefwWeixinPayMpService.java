@@ -19,7 +19,6 @@ package com.jastarwang.jefw.weixin;
  * 微信支付小程序接口
  *
  * @author Jastar Wang
- * @date 2025/4/27
  * @since 2.2.0
  */
 public interface JefwWeixinPayMpService extends JefwWeixinPayJsapiService {

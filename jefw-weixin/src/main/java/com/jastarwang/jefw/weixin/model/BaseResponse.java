@@ -22,7 +22,6 @@ import java.io.Serializable;
  * 微信请求响应基类
  *
  * @author Jastar Wang
- * @date 2025/4/9
  * @since 2.2.0
  */
 public class BaseResponse implements Serializable {

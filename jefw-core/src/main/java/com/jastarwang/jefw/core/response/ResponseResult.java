@@ -23,7 +23,6 @@ import java.io.Serializable;
  * <p>建议使用语义更为简洁的 {@link R}，本类在未来可能会被删除</p>
  *
  * @author Jastar Wang
- * @date 2020/11/18
  * @since 1.0
  */
 public class ResponseResult<T> implements Serializable {

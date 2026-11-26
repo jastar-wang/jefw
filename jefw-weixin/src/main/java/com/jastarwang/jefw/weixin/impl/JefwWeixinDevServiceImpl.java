@@ -26,7 +26,6 @@ import com.jastarwang.jefw.weixin.model.dev.AccessTokenResponse;
  * 微信开发通用接口实现基类
  *
  * @author Jastar Wang
- * @date 2025/4/9
  * @since 2.2.0
  */
 public abstract class JefwWeixinDevServiceImpl implements JefwWeixinDevService {

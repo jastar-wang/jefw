@@ -21,7 +21,6 @@ import java.io.Serial;
  * 预支付请求参数（JSAPI）
  *
  * @author Jastar Wang
- * @date 2022/12/28
  * @since 2.2.0
  */
 public class PrepayJsapiRequest extends PrepayBaseRequest {

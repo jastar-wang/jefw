@@ -25,7 +25,6 @@ import java.awt.Color;
  * ColorUtil单元测试
  *
  * @author Jastar Wang
- * @date 2020/7/23
  * @since 1.0
  */
 class ColorUtilTest {

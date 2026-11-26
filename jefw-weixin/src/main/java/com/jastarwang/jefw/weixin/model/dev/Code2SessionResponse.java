@@ -23,7 +23,6 @@ import java.io.Serial;
  * 小程序会话
  *
  * @author Jastar Wang
- * @date 2025/4/9
  * @since 2.2.0
  */
 public class Code2SessionResponse extends BaseResponse {

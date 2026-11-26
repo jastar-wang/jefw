@@ -35,7 +35,6 @@ import java.io.InputStream;
  * 微信支付自动配置-主入口
  *
  * @author Jastar Wang
- * @date 2025/4/27
  * @since 2.2.0
  */
 @Configuration

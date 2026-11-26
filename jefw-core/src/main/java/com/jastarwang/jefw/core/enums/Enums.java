@@ -47,7 +47,6 @@ package com.jastarwang.jefw.core.enums;
  * </pre>
  *
  * @author Jastar Wang
- * @date 2021/8/23
  * @since 1.1
  */
 public class Enums {

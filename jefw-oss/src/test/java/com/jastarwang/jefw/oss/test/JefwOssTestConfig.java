@@ -22,7 +22,6 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
  * 通过应用的自动配置入口加载对象存储测试上下文。
  *
  * @author Jastar Wang
- * @date 2025/4/22
  * @since 2.1.0
  */
 @SpringBootConfiguration

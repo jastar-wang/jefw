@@ -20,7 +20,6 @@ package com.jastarwang.jefw.weixin;
  * <p>参考：<a href="https://pay.weixin.qq.com/doc/v3/merchant/4012062524">官方文档</a></p>
  *
  * @author Jastar Wang
- * @date 2025/4/9
  * @since 2.2.0
  */
 public enum WeixinPayChannel {

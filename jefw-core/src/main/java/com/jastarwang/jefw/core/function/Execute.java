@@ -19,7 +19,6 @@ package com.jastarwang.jefw.core.function;
  * 无参数无返回值的函数式接口
  *
  * @author Jastar Wang
- * @date 2023/1/7
  * @since 1.2.3
  */
 @FunctionalInterface

@@ -21,7 +21,6 @@ import java.io.Serial;
  * 微信平台调用异常
  *
  * @author Jastar Wang
- * @date 2025/4/22
  * @since 2.2.0
  */
 public class JefwWeixinException extends RuntimeException {

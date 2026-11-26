@@ -23,7 +23,6 @@ import java.io.Serial;
  * 微信接口调用凭证
  *
  * @author Jastar Wang
- * @date 2025/4/9
  * @since 2.2.0
  */
 public class AccessTokenResponse extends BaseResponse {

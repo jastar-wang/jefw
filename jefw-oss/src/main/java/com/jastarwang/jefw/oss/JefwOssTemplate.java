@@ -30,7 +30,6 @@ import java.util.Set;
  * 对象存储操作模板类
  *
  * @author Jastar Wang
- * @date 2023/4/5
  * @since 1.3.0
  */
 public class JefwOssTemplate implements InitializingBean {

@@ -29,7 +29,6 @@ import java.io.Serializable;
  * 七牛云客户端包装类
  *
  * @author Jastar Wang
- * @date 2025/4/21
  * @since 2.1.0
  */
 public class QiniuOssClient implements Serializable {

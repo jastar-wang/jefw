@@ -25,7 +25,6 @@ import static org.mockito.Mockito.mock;
  * 使用 Redisson starter 的自动配置类名验证生产代码声明的排序关系。
  *
  * @author Jastar Wang
- * @date 2026/11/23
  * @since 2.5.1
  */
 @AutoConfiguration

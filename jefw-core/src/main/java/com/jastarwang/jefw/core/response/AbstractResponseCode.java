@@ -20,7 +20,6 @@ package com.jastarwang.jefw.core.response;
  * <p>PS：自定义状态码可使用枚举类，并实现本接口即可</p>
  *
  * @author Jastar Wang
- * @date 2020/11/19
  * @since 1.0
  */
 public interface AbstractResponseCode {

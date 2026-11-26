@@ -42,7 +42,6 @@ import static org.mockito.Mockito.when;
  * 离线验证阿里云短信请求和异常转换。
  *
  * @author Jastar Wang
- * @date 2026/11/24
  * @since 2.5.1
  */
 class AliyunJefwSmsServiceTest {

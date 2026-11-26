@@ -23,7 +23,6 @@ import java.util.List;
  * @param items                 本页对象，过滤后可能为空
  * @param nextContinuationToken 下一页令牌，null 表示结束
  * @author Jastar Wang
- * @date 2026/11/20
  * @since 2.5.1
  */
 public record ObjectPage(List<ObjectSummary> items, String nextContinuationToken) {

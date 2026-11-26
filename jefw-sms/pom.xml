@@ -7,11 +7,11 @@
     <parent>
         <artifactId>jefw</artifactId>
         <groupId>com.jastar-wang</groupId>
-        <version>2.5.1</version>
+        <version>2.6.0</version>
     </parent>
     <artifactId>jefw-sms</artifactId>
     <name>${project.artifactId}</name>
-    <description>SMS模块：提供对第三方短信服务的统一支持</description>
+    <description>通过统一接口接入阿里云、腾讯云和大汉三通短信服务。</description>
 
     <dependencies>
 

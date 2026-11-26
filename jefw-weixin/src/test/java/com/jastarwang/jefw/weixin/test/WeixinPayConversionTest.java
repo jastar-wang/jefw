@@ -31,7 +31,9 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 import static org.mockito.Mockito.mock;
 
@@ -39,7 +41,6 @@ import static org.mockito.Mockito.mock;
  * 微信支付转换测试类
  *
  * @author Jastar Wang
- * @date 2026/11/20
  * @since 2.5.1
  */
 class WeixinPayConversionTest {

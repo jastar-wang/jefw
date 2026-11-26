@@ -26,7 +26,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  * Web工具类
  *
  * @author Jastar Wang
- * @date 2020/7/23
  * @since 1.0
  */
 public class WebUtil {

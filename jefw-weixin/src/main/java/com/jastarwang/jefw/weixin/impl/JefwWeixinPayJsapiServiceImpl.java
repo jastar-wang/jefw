@@ -28,7 +28,14 @@ import com.jastarwang.jefw.weixin.model.pay.PrepayJsapiResponse;
 import com.wechat.pay.java.core.Config;
 import com.wechat.pay.java.core.util.PemUtil;
 import com.wechat.pay.java.service.payments.jsapi.JsapiService;
-import com.wechat.pay.java.service.payments.jsapi.model.*;
+import com.wechat.pay.java.service.payments.jsapi.model.Amount;
+import com.wechat.pay.java.service.payments.jsapi.model.CloseOrderRequest;
+import com.wechat.pay.java.service.payments.jsapi.model.Payer;
+import com.wechat.pay.java.service.payments.jsapi.model.PrepayRequest;
+import com.wechat.pay.java.service.payments.jsapi.model.PrepayResponse;
+import com.wechat.pay.java.service.payments.jsapi.model.QueryOrderByIdRequest;
+import com.wechat.pay.java.service.payments.jsapi.model.QueryOrderByOutTradeNoRequest;
+import com.wechat.pay.java.service.payments.jsapi.model.SceneInfo;
 import com.wechat.pay.java.service.payments.model.Transaction;
 
 import java.io.InputStream;
@@ -40,10 +47,9 @@ import java.time.Instant;
 import java.util.Base64;
 
 /**
- * 微信支付JSAPI接口实现类
+ * 实现微信支付 JSAPI 下单、查单和关单接口。
  *
  * @author Jastar Wang
- * @date 2025/4/9
  * @since 2.2.0
  */
 public class JefwWeixinPayJsapiServiceImpl extends JefwWeixinPayServiceImpl implements JefwWeixinPayJsapiService {

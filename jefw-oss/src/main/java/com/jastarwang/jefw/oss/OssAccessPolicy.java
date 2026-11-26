@@ -19,7 +19,6 @@ package com.jastarwang.jefw.oss;
  * 对象访问权限策略
  *
  * @author Jastar Wang
- * @date 2021/9/15
  * @since 1.2.0
  */
 public enum OssAccessPolicy {

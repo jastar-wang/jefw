@@ -28,7 +28,6 @@ import java.util.Set;
  * 短信服务操作模板类
  *
  * @author Jastar Wang
- * @date 2023/4/5
  * @since 1.3.0
  */
 public class JefwSmsTemplate implements InitializingBean {

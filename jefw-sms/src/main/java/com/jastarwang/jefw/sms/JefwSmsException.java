@@ -22,7 +22,6 @@ import java.util.List;
  * 发送短信调用异常
  *
  * @author Jastar Wang
- * @date 2023/4/5
  * @since 1.3.0
  */
 public class JefwSmsException extends RuntimeException {

@@ -25,7 +25,6 @@ import com.jastarwang.jefw.weixin.model.dev.SubscribeMsgMpRequest;
  * <p>参考：<a href="https://developers.weixin.qq.com/miniprogram/dev/OpenApiDoc/">服务端接口</a></p>
  *
  * @author Jastar Wang
- * @date 2025/4/9
  * @since 2.2.0
  */
 public interface JefwWeixinDevMpService extends JefwWeixinDevService {

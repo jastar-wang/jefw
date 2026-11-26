@@ -15,7 +15,13 @@
  */
 package com.jastarwang.jefw.weixin.test;
 
-import com.jastarwang.jefw.weixin.*;
+import com.jastarwang.jefw.weixin.JefwWeixinDevMpService;
+import com.jastarwang.jefw.weixin.JefwWeixinDevOaService;
+import com.jastarwang.jefw.weixin.JefwWeixinDevService;
+import com.jastarwang.jefw.weixin.JefwWeixinPayJsapiService;
+import com.jastarwang.jefw.weixin.JefwWeixinPayMpService;
+import com.jastarwang.jefw.weixin.WeixinDevChannel;
+import com.jastarwang.jefw.weixin.WeixinPayChannel;
 import com.jastarwang.jefw.weixin.config.JefwWeixinProperties;
 import com.jastarwang.jefw.weixin.model.dev.AccessTokenResponse;
 import com.wechat.pay.java.core.Config;
@@ -29,13 +35,14 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * 每次运行一个场景，公众号、小程序、商户支付可分别使用独立的测试账户。
  *
  * @author Jastar Wang
- * @date 2025/7/4
  * @since 2.2.0
  */
 @EnabledIfEnvironmentVariable(named = "JEFW_WEIXIN_IT", matches = "true")
@@ -46,7 +53,6 @@ class JefwWeixinServiceIT {
      * 启动当前微信测试场景所需的自动配置。
      *
      * @author Jastar Wang
-     * @date 2026/11/20
      * @since 2.5.1
      */
     @SpringBootConfiguration

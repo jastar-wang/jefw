@@ -32,7 +32,6 @@ import org.springframework.util.Assert;
  * 短信服务自动配置 - 阿里云
  *
  * @author Jastar Wang
- * @date 2026/11/24
  * @since 2.5.1
  */
 @Configuration

@@ -26,8 +26,17 @@ import com.jastarwang.jefw.oss.config.JefwOssProperties;
 import com.jastarwang.jefw.oss.model.ObjectPage;
 import com.jastarwang.jefw.oss.model.ObjectSummary;
 import com.jastarwang.jefw.oss.model.Owner;
-import io.minio.*;
+import io.minio.BucketExistsArgs;
+import io.minio.GetObjectArgs;
+import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.Http.Method;
+import io.minio.ListObjectsV2Args;
+import io.minio.MinioAsyncClient;
+import io.minio.MinioClient;
+import io.minio.PutObjectArgs;
+import io.minio.RemoveObjectArgs;
+import io.minio.StatObjectArgs;
+import io.minio.UploadObjectArgs;
 import io.minio.errors.ErrorResponseException;
 import io.minio.messages.Item;
 
@@ -49,7 +58,6 @@ import java.util.concurrent.TimeUnit;
  * <li><a href="https://minio-java.min.io/">API文档</a></li>
  *
  * @author Jastar Wang
- * @date 2026/4/27
  * @since 2.3.0
  */
 public class MinioJefwOssService implements JefwOssService {

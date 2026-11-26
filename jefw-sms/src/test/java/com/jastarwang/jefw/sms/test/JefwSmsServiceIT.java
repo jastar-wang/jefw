@@ -32,13 +32,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * 按选定的短信渠道验证自动配置，真实发送需要单独开启。
  *
  * @author Jastar Wang
- * @date 2023/4/5
  * @since 1.3.0
  */
 @EnabledIfEnvironmentVariable(named = "JEFW_SMS_IT", matches = "true")
@@ -49,7 +53,6 @@ class JefwSmsServiceIT {
      * 启动短信测试所选渠道的自动配置。
      *
      * @author Jastar Wang
-     * @date 2026/11/20
      * @since 2.5.1
      */
     @SpringBootConfiguration

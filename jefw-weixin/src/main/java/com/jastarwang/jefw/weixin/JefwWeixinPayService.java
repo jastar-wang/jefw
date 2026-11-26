@@ -25,7 +25,6 @@ import jakarta.servlet.http.HttpServletRequest;
  * <p>各个细分渠道通用的接口会定义在此处，细分渠道定制化的接口则定义在对应渠道的接口中</p>
  *
  * @author Jastar Wang
- * @date 2025/4/27
  * @since 2.2.0
  */
 public interface JefwWeixinPayService {

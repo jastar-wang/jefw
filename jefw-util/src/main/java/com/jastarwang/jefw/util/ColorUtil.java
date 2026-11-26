@@ -22,7 +22,6 @@ import java.util.Random;
  * 颜色工具类
  *
  * @author Jastar Wang
- * @date 2020/07/18
  * @since 1.0
  */
 public class ColorUtil {

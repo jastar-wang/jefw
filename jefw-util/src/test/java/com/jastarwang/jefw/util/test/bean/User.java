@@ -26,7 +26,6 @@ import java.io.Serializable;
  * 工具类测试使用的可序列化用户对象。
  *
  * @author Jastar Wang
- * @date 2020/7/18
  * @since 1.0
  */
 @Getter

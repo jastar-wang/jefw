@@ -20,7 +20,6 @@ package com.jastarwang.jefw.lock;
  * <p>当锁已被占用获取不到时，会抛出此异常</p>
  *
  * @author Jastar Wang
- * @date 2020/10/21
  * @since 1.0
  */
 public class CannotAcquireLockException extends RuntimeException {

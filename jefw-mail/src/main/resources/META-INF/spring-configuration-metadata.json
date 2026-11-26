@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "jefw.mail.from",
+      "type": "java.lang.String",
+      "description": "邮件发件地址，未设置时使用 spring.mail.username。"
+    }
+  ]
+}

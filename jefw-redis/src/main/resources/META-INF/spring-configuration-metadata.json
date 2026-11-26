@@ -11,6 +11,12 @@
       "type": "java.lang.Boolean",
       "description": "存在 RedissonClient 时，是否自动配置 jefw 的默认分布式锁。",
       "defaultValue": true
+    },
+    {
+      "name": "jefw.redis.expiration.enabled",
+      "type": "java.lang.Boolean",
+      "description": "订阅 Redis 键过期通知。服务端需要启用 notify-keyspace-events Ex。",
+      "defaultValue": false
     }
   ]
 }

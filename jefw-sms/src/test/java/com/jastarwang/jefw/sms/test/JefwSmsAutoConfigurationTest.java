@@ -42,7 +42,6 @@ import static org.mockito.Mockito.when;
  * 离线验证短信渠道的装配条件和默认路由。
  *
  * @author Jastar Wang
- * @date 2026/11/23
  * @since 2.5.1
  */
 class JefwSmsAutoConfigurationTest {
@@ -279,7 +278,6 @@ class JefwSmsAutoConfigurationTest {
      * 通过普通集合注入接收应用自定义的短信服务。
      *
      * @author Jastar Wang
-     * @date 2026/11/23
      * @since 2.5.1
      */
     static class CustomTemplateConfiguration {

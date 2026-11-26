@@ -23,7 +23,6 @@ import java.math.BigDecimal;
  * 退款请求参数
  *
  * @author Jastar Wang
- * @date 2022/12/28
  * @since 2.2.0
  */
 public class RefundRequest implements Serializable {

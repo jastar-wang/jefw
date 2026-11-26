@@ -34,7 +34,6 @@ import java.util.List;
  * 短信服务实现之腾讯云
  *
  * @author Jastar Wang
- * @date 2023/4/5
  * @since 1.3.0
  */
 public class TencentJefwSmsService implements JefwSmsService {

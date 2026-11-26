@@ -21,10 +21,9 @@ import com.jastarwang.jefw.weixin.config.JefwWeixinProperties;
 import com.wechat.pay.java.core.Config;
 
 /**
- * 微信支付JSAPI接口实现类
+ * 使用小程序的应用标识调用微信支付 JSAPI。
  *
  * @author Jastar Wang
- * @date 2025/4/9
  * @since 2.2.0
  */
 public class JefwWeixinPayMpServiceImpl extends JefwWeixinPayJsapiServiceImpl implements JefwWeixinPayMpService {

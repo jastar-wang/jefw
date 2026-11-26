@@ -7,9 +7,9 @@
 
     <groupId>com.jastar-wang</groupId>
     <artifactId>jefw</artifactId>
-    <version>2.5.1</version>
+    <version>2.6.0</version>
     <name>jefw</name>
-    <description>Jastar Easy Framework</description>
+    <description>Jastar Easy Framework 的父 POM，管理通用 Java 工具库和 Spring Boot 集成模块的依赖与构建。</description>
     <url>https://github.com/jastar-wang/jefw</url>
 
     <licenses>
@@ -38,10 +38,12 @@
     <modules>
         <module>jefw-all</module>
         <module>jefw-core</module>
+        <module>jefw-mail</module>
         <module>jefw-oss</module>
         <module>jefw-redis</module>
         <module>jefw-sms</module>
         <module>jefw-util</module>
+        <module>jefw-webmvc</module>
         <module>jefw-weixin</module>
     </modules>
 

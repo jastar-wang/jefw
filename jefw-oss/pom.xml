@@ -7,11 +7,11 @@
     <parent>
         <artifactId>jefw</artifactId>
         <groupId>com.jastar-wang</groupId>
-        <version>2.5.1</version>
+        <version>2.6.0</version>
     </parent>
     <artifactId>jefw-oss</artifactId>
     <name>${project.artifactId}</name>
-    <description>OSS模块：提供对第三方对象云存储服务的统一支持</description>
+    <description>通过统一接口访问阿里云 OSS、腾讯云 COS、七牛云 Kodo 和 MinIO。</description>
 
     <dependencies>
 
