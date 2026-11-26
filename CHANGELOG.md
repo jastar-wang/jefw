@@ -11,6 +11,7 @@
 
 ### 依赖
 
+- 【weixin】`jefw-weixin` 新增传递依赖 `hutool-http` 和 `hutool-json`，供默认微信服务发起 HTTP 请求和处理 JSON。已引入 `hutool-all` 的应用升级时请检查依赖树，避免聚合包与分包重复提供相同的类。
 - `jefw-all` 新增 `jefw-mail` 依赖，并传递 `spring-boot-starter-mail`。也可单独引入 `jefw-mail`。组件使用 Boot 配置的 SMTP 账号时，其专用发送器默认要求 STARTTLS 并校验服务器身份，SMTPS 默认校验服务器身份。自定义发送器和 JNDI 会话沿用宿主的传输设置。
 - `jefw-all` 新增 `jefw-webmvc` 依赖，并传递 `spring-boot-starter-aop`。也可单独引入 `jefw-webmvc`，仅使用请求日志时无需 Redis。
 
