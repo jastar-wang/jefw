@@ -21,7 +21,6 @@ import java.util.LinkedHashMap;
  * 短信服务接口
  *
  * @author Jastar Wang
- * @date 2023/4/5
  * @since 1.3.0
  */
 public interface JefwSmsService {

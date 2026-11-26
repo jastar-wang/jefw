@@ -28,7 +28,12 @@ import com.jastarwang.jefw.oss.model.ObjectSummary;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.Headers;
 import com.qcloud.cos.http.HttpMethodName;
-import com.qcloud.cos.model.*;
+import com.qcloud.cos.model.COSObject;
+import com.qcloud.cos.model.CannedAccessControlList;
+import com.qcloud.cos.model.ListObjectsRequest;
+import com.qcloud.cos.model.ObjectListing;
+import com.qcloud.cos.model.ObjectMetadata;
+import com.qcloud.cos.model.PutObjectRequest;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -41,7 +46,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.jastarwang.jefw.oss.OssAccessPolicy.*;
+import static com.jastarwang.jefw.oss.OssAccessPolicy.DEFAULT;
+import static com.jastarwang.jefw.oss.OssAccessPolicy.PRIVATE;
+import static com.jastarwang.jefw.oss.OssAccessPolicy.PUBLIC_READ;
+import static com.jastarwang.jefw.oss.OssAccessPolicy.PUBLIC_READ_WRITE;
 
 /**
  * OSS对象存储之腾讯云实现
@@ -50,7 +58,6 @@ import static com.jastarwang.jefw.oss.OssAccessPolicy.*;
  * <li><a href="https://cloud.tencent.com/document/product/436/7751">API文档</a></li>
  *
  * @author Jastar Wang
- * @date 2023/2/20
  * @since 1.2.4
  */
 public class TencentJefwOssService implements JefwOssService {

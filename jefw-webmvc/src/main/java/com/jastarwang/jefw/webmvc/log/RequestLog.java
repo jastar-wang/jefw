@@ -15,13 +15,16 @@
  */
 package com.jastarwang.jefw.webmvc.log;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * 自定义当前 MVC 方法的日志输出。
  *
  * @author Jastar Wang
- * @date 2026/11/25
  * @since 2.6.0
  */
 @Documented

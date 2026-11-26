@@ -19,10 +19,9 @@ import com.jastarwang.jefw.weixin.model.pay.PrepayJsapiRequest;
 import com.jastarwang.jefw.weixin.model.pay.PrepayJsapiResponse;
 
 /**
- * 微信支付JSAPI接口
+ * 微信支付 JSAPI 接口。
  *
  * @author Jastar Wang
- * @date 2025/4/27
  * @since 2.2.0
  */
 public interface JefwWeixinPayJsapiService extends JefwWeixinPayService {

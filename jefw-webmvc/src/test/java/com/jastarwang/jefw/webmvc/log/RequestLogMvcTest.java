@@ -76,7 +76,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * 通过 MVC 分派验证日志切面与宿主控制器的交互。
  *
  * @author Jastar Wang
- * @date 2026/11/25
  * @since 2.6.0
  */
 @ExtendWith(OutputCaptureExtension.class)
@@ -257,6 +256,12 @@ class RequestLogMvcTest {
         });
     }
 
+    /**
+     * 加载 MVC 请求日志配置的测试应用。
+     *
+     * @author Jastar Wang
+     * @since 2.6.0
+     */
     @Configuration(proxyBeanMethods = false)
     @EnableWebMvc
     static class App {
@@ -275,7 +280,6 @@ class RequestLogMvcTest {
      * 在接口上声明请求头和 Cookie 绑定，验证实现方法沿用 MVC 的参数注解。
      *
      * @author Jastar Wang
-     * @date 2026/11/25
      * @since 2.6.0
      */
     interface HeaderBindings {
@@ -284,6 +288,12 @@ class RequestLogMvcTest {
                         @CookieValue("SESSION") String session, @RequestHeader HttpHeaders headers);
     }
 
+    /**
+     * 提供请求日志测试所需的 MVC 接口。
+     *
+     * @author Jastar Wang
+     * @since 2.6.0
+     */
     @RestController
     static class Api implements HeaderBindings {
         private final AtomicInteger reads = new AtomicInteger();
@@ -400,12 +410,24 @@ class RequestLogMvcTest {
         }
     }
 
+    /**
+     * 读取属性时抛出异常的参数，用于模拟日志序列化失败。
+     *
+     * @author Jastar Wang
+     * @since 2.6.0
+     */
     record BadLogArgument(String label) {
         public String getBroken() {
             throw new AssertionError("仅日志序列化失败");
         }
     }
 
+    /**
+     * 携带访问密钥的测试参数，用于验证日志脱敏。
+     *
+     * @author Jastar Wang
+     * @since 2.6.0
+     */
     record Keys(String accessKey) {
     }
 

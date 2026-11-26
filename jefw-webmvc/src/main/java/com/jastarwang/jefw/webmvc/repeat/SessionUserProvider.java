@@ -21,7 +21,6 @@ import java.io.Serializable;
  * 会话用户提供者接口
  *
  * @author Jastar Wang
- * @date 2025/3/13
  * @since 2.6.0
  */
 public interface SessionUserProvider {

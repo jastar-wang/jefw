@@ -35,7 +35,6 @@ import java.util.Set;
  * OSS对象存储自动配置-主入口
  *
  * @author Jastar Wang
- * @date 2023/4/5
  * @since 1.3.0
  */
 @Configuration

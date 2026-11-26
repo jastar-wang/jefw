@@ -11,7 +11,7 @@
     </parent>
     <artifactId>jefw-weixin</artifactId>
     <name>${project.artifactId}</name>
-    <description>微信模块：提供对微信支付及微信开发服务的统一支持</description>
+    <description>封装微信公众号、小程序和微信支付接口。</description>
 
     <dependencies>
 

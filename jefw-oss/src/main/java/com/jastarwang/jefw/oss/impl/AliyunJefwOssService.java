@@ -20,7 +20,12 @@ import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import com.aliyun.oss.OSS;
-import com.aliyun.oss.model.*;
+import com.aliyun.oss.model.CannedAccessControlList;
+import com.aliyun.oss.model.GeneratePresignedUrlRequest;
+import com.aliyun.oss.model.ListObjectsV2Request;
+import com.aliyun.oss.model.ListObjectsV2Result;
+import com.aliyun.oss.model.OSSObject;
+import com.aliyun.oss.model.ObjectMetadata;
 import com.jastarwang.jefw.oss.JefwOssService;
 import com.jastarwang.jefw.oss.OssAccessPolicy;
 import com.jastarwang.jefw.oss.OssChannel;
@@ -37,7 +42,10 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
-import static com.jastarwang.jefw.oss.OssAccessPolicy.*;
+import static com.jastarwang.jefw.oss.OssAccessPolicy.DEFAULT;
+import static com.jastarwang.jefw.oss.OssAccessPolicy.PRIVATE;
+import static com.jastarwang.jefw.oss.OssAccessPolicy.PUBLIC_READ;
+import static com.jastarwang.jefw.oss.OssAccessPolicy.PUBLIC_READ_WRITE;
 
 /**
  * OSS对象存储之阿里云实现
@@ -46,7 +54,6 @@ import static com.jastarwang.jefw.oss.OssAccessPolicy.*;
  * <li><a href="https://help.aliyun.com/document_detail/31946.html">API文档</a></li>
  *
  * @author Jastar Wang
- * @date 2023/2/19
  * @since 1.2.4
  */
 public class AliyunJefwOssService implements JefwOssService {

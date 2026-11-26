@@ -37,7 +37,6 @@ import static org.mockito.Mockito.when;
  * 离线验证多厂商 SDK 共存时的渠道装配和默认路由。
  *
  * @author Jastar Wang
- * @date 2026/11/23
  * @since 2.5.1
  */
 class JefwOssAutoConfigurationTest {
@@ -134,7 +133,6 @@ class JefwOssAutoConfigurationTest {
      * 使用普通集合注入创建应用自定义的存储模板。
      *
      * @author Jastar Wang
-     * @date 2026/11/23
      * @since 2.5.1
      */
     static class CustomTemplateConfiguration {

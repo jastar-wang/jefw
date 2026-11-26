@@ -27,7 +27,6 @@ import java.util.function.Supplier;
  * 通过宿主配置的 SMTP 账号发送文本或 HTML 邮件。
  *
  * @author Jastar Wang
- * @date 2026/11/25
  * @since 2.6.0
  */
 public class MailService {

@@ -24,7 +24,6 @@ import java.util.Set;
  * 短信服务的参数配置
  *
  * @author Jastar Wang
- * @date 2023/4/5
  * @since 1.3.0
  */
 public class JefwSmsProperties {
@@ -137,7 +136,6 @@ public class JefwSmsProperties {
      * 阿里云短信服务配置。
      *
      * @author Jastar Wang
-     * @date 2026/11/24
      * @since 2.5.1
      */
     public static class Aliyun {
@@ -201,6 +199,12 @@ public class JefwSmsProperties {
         }
     }
 
+    /**
+     * 腾讯云短信发送配置。
+     *
+     * @author Jastar Wang
+     * @since 1.3.0
+     */
     public static class Tencent {
         /**
          * 非空，短信应用ID
@@ -288,6 +292,12 @@ public class JefwSmsProperties {
         }
     }
 
+    /**
+     * 大汉三通短信发送配置。
+     *
+     * @author Jastar Wang
+     * @since 1.3.0
+     */
     public static class Dh3Tong {
         /**
          * 账号

@@ -33,7 +33,6 @@ import org.springframework.context.annotation.Configuration;
  * </p>
  *
  * @author Jastar Wang
- * @date 2020/10/21
  * @since 1.0
  */
 @Configuration

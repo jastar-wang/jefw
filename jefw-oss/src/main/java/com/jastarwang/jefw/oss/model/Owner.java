@@ -19,10 +19,9 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * Represents the owner of a bucket.
+ * 对象存储所有者的标识和显示名称。
  *
  * @author Jastar Wang
- * @date 2023/5/9
  * @since 1.3.1
  */
 public class Owner implements Serializable {

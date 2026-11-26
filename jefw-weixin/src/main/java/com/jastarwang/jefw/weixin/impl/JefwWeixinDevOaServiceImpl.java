@@ -30,7 +30,6 @@ import com.jastarwang.jefw.weixin.model.dev.UserInfoResponse;
  * 微信开发公众平台接口实现
  *
  * @author Jastar Wang
- * @date 2025/4/9
  * @since 2.2.0
  */
 public class JefwWeixinDevOaServiceImpl extends JefwWeixinDevServiceImpl implements JefwWeixinDevOaService {

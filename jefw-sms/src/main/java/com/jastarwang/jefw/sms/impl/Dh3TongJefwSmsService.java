@@ -31,7 +31,6 @@ import java.util.Map;
  * 短信服务实现之大汉三通
  *
  * @author Jastar Wang
- * @date 2023/4/5
  * @since 1.3.0
  */
 public class Dh3TongJefwSmsService implements JefwSmsService {
@@ -88,6 +87,12 @@ public class Dh3TongJefwSmsService implements JefwSmsService {
         }
     }
 
+    /**
+     * 大汉三通返回的短信发送结果。
+     *
+     * @author Jastar Wang
+     * @since 1.3.0
+     */
     public static class Dh3TongResponse {
         /**
          * 状态描述

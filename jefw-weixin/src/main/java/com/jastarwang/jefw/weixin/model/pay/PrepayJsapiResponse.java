@@ -22,7 +22,6 @@ import java.io.Serializable;
  * 预支付请求响应（JSAPI）
  *
  * @author Jastar Wang
- * @date 2022/12/28
  * @since 2.2.0
  */
 public class PrepayJsapiResponse implements Serializable {

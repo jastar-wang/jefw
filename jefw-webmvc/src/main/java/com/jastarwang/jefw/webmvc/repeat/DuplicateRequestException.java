@@ -19,7 +19,6 @@ package com.jastarwang.jefw.webmvc.repeat;
  * 当前窗口内相同的请求已经占位。宿主可以将注解提供的提示映射到自己的响应协议。
  *
  * @author Jastar Wang
- * @date 2026/11/25
  * @since 2.6.0
  */
 public class DuplicateRequestException extends RuntimeException {

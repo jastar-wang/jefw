@@ -35,7 +35,6 @@ import java.util.Properties;
  * 注册通用邮件发送服务和 SMTP 传输默认配置。
  *
  * @author Jastar Wang
- * @date 2026/11/25
  * @since 2.6.0
  */
 @AutoConfiguration(after = MailSenderAutoConfiguration.class)

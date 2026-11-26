@@ -51,13 +51,14 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockConstruction;
+import static org.mockito.Mockito.verify;
 
 /**
  * 离线验证缓存与分布式锁的自动配置条件。
  *
  * @author Jastar Wang
- * @date 2026/11/23
  * @since 2.5.1
  */
 class RedisAutoConfigurationTest {
@@ -65,7 +66,6 @@ class RedisAutoConfigurationTest {
      * 通过应用的自动配置入口加载 Redis 模块。
      *
      * @author Jastar Wang
-     * @date 2026/11/23
      * @since 2.5.1
      */
     @EnableAutoConfiguration
@@ -76,7 +76,6 @@ class RedisAutoConfigurationTest {
      * 模拟未指定与 jefw 的先后关系、按自身顺序注册客户端的第三方配置。
      *
      * @author Jastar Wang
-     * @date 2026/11/23
      * @since 2.5.1
      */
     @AutoConfiguration
@@ -93,7 +92,6 @@ class RedisAutoConfigurationTest {
      * 模拟在默认顺序之后按锁 Bean 启用的业务配置。
      *
      * @author Jastar Wang
-     * @date 2026/11/23
      * @since 2.5.1
      */
     @AutoConfiguration

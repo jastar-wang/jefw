@@ -16,12 +16,9 @@
 package com.jastarwang.jefw.redis.event;
 
 /**
- * Redis 报告的过期键及其通知频道（UTF-8）。
+ * Redis 键过期事件。{@code key} 是已过期的键，{@code channel} 是发布通知的数据库频道，两者均按 UTF-8 解码。
  *
- * @param key     已过期的键
- * @param channel 发布该通知的实际数据库频道
  * @author Jastar Wang
- * @date 2026/11/25
  * @since 2.6.0
  */
 public record RedisKeyExpiredEvent(String key, String channel) {

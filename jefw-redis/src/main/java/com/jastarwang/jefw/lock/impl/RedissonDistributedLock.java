@@ -28,7 +28,6 @@ import java.util.function.Supplier;
  * 分布式锁之Redisson实现
  *
  * @author Jastar Wang
- * @date 2020/10/21
  * @since 1.0
  */
 public class RedissonDistributedLock implements DistributedLock {

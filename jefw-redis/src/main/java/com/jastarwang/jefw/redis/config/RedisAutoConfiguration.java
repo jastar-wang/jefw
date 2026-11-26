@@ -48,14 +48,13 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Redis自动配置类
+ * 根据缓存开关装配 Redis 数据访问组件。
  * <p>
  * 当系统依赖了Redis的相关类库时，才会启用该配置
  * （这里用检测 {@link RedisTemplate} 是否存在来表示）
  * </p>
  *
  * @author Jastar Wang
- * @date 2020/9/22
  * @since 1.0
  */
 @Configuration

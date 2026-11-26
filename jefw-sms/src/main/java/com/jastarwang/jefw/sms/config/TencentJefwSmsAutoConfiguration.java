@@ -33,7 +33,6 @@ import org.springframework.core.annotation.Order;
  * 短信服务自动配置 - 腾讯云
  *
  * @author Jastar Wang
- * @date 2023/4/5
  * @since 1.3.0
  */
 @Configuration

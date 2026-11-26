@@ -21,7 +21,6 @@ import java.io.Serial;
  * 对象存储调用异常
  *
  * @author Jastar Wang
- * @date 2025/4/22
  * @since 2.1.0
  */
 public class JefwOssException extends RuntimeException {

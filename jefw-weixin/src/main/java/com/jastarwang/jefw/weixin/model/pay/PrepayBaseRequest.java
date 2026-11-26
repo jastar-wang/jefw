@@ -24,7 +24,6 @@ import java.time.LocalDateTime;
  * 预支付请求基础参数
  *
  * @author Jastar Wang
- * @date 2022/12/28
  * @since 2.2.0
  */
 public class PrepayBaseRequest implements Serializable {

@@ -30,13 +30,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * 在显式启用的 Redis 实例上验证分布式锁的互斥和释放。
  *
  * @author Jastar Wang
- * @date 2020/10/22
  * @since 1.0
  */
 @EnabledIfEnvironmentVariable(named = "JEFW_REDIS_IT", matches = "true")

@@ -12,7 +12,7 @@
     </parent>
     <artifactId>jefw-all</artifactId>
     <name>${project.artifactId}</name>
-    <description>Jastar Easy Framework</description>
+    <description>聚合 jefw 的全部功能模块，供应用通过一个 Maven 坐标引入。</description>
 
     <dependencies>
         <dependency>

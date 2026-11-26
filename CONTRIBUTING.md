@@ -72,19 +72,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
-3. 为类添加文档注释：
+3. 为类型（含嵌套类型和测试类型）编写 Javadoc，说明职责。作者与版本信息只使用 `@author` 和 `@since`，版本填写该类型首次引入的版本。
 
 ```
 /**
  * TODO
  *
- * @author [your name]
- * @date ${DATE}
- * @since [current version]
+ * @author [你的姓名]
+ * @since [首次引入的版本]
  */
 ```
 
-4. 统一使用 4 个空格缩进。
+4. 统一使用 4 个空格缩进。普通导入和静态导入都必须列出具体名称，禁止使用星号导入。
 5. 单行注释的 `//` 与正文之间保留一个空格。
 6. 其他规范参考最新版《阿里巴巴 Java 开发手册》。
 

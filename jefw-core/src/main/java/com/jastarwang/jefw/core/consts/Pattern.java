@@ -19,12 +19,14 @@ package com.jastarwang.jefw.core.consts;
  * 常用的规则、模式、表达式
  *
  * @author Jastar Wang
- * @date 2023/4/5
  * @since 1.3.0
  */
 public class Pattern {
     /**
      * 日期时间
+     *
+     * @author Jastar Wang
+     * @since 1.3.0
      */
     public interface Date {
         /**

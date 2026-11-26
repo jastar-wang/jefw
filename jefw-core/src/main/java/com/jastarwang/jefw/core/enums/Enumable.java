@@ -24,7 +24,6 @@ package com.jastarwang.jefw.core.enums;
  * @param <C> <code>Code</code>字段的类型，该字段值不可重复
  * @param <V> <code>Value</code>字段的类型，该字段值不可重复
  * @author Jastar Wang
- * @date 2021/7/27
  * @since 1.1
  */
 public interface Enumable<C, V> {

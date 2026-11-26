@@ -18,7 +18,12 @@ package com.jastarwang.jefw.redis;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.annotation.Resource;
-import org.springframework.data.redis.core.*;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.ListOperations;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
+import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
 
@@ -26,12 +31,19 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Deque;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Redis工具类，提供对Redis访问的便捷封装
+ * 封装 Redis 键操作及常用数据结构的读写。
  * <br>
  * 为了能对应 redis 的数据结构并且调用简洁易懂，对于本工具类的方法前缀使用字母来表示，我们约定：
  * <ul>
@@ -44,7 +56,6 @@ import java.util.concurrent.TimeUnit;
  * 比如：“RedisUtil.set()...”，相关命令请参考 <a href="http://doc.redisfans.com/" target="_blank">Redis命令</a>
  *
  * @author Jastar Wang
- * @date 2020/10/12
  * @since 1.0
  */
 public class RedisUtil {

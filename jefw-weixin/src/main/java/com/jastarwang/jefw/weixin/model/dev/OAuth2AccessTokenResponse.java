@@ -23,7 +23,6 @@ import java.io.Serial;
  * 网页授权接口调用凭证
  *
  * @author Jastar Wang
- * @date 2025/4/9
  * @since 2.2.0
  */
 public class OAuth2AccessTokenResponse extends BaseResponse {

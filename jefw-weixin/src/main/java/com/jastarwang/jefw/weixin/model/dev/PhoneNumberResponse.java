@@ -23,7 +23,6 @@ import java.io.Serial;
  * 小程序用户手机号信息
  *
  * @author Jastar Wang
- * @date 2025/4/9
  * @since 2.2.0
  */
 public class PhoneNumberResponse extends BaseResponse {
@@ -48,6 +47,12 @@ public class PhoneNumberResponse extends BaseResponse {
      */
     private Watermark watermark;
 
+    /**
+     * 微信手机号数据附带的应用标识与时间戳。
+     *
+     * @author Jastar Wang
+     * @since 2.2.0
+     */
     public static class Watermark {
         /**
          * 用户获取手机号操作的时间戳

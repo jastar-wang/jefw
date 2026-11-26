@@ -35,7 +35,6 @@ import org.springframework.core.annotation.Order;
  * OSS对象存储自动配置 - 腾讯云
  *
  * @author Jastar Wang
- * @date 2023/2/20
  * @since 1.2.4
  */
 @Configuration

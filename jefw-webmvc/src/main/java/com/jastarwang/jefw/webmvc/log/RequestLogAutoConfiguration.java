@@ -28,7 +28,6 @@ import org.springframework.web.servlet.DispatcherServlet;
  * 装配显式启用的 MVC 请求日志。
  *
  * @author Jastar Wang
- * @date 2026/11/25
  * @since 2.6.0
  */
 @AutoConfiguration

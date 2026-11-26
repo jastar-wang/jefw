@@ -29,7 +29,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * 使用固定地域和测试凭据，离线验证 MinIO 下载链接的签名。
  *
  * @author Jastar Wang
- * @date 2026/11/20
  * @since 2.5.1
  */
 class MinioSigningTest {

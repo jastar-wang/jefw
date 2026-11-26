@@ -34,7 +34,6 @@ import java.util.Map;
  * 微信开发小程序接口实现
  *
  * @author Jastar Wang
- * @date 2025/4/9
  * @since 2.2.0
  */
 public class JefwWeixinDevMpServiceImpl extends JefwWeixinDevServiceImpl implements JefwWeixinDevMpService {

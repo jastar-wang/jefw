@@ -29,7 +29,6 @@ import org.springframework.context.annotation.Configuration;
  * 微信开发自动配置-主入口
  *
  * @author Jastar Wang
- * @date 2025/4/9
  * @since 2.2.0
  */
 @Configuration

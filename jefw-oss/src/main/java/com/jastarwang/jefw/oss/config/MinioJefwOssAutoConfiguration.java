@@ -32,7 +32,6 @@ import org.springframework.core.annotation.Order;
  * OSS对象存储自动配置 - MinIO
  *
  * @author Jastar Wang
- * @date 2026/4/27
  * @since 2.3.0
  */
 @Configuration

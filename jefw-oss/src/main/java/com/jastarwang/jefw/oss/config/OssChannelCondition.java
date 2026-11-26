@@ -26,7 +26,6 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
  * 按应用配置的渠道名单筛选厂商，省略名单时保留原有装配规则。
  *
  * @author Jastar Wang
- * @date 2026/11/23
  * @since 2.5.1
  */
 class OssChannelCondition implements Condition {

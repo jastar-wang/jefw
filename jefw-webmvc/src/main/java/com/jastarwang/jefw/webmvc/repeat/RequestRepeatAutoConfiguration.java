@@ -34,7 +34,6 @@ import java.util.concurrent.TimeUnit;
  * 在 Servlet MVC 应用中为带注解的方法启用窗口防重。
  *
  * @author Jastar Wang
- * @date 2026/11/25
  * @since 2.6.0
  */
 @AutoConfiguration(afterName = "org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration")
@@ -49,6 +48,12 @@ public class RequestRepeatAutoConfiguration {
     }
 
     // 隔离可选依赖，缺少 Spring Data Redis 时仍能安装拦截器并报告缺失条件。
+    /**
+     * 使用 Redis 为重复提交的判定窗口提供原子占位操作。
+     *
+     * @author Jastar Wang
+     * @since 2.6.0
+     */
     @Configuration(proxyBeanMethods = false)
     @ConditionalOnClass(StringRedisTemplate.class)
     static class RedisWindowConfiguration {
@@ -59,6 +64,12 @@ public class RequestRepeatAutoConfiguration {
         }
     }
 
+    /**
+     * 尝试在指定秒数内占用防重键。
+     *
+     * @author Jastar Wang
+     * @since 2.6.0
+     */
     @FunctionalInterface
     interface RepeatWindow {
         Boolean reserve(String key, int seconds);

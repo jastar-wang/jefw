@@ -37,7 +37,6 @@ import static org.mockito.Mockito.mock;
  * 离线验证微信模块和支付服务的自动装配条件。
  *
  * @author Jastar Wang
- * @date 2026/11/23
  * @since 2.5.1
  */
 class JefwWeixinAutoConfigurationTest {
@@ -46,7 +45,6 @@ class JefwWeixinAutoConfigurationTest {
      * 通过应用使用的自动配置入口加载模块。
      *
      * @author Jastar Wang
-     * @date 2026/11/23
      * @since 2.5.1
      */
     @EnableAutoConfiguration

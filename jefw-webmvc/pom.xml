@@ -11,7 +11,7 @@
     </parent>
     <artifactId>jefw-webmvc</artifactId>
     <name>${project.artifactId}</name>
-    <description>WebMVC模块：提供控制器请求日志和时间窗口防重复提交</description>
+    <description>为 Spring MVC 控制器提供请求日志和按时间窗口限制重复提交的功能。</description>
 
     <dependencyManagement>
         <dependencies>

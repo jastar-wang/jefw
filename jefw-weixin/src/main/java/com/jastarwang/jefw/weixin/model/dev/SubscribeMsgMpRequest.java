@@ -22,7 +22,6 @@ import java.io.Serializable;
  * 一次性或长期订阅消息请求参数（小程序）
  *
  * @author Jastar Wang
- * @date 2025/7/3
  * @since 2.2.0
  */
 public class SubscribeMsgMpRequest implements Serializable {

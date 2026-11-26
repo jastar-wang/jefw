@@ -27,7 +27,6 @@ import org.springframework.util.StringUtils;
  * （此处为了测试，该配置应在本库调用方中配置）
  *
  * @author Jastar Wang
- * @date 2023/2/19
  * @since 1.0
  */
 public class DemoConfig {

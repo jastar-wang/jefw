@@ -11,7 +11,7 @@
     </parent>
     <artifactId>jefw-redis</artifactId>
     <name>${project.artifactId}</name>
-    <description>Redis模块：提供缓存工具类以及分布式锁的封装支持</description>
+    <description>提供 Redis 数据访问、键过期事件订阅和基于 Redisson 的分布式锁。</description>
 
     <dependencies>
 

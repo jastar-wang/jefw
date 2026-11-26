@@ -11,7 +11,7 @@
     </parent>
     <artifactId>jefw-util</artifactId>
     <name>${project.artifactId}</name>
-    <description>工具模块：提供一些额外的常用工具类支持</description>
+    <description>提供颜色处理和 Web 工具。</description>
 
     <dependencies>
 

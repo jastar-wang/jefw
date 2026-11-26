@@ -15,13 +15,16 @@
  */
 package com.jastarwang.jefw.webmvc.repeat;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * 限制代理方法在指定时间窗口内重复提交。按方法和指定参数生成 Redis 键。使用方须以 {@code -parameters} 编译该方法。
  *
  * @author Jastar Wang
- * @date 2025/3/13
  * @since 2.6.0
  */
 @Documented

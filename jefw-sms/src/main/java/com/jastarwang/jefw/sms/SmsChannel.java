@@ -19,7 +19,6 @@ package com.jastarwang.jefw.sms;
  * 短信渠道（平台）
  *
  * @author Jastar Wang
- * @date 2023/4/5
  * @since 1.3.0
  */
 public enum SmsChannel {

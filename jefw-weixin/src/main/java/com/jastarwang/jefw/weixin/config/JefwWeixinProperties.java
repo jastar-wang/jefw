@@ -19,7 +19,6 @@ package com.jastarwang.jefw.weixin.config;
  * 微信开发的参数配置
  *
  * @author Jastar Wang
- * @date 2025/4/9
  * @since 2.2.0
  */
 public class JefwWeixinProperties {
@@ -40,6 +39,12 @@ public class JefwWeixinProperties {
      */
     private Pay pay;
 
+    /**
+     * 微信小程序的应用配置。
+     *
+     * @author Jastar Wang
+     * @since 2.2.0
+     */
     public static class MiniProgram {
         private String appId;
         private String appSecret;
@@ -69,6 +74,12 @@ public class JefwWeixinProperties {
         }
     }
 
+    /**
+     * 微信公众号的应用配置。
+     *
+     * @author Jastar Wang
+     * @since 2.2.0
+     */
     public static class OfficialAccount {
         private String appId;
         private String appSecret;
@@ -98,6 +109,12 @@ public class JefwWeixinProperties {
         }
     }
 
+    /**
+     * 微信支付的商户配置。
+     *
+     * @author Jastar Wang
+     * @since 2.2.0
+     */
     public static class Pay {
         /**
          * 微信模块已启用且存在支付 SDK 时，是否自动配置微信支付。

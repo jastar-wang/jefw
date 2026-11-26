@@ -24,7 +24,6 @@ import java.util.List;
  * 用户信息
  *
  * @author Jastar Wang
- * @date 2025/4/9
  * @since 2.2.0
  */
 public class UserInfoResponse extends BaseResponse {

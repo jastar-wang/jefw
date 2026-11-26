@@ -20,7 +20,6 @@ package com.jastarwang.jefw.lock;
  * <p>当持有锁的线程被打断时，会抛出此异常，但仍然能自动释放锁</p>
  *
  * @author Jastar Wang
- * @date 2023/02/19
  * @since 1.2.4
  */
 public class LockInterruptedException extends RuntimeException {

@@ -19,7 +19,6 @@ package com.jastarwang.jefw.redis.test;
  * 学生
  *
  * @author Jastar Wang
- * @date 2020/10/13
  * @since 1.0
  */
 public class Student {

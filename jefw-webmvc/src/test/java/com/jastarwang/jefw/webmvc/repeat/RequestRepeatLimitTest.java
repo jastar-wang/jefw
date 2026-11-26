@@ -29,15 +29,23 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.startsWith;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * 通过真实 Spring 代理验证窗口防重行为。
  *
  * @author Jastar Wang
- * @date 2026/11/25
  * @since 2.6.0
  */
 class RequestRepeatLimitTest {
@@ -51,7 +59,6 @@ class RequestRepeatLimitTest {
      * 从宿主的 Boot 入口发现模块自动配置。
      *
      * @author Jastar Wang
-     * @date 2026/11/25
      * @since 2.6.0
      */
     @EnableAutoConfiguration
@@ -62,7 +69,6 @@ class RequestRepeatLimitTest {
      * 统计宿主方法经过代理的次数，验证应用的 AOP 开关。
      *
      * @author Jastar Wang
-     * @date 2026/11/25
      * @since 2.6.0
      */
     @Aspect
@@ -172,12 +178,30 @@ class RequestRepeatLimitTest {
         });
     }
 
+    /**
+     * 携带嵌套标识的防重复提交测试请求。
+     *
+     * @author Jastar Wang
+     * @since 2.6.0
+     */
     public record Input(Details details) {
     }
 
+    /**
+     * 提供生成防重键时读取的标识。
+     *
+     * @author Jastar Wang
+     * @since 2.6.0
+     */
     public record Details(String id) {
     }
 
+    /**
+     * 记录实际执行次数，供测试区分放行和拦截的请求。
+     *
+     * @author Jastar Wang
+     * @since 2.6.0
+     */
     public static class Controller {
         private final AtomicInteger calls;
 

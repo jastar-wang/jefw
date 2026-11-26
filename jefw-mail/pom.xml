@@ -11,7 +11,7 @@
     </parent>
     <artifactId>jefw-mail</artifactId>
     <name>${project.artifactId}</name>
-    <description>基于 Spring Mail 发送文本和 HTML 邮件</description>
+    <description>基于 Spring Mail 发送文本和 HTML 邮件。</description>
 
     <dependencies>
 

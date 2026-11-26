@@ -33,7 +33,6 @@ import java.util.Objects;
  * 短信服务实现之阿里云
  *
  * @author Jastar Wang
- * @date 2026/11/24
  * @since 2.5.1
  */
 public class AliyunJefwSmsService implements JefwSmsService {

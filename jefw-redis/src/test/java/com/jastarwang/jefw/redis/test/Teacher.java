@@ -27,7 +27,6 @@ import java.util.Date;
  * 老师
  *
  * @author Jastar Wang
- * @date 2022/11/24
  * @since 1.0
  */
 public class Teacher {

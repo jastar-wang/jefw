@@ -31,7 +31,6 @@ import org.springframework.core.Ordered;
  * 为晚于常规锁配置注册的第三方 Redisson 客户端补充默认锁。
  *
  * @author Jastar Wang
- * @date 2026/11/23
  * @since 2.5.1
  */
 @AutoConfiguration(after = DistributedLockAutoConfiguration.class)

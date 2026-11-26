@@ -27,7 +27,6 @@ import java.lang.annotation.Target;
  * 指定厂商自动配置对应的对象存储渠道。
  *
  * @author Jastar Wang
- * @date 2026/11/23
  * @since 2.5.1
  */
 @Target(ElementType.TYPE)

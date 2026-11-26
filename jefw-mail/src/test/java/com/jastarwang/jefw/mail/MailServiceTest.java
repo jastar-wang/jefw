@@ -34,13 +34,16 @@ import java.util.Properties;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
 /**
  * 验证独立邮件构件的自动装配、消息内容和调用失败行为。
  *
  * @author Jastar Wang
- * @date 2026/11/25
  * @since 2.6.0
  */
 class MailServiceTest {
@@ -49,6 +52,12 @@ class MailServiceTest {
     private final ApplicationContextRunner configured = runner.withPropertyValues(
             "spring.mail.host=smtp.example.com", "spring.mail.username=from@example.com", "spring.mail.password=test");
 
+    /**
+     * 加载邮件服务自动配置的测试应用。
+     *
+     * @author Jastar Wang
+     * @since 2.6.0
+     */
     @Configuration(proxyBeanMethods = false)
     @EnableAutoConfiguration
     static class App {
@@ -197,6 +206,9 @@ class MailServiceTest {
 
     /**
      * 保留生成的 MIME 邮件以便检查，替代 SMTP 传输。
+     *
+     * @author Jastar Wang
+     * @since 2.6.0
      */
     static class RecordingSender extends JavaMailSenderImpl {
         private MimeMessage message;

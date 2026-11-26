@@ -27,9 +27,65 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
-import static com.jastarwang.jefw.redis.RedisUtil.*;
+import static com.jastarwang.jefw.redis.RedisUtil.del;
+import static com.jastarwang.jefw.redis.RedisUtil.expire;
+import static com.jastarwang.jefw.redis.RedisUtil.expireAt;
+import static com.jastarwang.jefw.redis.RedisUtil.get;
+import static com.jastarwang.jefw.redis.RedisUtil.getAndSet;
+import static com.jastarwang.jefw.redis.RedisUtil.getExpire;
+import static com.jastarwang.jefw.redis.RedisUtil.getList;
+import static com.jastarwang.jefw.redis.RedisUtil.getMap;
+import static com.jastarwang.jefw.redis.RedisUtil.hDel;
+import static com.jastarwang.jefw.redis.RedisUtil.hEntries;
+import static com.jastarwang.jefw.redis.RedisUtil.hGet;
+import static com.jastarwang.jefw.redis.RedisUtil.hHasKey;
+import static com.jastarwang.jefw.redis.RedisUtil.hIncrement;
+import static com.jastarwang.jefw.redis.RedisUtil.hKeys;
+import static com.jastarwang.jefw.redis.RedisUtil.hLengthOfValue;
+import static com.jastarwang.jefw.redis.RedisUtil.hMultiGet;
+import static com.jastarwang.jefw.redis.RedisUtil.hPut;
+import static com.jastarwang.jefw.redis.RedisUtil.hPutAll;
+import static com.jastarwang.jefw.redis.RedisUtil.hPutIfAbsent;
+import static com.jastarwang.jefw.redis.RedisUtil.hSize;
+import static com.jastarwang.jefw.redis.RedisUtil.hValues;
+import static com.jastarwang.jefw.redis.RedisUtil.hasKey;
+import static com.jastarwang.jefw.redis.RedisUtil.increment;
+import static com.jastarwang.jefw.redis.RedisUtil.incrementAndExpire;
+import static com.jastarwang.jefw.redis.RedisUtil.keys;
+import static com.jastarwang.jefw.redis.RedisUtil.lIndex;
+import static com.jastarwang.jefw.redis.RedisUtil.lLeftPop;
+import static com.jastarwang.jefw.redis.RedisUtil.lLeftPush;
+import static com.jastarwang.jefw.redis.RedisUtil.lLeftPushAll;
+import static com.jastarwang.jefw.redis.RedisUtil.lRange;
+import static com.jastarwang.jefw.redis.RedisUtil.lRightPush;
+import static com.jastarwang.jefw.redis.RedisUtil.lRightPushAll;
+import static com.jastarwang.jefw.redis.RedisUtil.lSet;
+import static com.jastarwang.jefw.redis.RedisUtil.lSize;
+import static com.jastarwang.jefw.redis.RedisUtil.lTrim;
+import static com.jastarwang.jefw.redis.RedisUtil.multiGet;
+import static com.jastarwang.jefw.redis.RedisUtil.multiSet;
+import static com.jastarwang.jefw.redis.RedisUtil.sAdd;
+import static com.jastarwang.jefw.redis.RedisUtil.sIsMember;
+import static com.jastarwang.jefw.redis.RedisUtil.sMembers;
+import static com.jastarwang.jefw.redis.RedisUtil.sRemove;
+import static com.jastarwang.jefw.redis.RedisUtil.sSize;
+import static com.jastarwang.jefw.redis.RedisUtil.set;
+import static com.jastarwang.jefw.redis.RedisUtil.size;
+import static com.jastarwang.jefw.redis.RedisUtil.zAdd;
+import static com.jastarwang.jefw.redis.RedisUtil.zCount;
+import static com.jastarwang.jefw.redis.RedisUtil.zIncrement;
+import static com.jastarwang.jefw.redis.RedisUtil.zRange;
+import static com.jastarwang.jefw.redis.RedisUtil.zRank;
+import static com.jastarwang.jefw.redis.RedisUtil.zRemove;
+import static com.jastarwang.jefw.redis.RedisUtil.zScore;
+import static com.jastarwang.jefw.redis.RedisUtil.zSize;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -38,7 +94,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * 设置环境变量 {@code JEFW_REDIS_IT=true} 后才启动测试上下文。
  *
  * @author Jastar Wang
- * @date 2020/09/22
  * @since 1.0
  */
 @EnabledIfEnvironmentVariable(named = "JEFW_REDIS_IT", matches = "true")

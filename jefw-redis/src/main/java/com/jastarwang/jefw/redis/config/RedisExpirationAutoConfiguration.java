@@ -31,7 +31,6 @@ import java.nio.charset.StandardCharsets;
  * 订阅键过期事件。通知参数由 Redis 运维方设置，订阅端无需 CONFIG 权限。
  *
  * @author Jastar Wang
- * @date 2026/11/25
  * @since 2.6.0
  */
 @AutoConfiguration
